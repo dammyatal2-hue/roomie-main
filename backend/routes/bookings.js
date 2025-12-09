@@ -45,10 +45,15 @@ router.get('/owner/:ownerId', async (req, res) => {
 // Create booking
 router.post('/', async (req, res) => {
   try {
+    console.log('Creating booking:', req.body);
     const newBooking = await Booking.create({ ...req.body, status: 'pending' });
+    console.log('Booking created:', newBooking._id);
     
     const property = await Property.findById(req.body.propertyId).populate('ownerId');
     const guest = await User.findById(req.body.userId);
+    
+    console.log('Property owner:', property?.ownerId?._id);
+    console.log('Guest:', guest?._id);
     
     if (property && property.ownerId && guest) {
       // Send email notification
@@ -62,13 +67,14 @@ router.post('/', async (req, res) => {
           req.body.checkIn,
           req.body.checkOut
         );
+        console.log('Email sent to:', property.ownerId.email);
       } catch (emailError) {
         console.error('Email notification failed:', emailError);
       }
       
       // Create notification
       const Notification = require('../models/Notification');
-      await Notification.create({
+      const notification = await Notification.create({
         userId: property.ownerId._id,
         type: 'booking',
         title: 'New Booking Request',
@@ -76,19 +82,22 @@ router.post('/', async (req, res) => {
         relatedId: req.body.userId,
         read: false
       });
+      console.log('Notification created:', notification._id);
       
       // Create initial message
       const Message = require('../models/Message');
-      await Message.create({
+      const message = await Message.create({
         senderId: req.body.userId,
         receiverId: property.ownerId._id,
         message: `Hi! I'm interested in booking your property "${property.title}". Can we discuss the details?`,
         read: false
       });
+      console.log('Message created:', message._id);
     }
     
     res.status(201).json({ booking: newBooking, ownerId: property.ownerId._id });
   } catch (error) {
+    console.error('Booking error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });

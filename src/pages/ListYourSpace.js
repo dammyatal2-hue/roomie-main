@@ -15,11 +15,19 @@ import {
   Select,
   MenuItem,
   OutlinedInput,
-  Chip
+  Chip,
+  Avatar,
+  Card,
+  CardMedia,
+  Switch,
+  FormControlLabel,
+  Divider
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function ListYourSpace() {
   const navigate = useNavigate();
@@ -32,16 +40,61 @@ export default function ListYourSpace() {
     bedrooms: '',
     bathrooms: '',
     amenities: [],
-    facilities: []
+    isShared: false,
+    currentRoommates: []
+  });
+  
+  const [images, setImages] = useState([]);
+  const [roommateForm, setRoommateForm] = useState({
+    name: '',
+    age: '',
+    occupation: '',
+    bio: ''
   });
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+  
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    const newImages = files.map(file => ({
+      file,
+      preview: URL.createObjectURL(file)
+    }));
+    setImages(prev => [...prev, ...newImages]);
+  };
+  
+  const removeImage = (index) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+  };
+  
+  const handleRoommateChange = (field, value) => {
+    setRoommateForm(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const addRoommate = () => {
+    if (roommateForm.name && roommateForm.age) {
+      setFormData(prev => ({
+        ...prev,
+        currentRoommates: [...prev.currentRoommates, { ...roommateForm, id: Date.now() }]
+      }));
+      setRoommateForm({ name: '', age: '', occupation: '', bio: '' });
+    }
+  };
+  
+  const removeRoommate = (id) => {
+    setFormData(prev => ({
+      ...prev,
+      currentRoommates: prev.currentRoommates.filter(r => r.id !== id)
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Listing submitted:', formData);
+    console.log('Images:', images);
+    // TODO: Upload images and submit to backend
     navigate('/my-listing');
   };
 
@@ -67,25 +120,70 @@ export default function ListYourSpace() {
           
           <form onSubmit={handleSubmit}>
             {/* Photo Upload */}
-            <Paper
-              sx={{
-                p: 4,
-                textAlign: 'center',
-                border: '2px dashed',
-                borderColor: 'divider',
-                borderRadius: '12px',
-                mb: 3,
-                cursor: 'pointer'
-              }}
-            >
-              <CloudUploadIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
-              <Typography variant="h6" gutterBottom>
-                Add Photo or Video
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                Property Images
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Click here to upload
-              </Typography>
-            </Paper>
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="image-upload"
+                multiple
+                type="file"
+                onChange={handleImageUpload}
+              />
+              <label htmlFor="image-upload">
+                <Paper
+                  sx={{
+                    p: 4,
+                    textAlign: 'center',
+                    border: '2px dashed',
+                    borderColor: 'divider',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    '&:hover': { borderColor: 'primary.main' }
+                  }}
+                >
+                  <CloudUploadIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+                  <Typography variant="h6" gutterBottom>
+                    Add Photos
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Click here to upload property images
+                  </Typography>
+                </Paper>
+              </label>
+              
+              {images.length > 0 && (
+                <Grid container spacing={2} sx={{ mt: 2 }}>
+                  {images.map((img, index) => (
+                    <Grid item xs={6} sm={4} md={3} key={index}>
+                      <Card sx={{ position: 'relative' }}>
+                        <CardMedia
+                          component="img"
+                          height="120"
+                          image={img.preview}
+                          alt={`Upload ${index + 1}`}
+                        />
+                        <IconButton
+                          size="small"
+                          sx={{
+                            position: 'absolute',
+                            top: 4,
+                            right: 4,
+                            bgcolor: 'white',
+                            '&:hover': { bgcolor: 'error.light' }
+                          }}
+                          onClick={() => removeImage(index)}
+                        >
+                          <CloseIcon fontSize="small" />
+                        </IconButton>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
+            </Box>
 
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -202,7 +300,127 @@ export default function ListYourSpace() {
                   placeholder="Describe your property..."
                 />
               </Grid>
+              
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.isShared}
+                      onChange={(e) => handleInputChange('isShared', e.target.checked)}
+                    />
+                  }
+                  label="This is a shared space with current roommates"
+                />
+              </Grid>
             </Grid>
+            
+            {/* Current Roommates Section */}
+            {formData.isShared && (
+              <Box sx={{ mt: 3 }}>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  Current Roommates
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Add profiles of people currently living in this space
+                </Typography>
+                
+                {/* Existing Roommates */}
+                {formData.currentRoommates.length > 0 && (
+                  <Grid container spacing={2} sx={{ mb: 2 }}>
+                    {formData.currentRoommates.map((roommate) => (
+                      <Grid item xs={12} sm={6} key={roommate.id}>
+                        <Paper sx={{ p: 2, borderRadius: '12px' }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Avatar sx={{ width: 56, height: 56, bgcolor: 'primary.main' }}>
+                              {roommate.name.charAt(0)}
+                            </Avatar>
+                            <Box sx={{ flex: 1 }}>
+                              <Typography variant="body1" fontWeight="bold">
+                                {roommate.name}, {roommate.age}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {roommate.occupation}
+                              </Typography>
+                              {roommate.bio && (
+                                <Typography variant="caption" color="text.secondary">
+                                  {roommate.bio}
+                                </Typography>
+                              )}
+                            </Box>
+                            <IconButton
+                              size="small"
+                              onClick={() => removeRoommate(roommate.id)}
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                          </Box>
+                        </Paper>
+                      </Grid>
+                    ))}
+                  </Grid>
+                )}
+                
+                {/* Add Roommate Form */}
+                <Paper sx={{ p: 2, borderRadius: '12px', bgcolor: '#f5f5f5' }}>
+                  <Typography variant="body1" fontWeight="bold" gutterBottom>
+                    Add Roommate
+                  </Typography>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Name"
+                        value={roommateForm.name}
+                        onChange={(e) => handleRoommateChange('name', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Age"
+                        type="number"
+                        value={roommateForm.age}
+                        onChange={(e) => handleRoommateChange('age', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        label="Occupation"
+                        value={roommateForm.occupation}
+                        onChange={(e) => handleRoommateChange('occupation', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        multiline
+                        rows={2}
+                        label="Short Bio"
+                        value={roommateForm.bio}
+                        onChange={(e) => handleRoommateChange('bio', e.target.value)}
+                        placeholder="Brief description..."
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        onClick={addRoommate}
+                        disabled={!roommateForm.name || !roommateForm.age}
+                      >
+                        Add Roommate
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Box>
+            )}
 
             <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
               <Button 

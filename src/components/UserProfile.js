@@ -15,7 +15,6 @@ const getCurrentUser = () => {
     id: 'user1',
     name: 'John Doe',
     email: 'john.doe@email.com',
-    type: 'Tenant',
     avatar: 'JD'
   };
 };

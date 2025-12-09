@@ -39,7 +39,6 @@ const getCurrentUser = () => {
     id: 'user1',
     name: 'John Doe',
     email: 'john.doe@email.com',
-    type: 'Tenant',
     avatar: 'JD'
   };
 };
@@ -48,44 +47,18 @@ export default function Profile() {
   const navigate = useNavigate();
   const [currentUser] = useState(getCurrentUser());
 
-  // Base menu items for all users
-  const baseMenuItems = [
+  const menuItems = [
     { icon: <SettingsIcon />, text: 'Settings', action: () => navigate('/settings') },
     { icon: <PaymentIcon />, text: 'Payment', action: () => navigate('/payment') },
     { icon: <NotificationsIcon />, text: 'Notification', action: () => navigate('/notifications') },
+    { icon: <ListIcon />, text: 'My Listings', action: () => navigate('/my-listing') },
+    { icon: <AddIcon />, text: 'List Your Space', action: () => navigate('/list-your-space') },
+    { icon: <FavoriteIcon />, text: 'Favorites', action: () => navigate('/favorites') },
+    { icon: <MessageIcon />, text: 'Messages', action: () => navigate('/messages') },
     { icon: <HistoryIcon />, text: 'Recent Viewed', action: () => navigate('/recent') },
     { icon: <InfoIcon />, text: 'About', action: () => navigate('/about') },
     { icon: <LogoutIcon />, text: 'Sign Out', action: () => navigate('/login') },
   ];
-
-  // Additional menu items based on user type
-  const getMenuItemsForUserType = () => {
-    const additionalItems = [];
-    
-    if (currentUser.type === 'Property Owner') {
-      additionalItems.push(
-        { icon: <ListIcon />, text: 'My Listings', action: () => navigate('/my-listing') },
-        { icon: <AddIcon />, text: 'List Your Space', action: () => navigate('/list-your-space') }
-      );
-    } else if (currentUser.type === 'Roommate Seeker') {
-      additionalItems.push(
-        { icon: <PeopleIcon />, text: 'Find Roommates', action: () => navigate('/roommate-matching') },
-        { icon: <SearchIcon />, text: 'Browse Rooms', action: () => navigate('/explore') }
-      );
-    } else {
-      // Tenant
-      additionalItems.push(
-        { icon: <FavoriteIcon />, text: 'Favorites', action: () => navigate('/favorites') },
-        { icon: <SearchIcon />, text: 'Browse Properties', action: () => navigate('/explore') }
-      );
-    }
-    
-    additionalItems.push({ icon: <MessageIcon />, text: 'Messages', action: () => navigate('/messages') });
-    
-    return [...baseMenuItems.slice(0, 3), ...additionalItems, ...baseMenuItems.slice(3)];
-  };
-
-  const menuItems = getMenuItemsForUserType();
 
   return (
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
@@ -130,96 +103,36 @@ export default function Profile() {
             {currentUser.email}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {currentUser.type === 'Property Owner' ? 'Property Owner' : 
-             currentUser.type === 'Roommate Seeker' ? 'Looking for Roommates' : 
-             'Tenant'}
+            Roomie App User
           </Typography>
         </Paper>
 
         {/* Quick Stats */}
         <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 3, textAlign: 'center' }}>
-          {currentUser.type === 'Property Owner' ? (
-            <>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  5
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Properties
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  23
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Bookings
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  4.8
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Rating
-                </Typography>
-              </Box>
-            </>
-          ) : currentUser.type === 'Roommate Seeker' ? (
-            <>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  8
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Matches
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  15
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Viewed
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  3
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Requests
-                </Typography>
-              </Box>
-            </>
-          ) : (
-            <>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  12
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Favorites
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  7
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Bookings
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  5
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Messages
-                </Typography>
-              </Box>
-            </>
-          )}
+          <Box>
+            <Typography variant="h6" fontWeight="bold" color="primary">
+              12
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Favorites
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h6" fontWeight="bold" color="primary">
+              3
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Listings
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h6" fontWeight="bold" color="primary">
+              8
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Messages
+            </Typography>
+          </Box>
         </Box>
 
         {/* Quick Actions */}
@@ -228,142 +141,48 @@ export default function Profile() {
             Quick Actions
           </Typography>
           <Grid container spacing={2}>
-            {currentUser.type === 'Property Owner' ? (
-              <>
-                <Grid item xs={6}>
-                  <Paper 
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center', 
-                      cursor: 'pointer',
-                      borderRadius: '12px',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: 3
-                      }
-                    }}
-                    onClick={() => navigate('/list-your-space')}
-                  >
-                    <AddIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="body2" fontWeight="bold">
-                      List Your Space
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                  <Paper 
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center', 
-                      cursor: 'pointer',
-                      borderRadius: '12px',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: 3
-                      }
-                    }}
-                    onClick={() => navigate('/my-listing')}
-                  >
-                    <ApartmentIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="body2" fontWeight="bold">
-                      My Listings
-                    </Typography>
-                  </Paper>
-                </Grid>
-              </>
-            ) : currentUser.type === 'Roommate Seeker' ? (
-              <>
-                <Grid item xs={6}>
-                  <Paper 
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center', 
-                      cursor: 'pointer',
-                      borderRadius: '12px',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: 3
-                      }
-                    }}
-                    onClick={() => navigate('/roommate-matching')}
-                  >
-                    <PeopleIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="body2" fontWeight="bold">
-                      Find Roommates
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                  <Paper 
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center', 
-                      cursor: 'pointer',
-                      borderRadius: '12px',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: 3
-                      }
-                    }}
-                    onClick={() => navigate('/explore')}
-                  >
-                    <SearchIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="body2" fontWeight="bold">
-                      Browse Rooms
-                    </Typography>
-                  </Paper>
-                </Grid>
-              </>
-            ) : (
-              <>
-                <Grid item xs={6}>
-                  <Paper 
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center', 
-                      cursor: 'pointer',
-                      borderRadius: '12px',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: 3
-                      }
-                    }}
-                    onClick={() => navigate('/favorites')}
-                  >
-                    <FavoriteIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="body2" fontWeight="bold">
-                      My Favorites
-                    </Typography>
-                  </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                  <Paper 
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center', 
-                      cursor: 'pointer',
-                      borderRadius: '12px',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: 3
-                      }
-                    }}
-                    onClick={() => navigate('/explore')}
-                  >
-                    <SearchIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="body2" fontWeight="bold">
-                      Browse Properties
-                    </Typography>
-                  </Paper>
-                </Grid>
-              </>
-            )}
+            <Grid item xs={6}>
+              <Paper 
+                sx={{ 
+                  p: 2, 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  borderRadius: '12px',
+                  transition: 'all 0.2s',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: 3
+                  }
+                }}
+                onClick={() => navigate('/list-your-space')}
+              >
+                <AddIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
+                <Typography variant="body2" fontWeight="bold">
+                  List Your Space
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper 
+                sx={{ 
+                  p: 2, 
+                  textAlign: 'center', 
+                  cursor: 'pointer',
+                  borderRadius: '12px',
+                  transition: 'all 0.2s',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: 3
+                  }
+                }}
+                onClick={() => navigate('/my-listing')}
+              >
+                <ApartmentIcon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
+                <Typography variant="body2" fontWeight="bold">
+                  My Listings
+                </Typography>
+              </Paper>
+            </Grid>
           </Grid>
         </Box>
 

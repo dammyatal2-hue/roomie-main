@@ -41,13 +41,13 @@ export default function Login() {
     // Mock login - set different users based on email
     let user;
     if (formData.email === 'john@email.com') {
-      user = { id: 'user1', name: 'John Doe', email: 'john@email.com', type: 'Tenant', avatar: 'JD' };
+      user = { id: 'user1', name: 'John Doe', email: 'john@email.com', avatar: 'JD' };
     } else if (formData.email === 'sarah@email.com') {
-      user = { id: 'user2', name: 'Sarah Johnson', email: 'sarah@email.com', type: 'Property Owner', avatar: 'SJ' };
+      user = { id: 'user2', name: 'Sarah Johnson', email: 'sarah@email.com', avatar: 'SJ' };
     } else if (formData.email === 'alex@email.com') {
-      user = { id: 'user3', name: 'Alex Chen', email: 'alex@email.com', type: 'Roommate Seeker', avatar: 'AC' };
+      user = { id: 'user3', name: 'Alex Chen', email: 'alex@email.com', avatar: 'AC' };
     } else {
-      user = { id: 'user1', name: 'John Doe', email: 'john@email.com', type: 'Tenant', avatar: 'JD' };
+      user = { id: 'user1', name: 'John Doe', email: 'john@email.com', avatar: 'JD' };
     }
     
     localStorage.setItem('currentUser', JSON.stringify(user));
@@ -81,13 +81,13 @@ export default function Login() {
                 Test Accounts:
               </Typography>
               <Typography variant="caption" display="block">
-                • john@email.com - Tenant (makes bookings)
+                • john@email.com
               </Typography>
               <Typography variant="caption" display="block">
-                • sarah@email.com - Property Owner (receives requests)
+                • sarah@email.com
               </Typography>
               <Typography variant="caption" display="block">
-                • alex@email.com - Roommate Seeker (matches)
+                • alex@email.com
               </Typography>
             </Box>
 

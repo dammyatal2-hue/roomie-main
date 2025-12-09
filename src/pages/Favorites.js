@@ -7,11 +7,16 @@ import {
   IconButton,
   Grid,
   Button,
-  Avatar,
-  Chip
+  CardMedia,
+  Chip,
+  AppBar,
+  Toolbar,
+  CircularProgress
 } from '@mui/material';
-import { Favorite, Delete, LocationOn } from '@mui/icons-material';
+import { Delete, LocationOn, ArrowBack } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
+import favoriteService from '../services/favoriteService';
 
 const FavoriteCard = styled(Card)({
   marginBottom: '16px',
@@ -28,152 +33,139 @@ const PriceText = styled(Typography)({
 });
 
 export default function Favorites() {
+  const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load favorites from localStorage
-    const savedFavorites = localStorage.getItem('userFavorites');
-    if (savedFavorites) {
-      setFavorites(JSON.parse(savedFavorites));
-    }
+    loadFavorites();
   }, []);
 
-  const removeFromFavorites = (listingId) => {
-    const updatedFavorites = favorites.filter(item => item.id !== listingId);
-    setFavorites(updatedFavorites);
-    localStorage.setItem('userFavorites', JSON.stringify(updatedFavorites));
-  };
-
-  const clearAllFavorites = () => {
-    setFavorites([]);
-    localStorage.removeItem('userFavorites');
-  };
-
-  // Sample data structure for demonstration
-  const sampleFavorites = [
-    {
-      id: 1,
-      title: 'Cozy Studio near Downtown',
-      price: 1200,
-      location: 'Downtown, City',
-      image: '/studio-image.jpg',
-      type: 'Studio',
-      amenities: ['Parking', 'Laundry', 'Gym'],
-      matchScore: 85
-    },
-    {
-      id: 2,
-      title: 'Modern 2-Bedroom Apartment',
-      price: 1800,
-      location: 'North Park',
-      image: '/apartment-image.jpg',
-      type: '2-Bedroom',
-      amenities: ['Pool', 'Balcony', 'Pet Friendly'],
-      matchScore: 92
+  const loadFavorites = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (user && (user._id || user.id)) {
+        const userId = user._id || user.id;
+        const data = await favoriteService.getAll(userId);
+        setFavorites(data);
+      }
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
-  // Use sample data if no favorites exist
-  const displayFavorites = favorites.length > 0 ? favorites : sampleFavorites;
+  const removeFromFavorites = async (propertyId) => {
+    try {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      const userId = user._id || user.id;
+      await favoriteService.remove(userId, propertyId);
+      setFavorites(favorites.filter(item => item.propertyId._id !== propertyId));
+    } catch (error) {
+      console.error('Error removing favorite:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
-        <Typography variant="h4" component="h1">
-          My Favorites
-        </Typography>
-        {displayFavorites.length > 0 && (
-          <Button
-            variant="outlined"
-            color="error"
-            startIcon={<Delete />}
-            onClick={clearAllFavorites}
-          >
-            Clear All
-          </Button>
-        )}
-      </Box>
-
-      {displayFavorites.length === 0 ? (
+    <Box>
+      <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
+        <Toolbar>
+          <IconButton edge="start" onClick={() => navigate(-1)} sx={{ mr: 2 }}>
+            <ArrowBack />
+          </IconButton>
+          <Typography variant="h6" component="h1" sx={{ flexGrow: 1 }}>
+            My Favorites
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+      {favorites.length === 0 ? (
         <Box textAlign="center" py={8}>
-          <Favorite sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
           <Typography variant="h6" color="text.secondary" gutterBottom>
             No favorites yet
           </Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
             Start exploring properties and add them to your favorites!
           </Typography>
+          <Button variant="contained" onClick={() => navigate('/explore')}>
+            Explore Properties
+          </Button>
         </Box>
       ) : (
         <Grid container spacing={3}>
-          {displayFavorites.map((item) => (
-            <Grid item xs={12} md={6} key={item.id}>
-              <FavoriteCard>
-                <CardContent>
-                  <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-                    <Box display="flex" alignItems="center">
-                      <Avatar
-                        src={item.image}
-                        sx={{ width: 60, height: 60, mr: 2 }}
-                        variant="rounded"
-                      >
-                        {item.title.charAt(0)}
-                      </Avatar>
-                      <Box>
-                        <Typography variant="h6" component="h2">
-                          {item.title}
+          {favorites.map((item) => {
+            const property = item.propertyId;
+            return (
+              <Grid item xs={12} md={6} key={item._id}>
+                <FavoriteCard>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={property.images?.[0] || property.image || 'https://via.placeholder.com/400x300'}
+                    alt={property.title}
+                  />
+                  <CardContent>
+                    <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
+                      <Box flex={1}>
+                        <Typography variant="h6" component="h2" gutterBottom>
+                          {property.title}
                         </Typography>
                         <Box display="flex" alignItems="center" color="text.secondary">
                           <LocationOn sx={{ fontSize: 16, mr: 0.5 }} />
                           <Typography variant="body2">
-                            {item.location}
+                            {property.location}
                           </Typography>
                         </Box>
                       </Box>
+                      <IconButton
+                        color="error"
+                        onClick={() => removeFromFavorites(property._id)}
+                        aria-label="Remove from favorites"
+                      >
+                        <Delete />
+                      </IconButton>
                     </Box>
-                    <IconButton
-                      color="error"
-                      onClick={() => removeFromFavorites(item.id)}
-                      aria-label="Remove from favorites"
-                    >
-                      <Delete />
-                    </IconButton>
-                  </Box>
 
-                  <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                    <PriceText variant="h5">
-                      ${item.price}/month
+                    <PriceText variant="h5" gutterBottom>
+                      ${property.price}/{property.priceType || 'month'}
                     </PriceText>
-                    <Chip
-                      label={`${item.matchScore}% Match`}
-                      color={item.matchScore >= 80 ? 'success' : item.matchScore >= 60 ? 'warning' : 'error'}
-                      size="small"
-                    />
-                  </Box>
 
-                  <Typography variant="body2" color="text.secondary" paragraph>
-                    {item.type} • {item.amenities?.join(' • ')}
-                  </Typography>
+                    <Typography variant="body2" color="text.secondary" paragraph>
+                      {property.type} • {property.amenities?.slice(0, 3).join(' • ')}
+                    </Typography>
 
-                  <Box display="flex" gap={1}>
-                    <Button variant="contained" size="small" fullWidth>
-                      Contact
-                    </Button>
-                    <Button variant="outlined" size="small" fullWidth>
-                      View Details
-                    </Button>
-                  </Box>
-                </CardContent>
-              </FavoriteCard>
-            </Grid>
-          ))}
+                    <Box display="flex" gap={1}>
+                      <Button 
+                        variant="contained" 
+                        size="small" 
+                        fullWidth
+                        onClick={() => navigate(`/property-details/${property._id}`)}
+                      >
+                        View Details
+                      </Button>
+                    </Box>
+                  </CardContent>
+                </FavoriteCard>
+              </Grid>
+            );
+          })}
         </Grid>
       )}
 
       <Box mt={4} textAlign="center">
         <Typography variant="body2" color="text.secondary">
-          {displayFavorites.length} {displayFavorites.length === 1 ? 'item' : 'items'} in favorites
+          {favorites.length} {favorites.length === 1 ? 'property' : 'properties'} in favorites
         </Typography>
+      </Box>
       </Box>
     </Box>
   );

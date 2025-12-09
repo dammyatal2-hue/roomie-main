@@ -13,7 +13,13 @@ const propertySchema = new mongoose.Schema({
   bathrooms: Number,
   isShared: { type: Boolean, default: false },
   description: String,
-  amenities: [String]
+  amenities: [String],
+  available: { type: Boolean, default: true },
+  type: String,
+  coordinates: {
+    lat: Number,
+    lng: Number
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Property', propertySchema);

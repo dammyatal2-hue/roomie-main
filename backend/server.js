@@ -10,7 +10,8 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '400mb' }));
+app.use(express.urlencoded({ limit: '400mb', extended: true }));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -19,6 +20,9 @@ app.use('/api/bookings', require('./routes/bookings'));
 app.use('/api/roommates', require('./routes/roommates'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/messages', require('./routes/messages'));
+app.use('/api/favorites', require('./routes/favorites'));
+app.use('/api/reviews', require('./routes/reviews'));
 
 // Health check
 app.get('/', (req, res) => {

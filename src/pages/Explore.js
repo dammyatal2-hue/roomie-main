@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -25,6 +25,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
 import PlaceIcon from '@mui/icons-material/Place';
 import UserProfile from '../components/UserProfile';
+import propertyService from '../services/propertyService';
 import WifiIcon from '@mui/icons-material/Wifi';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
@@ -234,6 +235,23 @@ export default function Explore() {
   const navigate = useNavigate();
   const [navValue, setNavValue] = React.useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadProperties();
+  }, []);
+
+  const loadProperties = async () => {
+    try {
+      const data = await propertyService.getAll();
+      setProperties(data);
+    } catch (error) {
+      console.error('Error loading properties:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleNavigation = (newValue) => {
     setNavValue(newValue);
@@ -255,10 +273,11 @@ export default function Explore() {
     }
   };
 
-  const filteredApartments = kigaliApartments.filter(property =>
+  // Only show user-uploaded properties from database
+  const filteredApartments = properties.filter(property =>
     property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     property.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.type.toLowerCase().includes(searchQuery.toLowerCase())
+    (property.type && property.type.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
@@ -408,18 +427,34 @@ export default function Explore() {
                         boxShadow: 3
                       }
                     }}
-                    onClick={() => navigate(`/property-details?id=${property.id}`)}
+                    onClick={() => {
+                      if (property._id) {
+                        navigate(`/property-details/${property._id}`);
+                      }
+                    }}
                   >
-                    <CardMedia
-                      component="img"
-                      height="180"
-                      image={property.image}
-                      alt={property.title}
-                      sx={{ 
+                    <Box
+                      sx={{
+                        height: '180px',
                         borderTopLeftRadius: '12px',
-                        borderTopRightRadius: '12px'
+                        borderTopRightRadius: '12px',
+                        overflow: 'hidden',
+                        bgcolor: '#f0f0f0'
                       }}
-                    />
+                    >
+                      <img
+                        src={property.images?.[0] || property.image || 'https://via.placeholder.com/400x300'}
+                        alt={property.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
+                        }}
+                      />
+                    </Box>
                     <CardContent>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
                         <Typography variant="h6" component="h3" fontWeight="bold" sx={{ flex: 1 }}>

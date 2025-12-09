@@ -72,15 +72,38 @@ export default function Booking() {
     }
   };
 
-  const handleConfirm = () => {
-    // Send notification to owner and email
-    console.log('Booking confirmed! Notification sent to:', property.ownerEmail);
-    console.log('Booking details:', { property, bookingData, total: calculateTotal() });
-    
-    // Simulate sending notification
-    alert(`Booking request sent to ${property.owner}!\nEmail notification sent to ${property.ownerEmail}`);
-    
-    setStep(3);
+  const handleConfirm = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      const userId = user._id || user.id;
+      
+      const response = await fetch('http://localhost:5000/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          propertyId: property.id,
+          ownerId: property.ownerId,
+          checkIn: bookingData.checkIn,
+          checkOut: bookingData.checkOut,
+          specialNeeds: bookingData.specialNeeds
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.ownerId) {
+        // Navigate to chat with owner
+        setTimeout(() => {
+          navigate(`/chat/${data.ownerId}`);
+        }, 2000);
+      }
+      
+      setStep(3);
+    } catch (error) {
+      console.error('Booking error:', error);
+      alert('Failed to create booking');
+    }
   };
 
   const renderDateSelection = () => (

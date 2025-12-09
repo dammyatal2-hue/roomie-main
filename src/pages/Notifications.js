@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -19,72 +19,71 @@ import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookingIcon from '@mui/icons-material/EventNote';
 import MessageIcon from '@mui/icons-material/Message';
-import PaymentIcon from '@mui/icons-material/Payment';
 import HomeIcon from '@mui/icons-material/Home';
-
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import api from '../services/api';
 
-const notifications = [
-  {
-    id: 1,
-    type: 'room_application',
-    title: 'New Room Application',
-    message: 'Alex Chen wants to join your shared apartment in Remera',
-    time: '3 min ago',
-    unread: true,
-    icon: <HomeIcon />,
-    userId: 'alex-chen-789'
-  },
-  {
-    id: 2,
-    type: 'match',
-    title: 'New Match Request',
-    message: 'Sarah Johnson wants to match with you as a roommate',
-    time: '5 min ago',
-    unread: true,
-    icon: <FavoriteIcon />,
-    userId: 'sarah-johnson-456'
-  },
-  {
-    id: 3,
-    type: 'booking',
-    title: 'New Booking Request',
-    message: 'John Doe wants to book your Kigali Heights apartment',
-    time: '2 min ago',
-    unread: true,
-    icon: <BookingIcon />,
-    userId: 'john-doe-123'
-  },
-  {
-    id: 4,
-    type: 'message',
-    title: 'New Message',
-    message: 'Sarah Miller sent you a message about the shared room',
-    time: '1 hour ago',
-    unread: true,
-    icon: <MessageIcon />
-  },
-  {
-    id: 5,
-    type: 'listing',
-    title: 'Listing Approved',
-    message: 'Your Kacyiru Studio listing has been approved and is now live',
-    time: '1 day ago',
-    unread: false,
-    icon: <HomeIcon />
+const getNotificationIcon = (type) => {
+  switch (type) {
+    case 'booking': return <BookingIcon />;
+    case 'message': return <MessageIcon />;
+    case 'match': return <FavoriteIcon />;
+    case 'listing': return <HomeIcon />;
+    default: return <HomeIcon />;
   }
-];
+};
+
+const getTimeAgo = (date) => {
+  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+  if (seconds < 60) return 'Just now';
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  const days = Math.floor(hours / 24);
+  return `${days} day${days > 1 ? 's' : ''} ago`;
+};
 
 export default function Notifications() {
   const navigate = useNavigate();
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleNotificationClick = (notification) => {
-    if (notification.type === 'booking' && notification.userId) {
-      navigate(`/user-profile/${notification.userId}`);
-    } else if (notification.type === 'match' && notification.userId) {
-      navigate(`/match-profile/${notification.userId}`);
-    } else if (notification.type === 'room_application' && notification.userId) {
-      navigate(`/user-profile/${notification.userId}`);
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
+  const loadNotifications = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (user && (user._id || user.id)) {
+        const userId = user._id || user.id;
+        const response = await api.get(`/notifications/user/${userId}`);
+        setNotifications(response.data);
+      }
+    } catch (error) {
+      console.error('Error loading notifications:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleNotificationClick = async (notification) => {
+    try {
+      if (!notification.read) {
+        await api.put(`/notifications/${notification._id}/read`);
+        loadNotifications();
+      }
+      
+      if (notification.type === 'booking' && notification.relatedId) {
+        navigate(`/booking`);
+      } else if (notification.type === 'message') {
+        navigate('/messages');
+      } else if (notification.type === 'match' && notification.relatedId) {
+        navigate(`/match-profile/${notification.relatedId}`);
+      }
+    } catch (error) {
+      console.error('Error handling notification:', error);
     }
   };
 
@@ -122,15 +121,15 @@ export default function Notifications() {
                   onClick={() => handleNotificationClick(notification)}
                   sx={{ 
                     py: 2,
-                    backgroundColor: notification.unread ? 'rgba(25, 118, 210, 0.04)' : 'transparent',
-                    cursor: (notification.type === 'booking' || notification.type === 'match' || notification.type === 'room_application') && notification.userId ? 'pointer' : 'default'
+                    backgroundColor: !notification.read ? 'rgba(25, 118, 210, 0.04)' : 'transparent',
+                    cursor: 'pointer'
                   }}
                 >
                   <ListItemAvatar>
                     <Badge 
                       color="primary" 
                       variant="dot" 
-                      invisible={!notification.unread}
+                      invisible={notification.read}
                     >
                       <Avatar 
                         sx={{ 
@@ -138,7 +137,7 @@ export default function Notifications() {
                           color: 'white'
                         }}
                       >
-                        {notification.icon}
+                        {getNotificationIcon(notification.type)}
                       </Avatar>
                     </Badge>
                   </ListItemAvatar>
@@ -147,12 +146,12 @@ export default function Notifications() {
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography 
                           variant="subtitle1" 
-                          fontWeight={notification.unread ? 'bold' : 'normal'}
+                          fontWeight={!notification.read ? 'bold' : 'normal'}
                         >
                           {notification.title}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                          {notification.time}
+                          {getTimeAgo(notification.createdAt)}
                         </Typography>
                       </Box>
                     }

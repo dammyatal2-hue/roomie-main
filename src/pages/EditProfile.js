@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -41,37 +41,32 @@ const availableInterests = [
   'Technology', 'Science', 'History', 'Languages', 'Volunteering'
 ];
 
-// Mock user data (in real app, this would come from context/API)
 const initialUserData = {
-  name: 'Dammy Young',
-  username: 'Dammy',
-  email: 'dammy@gmail.com',
-  dateOfBirth: '1992-11-21',
-  occupation: 'Software Developer',
-  bio: 'Clean, quiet professional looking for a compatible roommate. Enjoy cooking, reading, and occasional weekend outings.',
-  
-  // Lifestyle preferences
-  cleanliness: 4,
-  socialLevel: 2,
+  name: '',
+  username: '',
+  email: '',
+  dateOfBirth: '',
+  occupation: '',
+  bio: '',
+  phone: '',
+  location: '',
+  cleanliness: 3,
+  socialLevel: 3,
   smoking: false,
   pets: false,
   petsTolerance: true,
   guests: 'occasional',
-  
-  // Schedule preferences
   sleepSchedule: 3,
   workSchedule: '9-5',
   dayPreference: 'balanced',
   weekendSchedule: 'mixed',
-  
-  // Roommate preferences
-  interests: ['Cooking', 'Reading', 'Hiking', 'Movies', 'Music'],
+  interests: [],
   maxBudget: 400,
-  preferredArea: 'Kibagabaga',
-  secondaryArea: 'Kicukiro',
+  preferredArea: '',
+  secondaryArea: '',
   leaseDuration: 12,
   roomType: 'private',
-  moveInDate: '2024-12-01'
+  moveInDate: ''
 };
 
 export default function EditProfile() {
@@ -79,6 +74,33 @@ export default function EditProfile() {
   const [userData, setUserData] = useState(initialUserData);
   const [avatar, setAvatar] = useState('/api/placeholder/150/150');
   const [changesMade, setChangesMade] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      const user = JSON.parse(currentUser);
+      setUserData(prev => ({
+        ...prev,
+        name: user.name || '',
+        username: user.name?.split(' ')[0] || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        location: user.location || '',
+        bio: user.bio || '',
+        occupation: user.occupation || '',
+        dateOfBirth: user.dateOfBirth || '',
+        cleanliness: user.preferences?.cleanliness || 3,
+        smoking: user.preferences?.smoking || false,
+        pets: user.preferences?.pets || false,
+        interests: user.interests || []
+      }));
+      if (user.avatar && !user.avatar.match(/^[A-Z]{2}$/)) {
+        setAvatar(user.avatar);
+      }
+    }
+    setLoading(false);
+  }, []);
 
   const handleInputChange = (field, value) => {
     setUserData(prev => ({
@@ -99,12 +121,83 @@ export default function EditProfile() {
     setChangesMade(true);
   };
 
-  const handleSave = () => {
-    // In real app, this would save to backend
-    console.log('Saving user data:', userData);
-    setChangesMade(false);
-    // Show success message or navigate back
-    navigate('/profile');
+  const handleSave = async () => {
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const token = localStorage.getItem('token');
+      const userId = currentUser._id || currentUser.id;
+      
+      if (!userId) {
+        alert('User ID not found. Please log in again.');
+        navigate('/login');
+        return;
+      }
+
+      const updatePayload = {
+        name: userData.name,
+        email: userData.email,
+        phone: userData.phone,
+        location: userData.location,
+        bio: userData.bio,
+        occupation: userData.occupation,
+        interests: userData.interests,
+        avatar: avatar,
+        preferences: {
+          cleanliness: userData.cleanliness,
+          socialLevel: userData.socialLevel,
+          smoking: userData.smoking,
+          pets: userData.pets,
+          petsTolerance: userData.petsTolerance,
+          guests: userData.guests,
+          sleepSchedule: userData.sleepSchedule,
+          workSchedule: userData.workSchedule,
+          nightOwl: userData.dayPreference === 'night',
+          earlyBird: userData.dayPreference === 'morning',
+          maxBudget: userData.maxBudget,
+          preferredArea: userData.preferredArea,
+          roomType: userData.roomType
+        }
+      };
+
+      console.log('Saving profile to:', `http://localhost:5000/api/users/${userId}`);
+      console.log('Payload:', updatePayload);
+      
+      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updatePayload)
+      });
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        console.error('Backend not responding with JSON. Is the server running?');
+        alert('Backend server is not running. Please start the backend server (node server.js in backend folder)');
+        return;
+      }
+      
+      if (response.ok) {
+        const updatedUser = await response.json();
+        updatedUser.avatar = avatar;
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        setChangesMade(false);
+        alert('Profile updated successfully!');
+        navigate('/profile');
+      } else {
+        const errorData = await response.json();
+        console.error('Server error:', errorData);
+        alert(errorData.message || 'Failed to save profile');
+      }
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      if (error.message.includes('Failed to fetch')) {
+        alert('Cannot connect to backend server. Please make sure the backend is running on port 5000.');
+      } else {
+        alert(`Failed to save profile: ${error.message}`);
+      }
+    }
   };
 
   const handleAvatarUpload = (event) => {
@@ -500,11 +593,17 @@ export default function EditProfile() {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Date of Birth"
-                type="date"
-                value={userData.dateOfBirth}
-                onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                InputLabelProps={{ shrink: true }}
+                label="Phone Number"
+                value={userData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Location"
+                value={userData.location}
+                onChange={(e) => handleInputChange('location', e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>

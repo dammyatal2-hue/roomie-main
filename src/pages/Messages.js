@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { messageService } from '../services/messageService';
 import {
   Box,
   Typography,
@@ -72,6 +73,40 @@ const conversations = [
 export default function Messages() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadConversations();
+  }, []);
+
+  const loadConversations = async () => {
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        navigate('/login');
+        return;
+      }
+
+      const data = await messageService.getConversations(currentUser.id);
+      
+      const formattedConversations = data.map(conv => ({
+        id: conv.user._id,
+        name: conv.user.name,
+        avatar: conv.user.avatar,
+        lastMessage: conv.lastMessage.message,
+        time: new Date(conv.lastMessage.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+        unread: conv.unreadCount,
+        online: true
+      }));
+
+      setConversations(formattedConversations);
+    } catch (error) {
+      console.error('Error loading conversations:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredConversations = conversations.filter(conv =>
     conv.name.toLowerCase().includes(searchQuery.toLowerCase())

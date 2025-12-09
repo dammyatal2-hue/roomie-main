@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { propertyService } from '../services/propertyService';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Box,
   Typography,
@@ -39,38 +41,30 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-// Mock user listings data
-const userListings = [
-  {
-    id: 1,
-    title: "Rose Garden",
-    location: "Kibagabaga, kigali",
-    period: "08 Aug - 12 Aug",
-    status: "Active",
-    price: "$320/month",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&h=200&fit=crop",
-    type: "Apartment",
-    bedrooms: 2,
-    bathrooms: 1
-  },
-  {
-    id: 2,
-    title: "Rose Garden",
-    location: "Kibagabaga, kigali",
-    period: "08 Aug - 12 Aug",
-    status: "Booked",
-    price: "$340/month",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=200&fit=crop",
-    type: "Shared Space",
-    bedrooms: 1,
-    bathrooms: 1
-  }
-];
-
 export default function MyListing() {
   const navigate = useNavigate();
   const [navValue, setNavValue] = React.useState(3); // Profile is active
-  const [listings, setListings] = useState(userListings);
+  const [listings, setListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    loadListings();
+  }, []);
+
+  const loadListings = async () => {
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (currentUser) {
+        const userId = currentUser._id || currentUser.id;
+        const data = await propertyService.getByOwner(userId);
+        setListings(data);
+      }
+    } catch (error) {
+      console.error('Error loading listings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [newListing, setNewListing] = useState({
     title: '',
@@ -140,8 +134,17 @@ export default function MyListing() {
     }
   };
 
-  const handleDeleteListing = (listingId) => {
-    setListings(prev => prev.filter(listing => listing.id !== listingId));
+  const handleDeleteListing = async (listingId) => {
+    if (window.confirm('Are you sure you want to delete this listing?')) {
+      try {
+        await propertyService.delete(listingId);
+        setListings(prev => prev.filter(listing => listing._id !== listingId));
+        alert('Listing deleted successfully');
+      } catch (error) {
+        console.error('Error deleting listing:', error);
+        alert('Failed to delete listing');
+      }
+    }
   };
 
   const handleInputChange = (field, value) => {
@@ -159,20 +162,13 @@ export default function MyListing() {
     }}>
       {/* Header */}
       <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-            09:41
-          </Typography>
-          <Typography variant="h6" component="h1" fontWeight="bold" color="primary">
-            ROOMIE
-          </Typography>
-          <IconButton 
-            color="primary" 
-            onClick={() => setAddDialogOpen(true)}
-            sx={{ width: 40, height: 40 }}
-          >
-            <AddIcon />
+        <Toolbar>
+          <IconButton edge="start" onClick={() => navigate(-1)} sx={{ mr: 2 }}>
+            <ArrowBackIcon />
           </IconButton>
+          <Typography variant="h6" component="h1" fontWeight="bold" sx={{ flexGrow: 1 }}>
+            My Listings
+          </Typography>
         </Toolbar>
       </AppBar>
 
@@ -188,7 +184,11 @@ export default function MyListing() {
         </Box>
 
         {/* Listings Grid */}
-        {listings.length === 0 ? (
+        {loading ? (
+          <Paper sx={{ p: 4, textAlign: 'center', borderRadius: '12px' }}>
+            <Typography>Loading...</Typography>
+          </Paper>
+        ) : listings.length === 0 ? (
           <Paper sx={{ p: 4, textAlign: 'center', borderRadius: '12px' }}>
             <AddIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
             <Typography variant="h6" gutterBottom>
@@ -200,7 +200,7 @@ export default function MyListing() {
             <Button 
               variant="contained" 
               startIcon={<AddIcon />}
-              onClick={() => setAddDialogOpen(true)}
+              onClick={() => navigate('/list-your-space')}
               sx={{ borderRadius: '8px' }}
             >
               Add Listing
@@ -209,8 +209,19 @@ export default function MyListing() {
         ) : (
           <Grid container spacing={2}>
             {listings.map((listing) => (
-              <Grid item xs={12} key={listing.id}>
-                <Card sx={{ borderRadius: '12px' }}>
+              <Grid item xs={12} key={listing._id}>
+                <Card 
+                  sx={{ 
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: 3
+                    }
+                  }}
+                  onClick={() => navigate(`/property-details/${listing._id}`)}
+                >
                   <CardContent sx={{ p: 0 }}>
                     <Box sx={{ display: 'flex' }}>
                       {/* Property Image */}
@@ -222,7 +233,7 @@ export default function MyListing() {
                           borderTopLeftRadius: '12px',
                           borderBottomLeftRadius: '12px'
                         }}
-                        image={listing.image}
+                        image={listing.images && listing.images[0] ? listing.images[0] : 'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=300&h=200&fit=crop'}
                         alt={listing.title}
                       />
                       
@@ -233,8 +244,8 @@ export default function MyListing() {
                             {listing.title}
                           </Typography>
                           <Chip 
-                            label={listing.status} 
-                            color={listing.status === 'Active' ? 'success' : 'primary'}
+                            label={listing.available ? 'Active' : 'Booked'} 
+                            color={listing.available ? 'success' : 'primary'}
                             size="small"
                           />
                         </Box>
@@ -244,7 +255,7 @@ export default function MyListing() {
                         </Typography>
                         
                         <Typography variant="body2" color="text.secondary" gutterBottom>
-                          🗓️ {listing.period}
+                          🗓️ Listed on {new Date(listing.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </Typography>
                         
                         <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
@@ -267,16 +278,26 @@ export default function MyListing() {
                         
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <Typography variant="h6" color="primary" fontWeight="bold">
-                            {listing.price}
+                            ${listing.price}/month
                           </Typography>
                           <CardActions sx={{ p: 0 }}>
-                            <IconButton size="small" color="primary">
+                            <IconButton 
+                              size="small" 
+                              color="primary"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate('/list-your-space', { state: { property: listing } });
+                              }}
+                            >
                               <EditIcon />
                             </IconButton>
                             <IconButton 
                               size="small" 
                               color="error"
-                              onClick={() => handleDeleteListing(listing.id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteListing(listing._id);
+                              }}
                             >
                               <DeleteIcon />
                             </IconButton>

@@ -34,6 +34,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const topProducts = [
   { name: 'Kigali Heights', stock: 4500, price: '$450.00', sales: 4800, earnings: '$175,200' },
@@ -105,6 +106,9 @@ export default function AdminDashboard() {
         {/* Top Bar */}
         <AppBar position="static" elevation={0} sx={{ background: 'white', color: 'black' }}>
           <Toolbar>
+            <IconButton edge="start" onClick={() => navigate(-1)} sx={{ mr: 2 }}>
+              <ArrowBackIcon />
+            </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
               Dashboard
             </Typography>

@@ -445,16 +445,17 @@ export default function PropertyDetails() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
 
-  // Get property ID from URL parameters or use default
+  // Get property from state (passed from Explore) or from URL parameters
+  const stateProperty = location.state?.property;
   const searchParams = new URLSearchParams(location.search);
   const propertyId = parseInt(searchParams.get('id')) || 1;
-  const property = propertyDatabase[propertyId] || propertyDatabase[1];
+  const property = stateProperty || propertyDatabase[propertyId] || propertyDatabase[1];
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
 
-  const isSharedApartment = property.type.includes('Shared') || property.type.includes('Student');
+  const isSharedApartment = property.type ? (property.type.includes('Shared') || property.type.includes('Student')) : false;
 
   const handleApplyForRoom = () => {
     setRequestSent(true);
@@ -498,7 +499,7 @@ export default function PropertyDetails() {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Rating value={property.rating} readOnly size="small" />
             <Typography variant="body2" color="text.secondary">
-              {property.rating} • {property.reviews.length} reviews
+              {property.rating} • {property.reviews?.length || 0} reviews
             </Typography>
             <Chip 
               label={property.type} 
@@ -548,6 +549,7 @@ export default function PropertyDetails() {
             </Grid>
           </Grid>
 
+          {property.status && (
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary">Status</Typography>
             <Chip 
@@ -556,6 +558,7 @@ export default function PropertyDetails() {
               sx={{ fontWeight: 'bold' }}
             />
           </Box>
+          )}
 
           <Typography variant="body1" paragraph>
             {property.description}
@@ -705,6 +708,7 @@ export default function PropertyDetails() {
         )}
 
         {/* Amenities */}
+        {property.amenities && property.amenities.length > 0 && (
         <Paper elevation={1} sx={{ p: 3, mb: 2, borderRadius: '12px' }}>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
             Amenities
@@ -720,8 +724,10 @@ export default function PropertyDetails() {
             ))}
           </Grid>
         </Paper>
+        )}
 
         {/* Agent Section */}
+        {property.agent && (
         <Paper 
           elevation={1} 
           sx={{ 
@@ -763,8 +769,10 @@ export default function PropertyDetails() {
             </Box>
           </Box>
         </Paper>
+        )}
 
         {/* Location & Facilities */}
+        {property.facilities && property.facilities.length > 0 && (
         <Paper elevation={1} sx={{ p: 3, mb: 2, borderRadius: '12px' }}>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
             Location & Nearby Facilities
@@ -780,8 +788,10 @@ export default function PropertyDetails() {
             ))}
           </List>
         </Paper>
+        )}
 
         {/* Reviews */}
+        {property.reviews && property.reviews.length > 0 && (
         <Paper elevation={1} sx={{ p: 3, mb: 2, borderRadius: '12px' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Typography variant="h6" fontWeight="bold">
@@ -824,6 +834,7 @@ export default function PropertyDetails() {
             </Box>
           ))}
         </Paper>
+        )}
 
         {/* Book Now / Apply for Room Button */}
         {requestSent ? (

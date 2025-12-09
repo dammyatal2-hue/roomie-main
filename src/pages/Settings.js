@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Box,
   Typography,
@@ -17,22 +17,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SecurityIcon from '@mui/icons-material/Security';
-import LanguageIcon from '@mui/icons-material/Language';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { ThemeContext } from '../context/ThemeContext';
 
 export default function Settings() {
   const navigate = useNavigate();
-  const [settings, setSettings] = useState({
-    notifications: true,
-    darkMode: false,
-    location: true,
-    autoBackup: true
-  });
-
-  const handleToggle = (setting) => {
-    setSettings(prev => ({ ...prev, [setting]: !prev[setting] }));
-  };
+  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
+  const [notifications, setNotifications] = useState(true);
 
   return (
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
@@ -53,26 +44,17 @@ export default function Settings() {
           <List sx={{ p: 0 }}>
             <ListItem>
               <ListItemIcon><NotificationsIcon color="primary" /></ListItemIcon>
-              <ListItemText primary="Push Notifications" secondary="Receive notifications about bookings" />
-              <Switch checked={settings.notifications} onChange={() => handleToggle('notifications')} />
+              <ListItemText 
+                primary="Push Notifications" 
+                secondary="Get notified about bookings, messages, and match requests" 
+              />
+              <Switch checked={notifications} onChange={() => setNotifications(!notifications)} />
             </ListItem>
             <Divider />
             <ListItem>
               <ListItemIcon><DarkModeIcon color="primary" /></ListItemIcon>
               <ListItemText primary="Dark Mode" secondary="Switch to dark theme" />
-              <Switch checked={settings.darkMode} onChange={() => handleToggle('darkMode')} />
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemIcon><SecurityIcon color="primary" /></ListItemIcon>
-              <ListItemText primary="Location Services" secondary="Allow location access for better matches" />
-              <Switch checked={settings.location} onChange={() => handleToggle('location')} />
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemIcon><LanguageIcon color="primary" /></ListItemIcon>
-              <ListItemText primary="Auto Backup" secondary="Automatically backup your data" />
-              <Switch checked={settings.autoBackup} onChange={() => handleToggle('autoBackup')} />
+              <Switch checked={darkMode} onChange={toggleDarkMode} />
             </ListItem>
           </List>
         </Paper>

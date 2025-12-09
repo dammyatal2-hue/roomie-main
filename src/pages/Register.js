@@ -11,19 +11,23 @@ import {
   Divider,
   AppBar,
   Toolbar,
-  MenuItem
+  MenuItem,
+  Alert
 } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
+import { authService } from '../services/authService';
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    email: 'dammy@gmail.com',
+    email: '',
     username: '',
     phone: '',
     location: '',
     password: '',
     agreeTerms: false
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -33,18 +37,39 @@ export default function Register() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Check if all required fields are filled
     if (!formData.email || !formData.username || !formData.phone || !formData.location || !formData.password || !formData.agreeTerms) {
-      alert('Please fill in all required fields and agree to terms and conditions.');
+      setError('Please fill in all required fields and agree to terms and conditions.');
       return;
     }
     
-    console.log('Registration attempt:', formData);
-    // Navigate to home after successful registration
-    navigate('/home');
+    setLoading(true);
+    setError('');
+    
+    try {
+      console.log('Registering with:', {
+        name: formData.username,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location
+      });
+      await authService.register({
+        name: formData.username,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        location: formData.location
+      });
+      navigate('/home');
+    } catch (err) {
+      console.error('Registration error:', err);
+      console.error('Error response:', err.response?.data);
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const isFormValid = formData.email && formData.username && formData.phone && formData.location && formData.password && formData.agreeTerms;
@@ -72,6 +97,12 @@ export default function Register() {
             <Typography variant="body1" color="text.secondary" align="center" sx={{ mb: 4 }}>
               Sign in with your email and password or social media to continue
             </Typography>
+
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
 
             <form onSubmit={handleSubmit}>
               <TextField
@@ -167,10 +198,10 @@ export default function Register() {
                 fullWidth
                 variant="contained"
                 size="large"
-                disabled={!isFormValid}
+                disabled={!isFormValid || loading}
                 sx={{ py: 1.5, borderRadius: '8px' }}
               >
-                Sign up
+                {loading ? 'Creating account...' : 'Sign up'}
               </Button>
             </form>
 

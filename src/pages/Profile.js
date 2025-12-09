@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -31,6 +31,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import PeopleIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // Get current user from localStorage
 const getCurrentUser = () => {
@@ -45,11 +46,18 @@ const getCurrentUser = () => {
 
 export default function Profile() {
   const navigate = useNavigate();
-  const [currentUser] = useState(getCurrentUser());
+  const [currentUser, setCurrentUser] = useState(getCurrentUser());
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setCurrentUser(getCurrentUser());
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const menuItems = [
     { icon: <SettingsIcon />, text: 'Settings', action: () => navigate('/settings') },
-    { icon: <PaymentIcon />, text: 'Payment', action: () => navigate('/payment') },
     { icon: <NotificationsIcon />, text: 'Notification', action: () => navigate('/notifications') },
     { icon: <ListIcon />, text: 'My Listings', action: () => navigate('/my-listing') },
     { icon: <AddIcon />, text: 'List Your Space', action: () => navigate('/list-your-space') },
@@ -64,8 +72,11 @@ export default function Profile() {
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
       {/* Header */}
       <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
-        <Toolbar sx={{ justifyContent: 'center' }}>
-          <Typography variant="h6" component="h1" fontWeight="bold">
+        <Toolbar>
+          <IconButton edge="start" onClick={() => navigate(-1)} sx={{ mr: 2 }}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h6" component="h1" fontWeight="bold" sx={{ flexGrow: 1, textAlign: 'center', mr: 6 }}>
             Profile
           </Typography>
         </Toolbar>
@@ -85,6 +96,7 @@ export default function Profile() {
             <EditIcon />
           </IconButton>
           <Avatar
+            src={currentUser.avatar && !currentUser.avatar.match(/^[A-Z]{1,2}$/) ? currentUser.avatar : undefined}
             sx={{
               width: 80,
               height: 80,
@@ -94,7 +106,7 @@ export default function Profile() {
               fontWeight: 'bold'
             }}
           >
-            {currentUser.avatar}
+            {!currentUser.avatar || currentUser.avatar.match(/^[A-Z]{1,2}$/) ? currentUser.avatar : ''}
           </Avatar>
           <Typography variant="h5" component="h2" fontWeight="bold" gutterBottom>
             {currentUser.name}
@@ -103,7 +115,7 @@ export default function Profile() {
             {currentUser.email}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            Roomie App User
+            {currentUser.location || 'Kigali, Rwanda'}
           </Typography>
         </Paper>
 

@@ -1,53 +1,78 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
-// Mock database
-let users = [
-  {
-    id: 'user1',
-    name: 'John Doe',
-    email: 'john@email.com',
-    avatar: 'JD',
-    phone: '+250 123 456 789',
-    bio: 'Looking for roommates and properties'
-  },
-  {
-    id: 'user2',
-    name: 'Sarah Smith',
-    email: 'sarah@email.com',
-    avatar: 'SS',
-    phone: '+250 987 654 321',
-    bio: 'Renting out properties and seeking roommates'
-  },
-  {
-    id: 'user3',
-    name: 'Alex Johnson',
-    email: 'alex@email.com',
-    avatar: 'AJ',
-    phone: '+250 555 123 456',
-    bio: 'Looking for a place and roommates'
+// Get all users
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
-];
+});
 
 // Get user by ID
-router.get('/:id', (req, res) => {
-  const user = users.find(u => u.id === req.params.id);
-  if (!user) {
-    return res.status(404).json({ message: 'User not found' });
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
-  const { password, ...userWithoutPassword } = user;
-  res.json(userWithoutPassword);
 });
 
 // Update user profile
-router.put('/:id', (req, res) => {
-  const index = users.findIndex(u => u.id === req.params.id);
-  if (index === -1) {
-    return res.status(404).json({ message: 'User not found' });
+router.put('/:id', async (req, res) => {
+  try {
+    const { password, ...updateData } = req.body;
+    
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+    
+    const user = await User.findByIdAndUpdate(req.params.id, updateData, { new: true }).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
-  users[index] = { ...users[index], ...req.body };
-  const { password, ...userWithoutPassword } = users[index];
-  res.json(userWithoutPassword);
+});
+
+// Update user preferences
+router.patch('/:id/preferences', async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { preferences: req.body },
+      { new: true }
+    ).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+// Delete user
+router.delete('/:id', async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ message: 'User deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
 });
 
 module.exports = router;

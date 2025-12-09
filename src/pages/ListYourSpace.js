@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { propertyService } from '../services/propertyService';
 import {
   Box,
   Typography,
@@ -31,6 +33,10 @@ import AddIcon from '@mui/icons-material/Add';
 
 export default function ListYourSpace() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const editProperty = location.state?.property;
+  const isEditMode = !!editProperty;
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -45,6 +51,30 @@ export default function ListYourSpace() {
   });
   
   const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (editProperty) {
+      setFormData({
+        title: editProperty.title || '',
+        description: editProperty.description || '',
+        location: editProperty.location || '',
+        price: editProperty.price?.toString() || '',
+        type: editProperty.type || 'Apartment',
+        bedrooms: editProperty.bedrooms?.toString() || '',
+        bathrooms: editProperty.bathrooms?.toString() || '',
+        amenities: editProperty.amenities || [],
+        isShared: editProperty.isShared || false,
+        currentRoommates: []
+      });
+      if (editProperty.images && editProperty.images.length > 0) {
+        const existingImages = editProperty.images.map((url, index) => ({
+          preview: url,
+          existing: true
+        }));
+        setImages(existingImages);
+      }
+    }
+  }, [editProperty]);
   const [roommateForm, setRoommateForm] = useState({
     name: '',
     age: '',
@@ -90,12 +120,57 @@ export default function ListYourSpace() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Listing submitted:', formData);
-    console.log('Images:', images);
-    // TODO: Upload images and submit to backend
-    navigate('/my-listing');
+    
+    // Validate required fields
+    if (!formData.title || !formData.location || !formData.price) {
+      alert('Please fill in all required fields (Title, Location, Price)');
+      return;
+    }
+
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) {
+        alert('Please log in to list a property');
+        navigate('/login');
+        return;
+      }
+
+      // Convert all images (up to 10)
+      const imageUrls = images.length > 0 
+        ? images.slice(0, 10).map(img => img.preview) 
+        : ['https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800'];
+
+      const propertyData = {
+        title: formData.title,
+        description: formData.description || 'No description provided',
+        location: formData.location,
+        price: parseInt(formData.price.replace(/[^0-9]/g, '')) || 0,
+        bedrooms: parseInt(formData.bedrooms) || 1,
+        bathrooms: parseInt(formData.bathrooms) || 1,
+        amenities: formData.amenities,
+        images: imageUrls,
+        image: imageUrls[0],
+        ownerId: currentUser._id || currentUser.id,
+        isShared: formData.isShared || false
+      };
+
+      console.log(isEditMode ? 'Updating' : 'Creating', 'property with data:', propertyData);
+      
+      if (isEditMode) {
+        await propertyService.update(editProperty._id, propertyData);
+        alert('Property updated successfully!');
+      } else {
+        await propertyService.create(propertyData);
+        alert('Property listed successfully!');
+      }
+      navigate('/my-listing');
+    } catch (error) {
+      console.error('Error listing property:', error);
+      console.error('Error details:', error.response?.data);
+      alert(`Failed to list property: ${error.response?.data?.message || error.message}`);
+    }
   };
 
   return (
@@ -106,7 +181,7 @@ export default function ListYourSpace() {
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6" component="h1" sx={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
-            List Your Space
+            {isEditMode ? 'Edit Property' : 'List Your Space'}
           </Typography>
           <Box sx={{ width: 48 }} />
         </Toolbar>
@@ -115,7 +190,7 @@ export default function ListYourSpace() {
       <Container maxWidth="lg" sx={{ py: 2 }}>
         <Paper elevation={1} sx={{ p: 3, borderRadius: '12px' }}>
           <Typography variant="h5" fontWeight="bold" gutterBottom>
-            Add New Property Listing
+            {isEditMode ? 'Edit Property Listing' : 'Add New Property Listing'}
           </Typography>
           
           <form onSubmit={handleSubmit}>
@@ -435,7 +510,7 @@ export default function ListYourSpace() {
                 variant="contained" 
                 sx={{ flex: 1 }}
               >
-                List Property
+                {isEditMode ? 'Update Property' : 'List Property'}
               </Button>
             </Box>
           </form>

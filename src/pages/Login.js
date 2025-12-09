@@ -10,17 +10,20 @@ import {
   Paper,
   Divider,
   AppBar,
-  Toolbar
+  Toolbar,
+  Alert
 } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
+import { authService } from '../services/authService';
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    email: 'dammy@gmail.com',
+    email: '',
     password: '',
     rememberMe: false
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -31,27 +34,24 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
       setError('Please fill in all fields');
       return;
     }
     
-    // Mock login - set different users based on email
-    let user;
-    if (formData.email === 'john@email.com') {
-      user = { id: 'user1', name: 'John Doe', email: 'john@email.com', avatar: 'JD' };
-    } else if (formData.email === 'sarah@email.com') {
-      user = { id: 'user2', name: 'Sarah Johnson', email: 'sarah@email.com', avatar: 'SJ' };
-    } else if (formData.email === 'alex@email.com') {
-      user = { id: 'user3', name: 'Alex Chen', email: 'alex@email.com', avatar: 'AC' };
-    } else {
-      user = { id: 'user1', name: 'John Doe', email: 'john@email.com', avatar: 'JD' };
-    }
+    setLoading(true);
+    setError('');
     
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    navigate('/home');
+    try {
+      await authService.login(formData.email, formData.password);
+      navigate('/home');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -76,20 +76,11 @@ export default function Login() {
               Sign in with your email and password or social media to continue
             </Typography>
             
-            <Box sx={{ mb: 3, p: 2, bgcolor: 'info.light', borderRadius: '8px' }}>
-              <Typography variant="body2" fontWeight="bold" gutterBottom>
-                Test Accounts:
-              </Typography>
-              <Typography variant="caption" display="block">
-                • john@email.com
-              </Typography>
-              <Typography variant="caption" display="block">
-                • sarah@email.com
-              </Typography>
-              <Typography variant="caption" display="block">
-                • alex@email.com
-              </Typography>
-            </Box>
+            {error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )}
 
             <form onSubmit={handleSubmit}>
               <TextField
@@ -140,9 +131,10 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 size="large"
+                disabled={loading}
                 sx={{ mt: 2, py: 1.5, borderRadius: '8px' }}
               >
-                Sign in
+                {loading ? 'Signing in...' : 'Sign in'}
               </Button>
             </form>
 

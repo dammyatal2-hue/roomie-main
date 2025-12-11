@@ -21,6 +21,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import api from '../services/api';
+import { formatPrice } from '../utils/currency';
 
 export default function Booking() {
   const navigate = useNavigate();
@@ -60,10 +62,11 @@ export default function Booking() {
 
   const calculateTotal = () => {
     const days = calculateDuration();
-    const dailyRate = 340 / 30; // Convert monthly to daily
+    const monthlyRate = property?.price || 340000;
+    const dailyRate = monthlyRate / 30;
     const subtotal = days * dailyRate;
     const tax = subtotal * 0.1;
-    return { subtotal: subtotal.toFixed(2), tax: tax.toFixed(2), total: (subtotal + tax).toFixed(2) };
+    return { subtotal: Math.round(subtotal), tax: Math.round(tax), total: Math.round(subtotal + tax) };
   };
 
   const handleNext = () => {
@@ -98,20 +101,7 @@ export default function Booking() {
         specialNeeds: bookingData.specialNeeds
       };
       
-      console.log('Sending booking:', bookingPayload);
-      
-      const response = await fetch('http://localhost:5000/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bookingPayload)
-      });
-      
-      const data = await response.json();
-      console.log('Booking response:', data);
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Booking failed');
-      }
+      const { data } = await api.post('/bookings', bookingPayload);
       
       alert('Booking confirmed! Owner has been notified.');
       setStep(3);
@@ -245,16 +235,16 @@ export default function Booking() {
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2">Subtotal ({calculateDuration()} days):</Typography>
-            <Typography variant="body2">${subtotal}</Typography>
+            <Typography variant="body2">{formatPrice(subtotal)}</Typography>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="body2">Tax (10%):</Typography>
-            <Typography variant="body2">${tax}</Typography>
+            <Typography variant="body2">{formatPrice(tax)}</Typography>
           </Box>
           <Divider sx={{ my: 1 }} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h6" fontWeight="bold">Total:</Typography>
-            <Typography variant="h6" fontWeight="bold" color="primary">${total}</Typography>
+            <Typography variant="h6" fontWeight="bold" color="primary">{formatPrice(total)}</Typography>
           </Box>
         </Paper>
 
@@ -322,7 +312,7 @@ export default function Booking() {
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
           <Typography variant="body2">Total Amount:</Typography>
-          <Typography variant="body2" fontWeight="bold" color="primary">${calculateTotal().total}</Typography>
+          <Typography variant="body2" fontWeight="bold" color="primary">{formatPrice(calculateTotal().total)}</Typography>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="body2">Request ID:</Typography>
@@ -382,7 +372,7 @@ export default function Booking() {
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <Typography variant="h6" color="primary" fontWeight="bold">
-                    {property.price}
+                    {formatPrice(property.price)}/month
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Rating value={property.rating} readOnly size="small" />

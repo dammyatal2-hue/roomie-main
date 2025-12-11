@@ -14,8 +14,10 @@ const propertySchema = new mongoose.Schema({
   isShared: { type: Boolean, default: false },
   description: String,
   amenities: [String],
+  facilities: [String],
   available: { type: Boolean, default: true },
   type: String,
+  roommates: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   coordinates: {
     lat: Number,
     lng: Number

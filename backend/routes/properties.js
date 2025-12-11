@@ -71,4 +71,39 @@ router.get('/owner/:ownerId', async (req, res) => {
   }
 });
 
+// Add roommate to property
+router.post('/:id/roommates', async (req, res) => {
+  try {
+    const { roommateId } = req.body;
+    const property = await Property.findById(req.params.id).populate('ownerId');
+    
+    if (!property) {
+      return res.status(404).json({ message: 'Property not found' });
+    }
+
+    if (!property.roommates.includes(roommateId)) {
+      property.roommates.push(roommateId);
+      await property.save();
+
+      // Notify property owner
+      const Notification = require('../models/Notification');
+      const User = require('../models/User');
+      const roommate = await User.findById(roommateId);
+      
+      await Notification.create({
+        userId: property.ownerId._id,
+        type: 'listing',
+        title: 'New Roommate Added',
+        message: `${roommate.name} has been added as a roommate to your property: ${property.title}`,
+        relatedId: roommateId,
+        read: false
+      });
+    }
+
+    res.json(property);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 module.exports = router;

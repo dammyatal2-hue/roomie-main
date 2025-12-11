@@ -102,17 +102,31 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update booking status
+// Update booking status (accept/decline)
 router.patch('/:id/status', async (req, res) => {
   try {
     const booking = await Booking.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status, ownerResponse: req.body.ownerResponse },
       { new: true }
-    );
+    ).populate('propertyId').populate('userId');
+    
     if (!booking) {
       return res.status(404).json({ message: 'Booking not found' });
     }
+
+    // Notify guest about booking status
+    const Notification = require('../models/Notification');
+    const statusText = req.body.status === 'approved' ? 'accepted' : 'declined';
+    await Notification.create({
+      userId: booking.userId._id,
+      type: 'booking',
+      title: `Booking ${statusText.charAt(0).toUpperCase() + statusText.slice(1)}`,
+      message: `Your booking request for "${booking.propertyId.title}" has been ${statusText}.`,
+      relatedId: booking.propertyId._id,
+      read: false
+    });
+
     res.json(booking);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

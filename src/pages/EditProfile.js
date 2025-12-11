@@ -22,6 +22,7 @@ import {
   Switch,
   Divider
 } from '@mui/material';
+import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -159,37 +160,14 @@ export default function EditProfile() {
         }
       };
 
-      console.log('Saving profile to:', `http://localhost:5000/api/users/${userId}`);
-      console.log('Payload:', updatePayload);
+      const response = await api.put(`/users/${userId}`, updatePayload);
       
-      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(updatePayload)
-      });
-      
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        console.error('Backend not responding with JSON. Is the server running?');
-        alert('Backend server is not running. Please start the backend server (node server.js in backend folder)');
-        return;
-      }
-      
-      if (response.ok) {
-        const updatedUser = await response.json();
-        updatedUser.avatar = avatar;
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-        setChangesMade(false);
-        alert('Profile updated successfully!');
-        navigate('/profile');
-      } else {
-        const errorData = await response.json();
-        console.error('Server error:', errorData);
-        alert(errorData.message || 'Failed to save profile');
-      }
+      const updatedUser = response.data;
+      updatedUser.avatar = avatar;
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+      setChangesMade(false);
+      alert('Profile updated successfully!');
+      navigate('/profile');
     } catch (error) {
       console.error('Error saving profile:', error);
       if (error.message.includes('Failed to fetch')) {

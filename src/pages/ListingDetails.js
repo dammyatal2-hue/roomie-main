@@ -41,6 +41,7 @@ import BalconyIcon from '@mui/icons-material/Balcony';
 import { propertyService } from '../services/propertyService';
 import reviewService from '../services/reviewService';
 import favoriteService from '../services/favoriteService';
+import { formatPriceWithPeriod } from '../utils/currency';
 
 const getAmenityIcon = (amenity) => {
   const icons = {
@@ -207,7 +208,7 @@ export default function ListingDetails() {
             {property.title}
           </Typography>
           <Typography variant="h5" color="primary" fontWeight="bold" gutterBottom>
-            ${property.price}/month
+            {formatPriceWithPeriod(property.price, property.priceType || 'month')}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <Typography variant="body1" color="text.secondary">
@@ -433,16 +434,17 @@ export default function ListingDetails() {
                   Real Estate Agent
                 </Typography>
               </Box>
-              <IconButton 
+              <Button
+                variant="contained"
+                size="small"
+                onClick={() => navigate(`/user-profile/${property.ownerId._id}`)}
                 sx={{ 
-                  background: '#FFF0F3',
-                  color: '#FE456A',
-                  '&:hover': { background: '#FFE0E6' }
+                  background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
+                  '&:hover': { background: 'linear-gradient(135deg, #D32F4E 0%, #FE456A 100%)' }
                 }}
-                onClick={() => navigate('/chat')}
               >
-                💬
-              </IconButton>
+                Contact Owner
+              </Button>
             </Box>
           </Paper>
         )}

@@ -29,6 +29,7 @@ import AgentContact from './pages/AgentContact';
 import RoommateProfile from './pages/RoommateProfile';
 import MatchProfile from './pages/MatchProfile';
 import ListingDetails from './pages/ListingDetails';
+import BookingManagement from './pages/BookingManagement';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
             
             {/* Booking System */}
             <Route path="/booking" element={<Booking />} />
+            <Route path="/booking-management" element={<BookingManagement />} />
             
             {/* Admin */}
             <Route path="/admin-dashboard" element={<AdminDashboard />} />

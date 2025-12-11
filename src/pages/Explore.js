@@ -15,7 +15,8 @@ import {
   TextField,
   InputAdornment,
   Chip,
-  Grid
+  Grid,
+  Avatar
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
@@ -26,6 +27,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import PlaceIcon from '@mui/icons-material/Place';
 import UserProfile from '../components/UserProfile';
 import propertyService from '../services/propertyService';
+import { roommateService } from '../services/roommateService';
+import { formatPriceWithPeriod } from '../utils/currency';
 import WifiIcon from '@mui/icons-material/Wifi';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
@@ -236,18 +239,31 @@ export default function Explore() {
   const [navValue, setNavValue] = React.useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [properties, setProperties] = useState([]);
+  const [roommates, setRoommates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedFacility, setSelectedFacility] = useState('');
+  const [priceRange, setPriceRange] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    loadProperties();
+    loadData();
   }, []);
 
-  const loadProperties = async () => {
+  const loadData = async () => {
     try {
-      const data = await propertyService.getAll();
-      setProperties(data);
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      setCurrentUser(user);
+      
+      const [propertiesData, roommatesData] = await Promise.all([
+        propertyService.getAll(),
+        user ? roommateService.getPotentialRoommates(user._id || user.id) : Promise.resolve([])
+      ]);
+      
+      setProperties(propertiesData);
+      setRoommates(roommatesData);
     } catch (error) {
-      console.error('Error loading properties:', error);
+      console.error('Error loading data:', error);
     } finally {
       setLoading(false);
     }
@@ -273,12 +289,30 @@ export default function Explore() {
     }
   };
 
-  // Only show user-uploaded properties from database
-  const filteredApartments = properties.filter(property =>
-    property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (property.type && property.type.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  // Filter properties by search, type, facility, and price
+  const filteredApartments = properties.filter(property => {
+    const matchesSearch = property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (property.type && property.type.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    const matchesType = !selectedType || 
+      (property.type && property.type.toLowerCase().includes(selectedType.toLowerCase()));
+    
+    const matchesFacility = !selectedFacility || 
+      (property.amenities && property.amenities.includes(selectedFacility)) ||
+      (property.facilities && property.facilities.includes(selectedFacility));
+    
+    let matchesPrice = true;
+    if (priceRange) {
+      const price = property.price;
+      if (priceRange === 'under300') matchesPrice = price < 300000;
+      else if (priceRange === '300-400') matchesPrice = price >= 300000 && price < 400000;
+      else if (priceRange === '400-500') matchesPrice = price >= 400000 && price < 500000;
+      else if (priceRange === 'over500') matchesPrice = price >= 500000;
+    }
+    
+    return matchesSearch && matchesType && matchesFacility && matchesPrice;
+  });
 
   return (
     <Box sx={{ 
@@ -499,7 +533,7 @@ export default function Explore() {
 
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography variant="h6" color="primary" fontWeight="bold">
-                          {property.price}
+                          {formatPriceWithPeriod(property.price, property.priceType || 'month')}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <Rating value={property.rating} readOnly size="small" />
@@ -525,7 +559,7 @@ export default function Explore() {
           )}
         </Box>
 
-        {/* Roommates in Kigali */}
+        {/* Roommates in Kigali - Real Users */}
         <Box sx={{ mb: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Typography variant="h5" component="h2" fontWeight="bold">
@@ -542,35 +576,47 @@ export default function Explore() {
           </Box>
 
           <Box sx={{ display: 'flex', gap: 2, overflowX: 'auto', pb: 1 }}>
-            {kigaliRoommates.map((roommate) => (
+            {roommates.slice(0, 6).map((roommate) => (
               <Card 
-                key={roommate.id} 
+                key={roommate._id} 
                 sx={{ 
                   minWidth: 280,
                   borderRadius: '12px',
                   cursor: 'pointer'
                 }}
-                onClick={() => navigate(`/roommate-profile/${roommate.id}`)}
+                onClick={() => navigate(`/match-profile/${roommate._id}`)}
               >
-                <CardMedia
-                  component="img"
-                  height="160"
-                  image={roommate.image}
-                  alt={roommate.name}
-                />
-                <CardContent>
-                  <Typography variant="h6" component="h3" gutterBottom fontWeight="bold">
-                    {roommate.name}, {roommate.age}
-                  </Typography>
+                <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Avatar
+                    src={roommate.avatar}
+                    sx={{ width: 60, height: 60, bgcolor: 'primary.main' }}
+                  >
+                    {roommate.name?.charAt(0)}
+                  </Avatar>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="h6" fontWeight="bold">
+                      {roommate.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {roommate.occupation || 'Professional'}
+                    </Typography>
+                    {roommate.matchScore && (
+                      <Chip 
+                        label={`${roommate.matchScore}% Match`} 
+                        size="small" 
+                        color="success"
+                        sx={{ mt: 0.5 }}
+                      />
+                    )}
+                  </Box>
+                </Box>
+                <CardContent sx={{ pt: 0 }}>
                   <Typography variant="body2" color="text.secondary" gutterBottom>
-                    {roommate.occupation}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    📍 {roommate.location}
+                    📍 {roommate.location || 'Kigali, Rwanda'}
                   </Typography>
                   
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
-                    {roommate.interests.slice(0, 3).map((interest, index) => (
+                    {(roommate.interests || []).slice(0, 3).map((interest, index) => (
                       <Chip 
                         key={index}
                         label={interest}
@@ -581,21 +627,11 @@ export default function Explore() {
                     ))}
                   </Box>
 
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-                    <Typography variant="h6" color="primary" fontWeight="bold">
-                      {roommate.budget}
+                  {roommate.preferences?.maxBudget && (
+                    <Typography variant="body2" color="primary" fontWeight="bold">
+                      Budget: {formatPriceWithPeriod(roommate.preferences.maxBudget)}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Rating value={roommate.rating} readOnly size="small" />
-                      <Typography variant="body2" sx={{ ml: 1 }}>
-                        {roommate.rating}
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
-                    Looking for: {roommate.lookingFor}
-                  </Typography>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -612,9 +648,10 @@ export default function Explore() {
               <Chip 
                 key={type} 
                 label={type} 
-                variant="outlined" 
+                variant={selectedType === type ? 'filled' : 'outlined'}
+                color={selectedType === type ? 'primary' : 'default'}
                 clickable 
-                onClick={() => setSearchQuery(type)}
+                onClick={() => setSelectedType(selectedType === type ? '' : type)}
                 sx={{ borderRadius: '8px' }}
               />
             ))}
@@ -631,19 +668,12 @@ export default function Explore() {
               <Chip 
                 key={facility} 
                 label={facility} 
-                variant="outlined" 
+                variant={selectedFacility === facility ? 'filled' : 'outlined'}
+                color={selectedFacility === facility ? 'primary' : 'default'}
                 clickable 
                 icon={getAmenityIcon(facility)}
                 sx={{ borderRadius: '8px' }}
-                onClick={() => {
-                  // Filter by facility
-                  const propertiesWithFacility = kigaliApartments.filter(prop => 
-                    prop.amenities.includes(facility)
-                  );
-                  if (propertiesWithFacility.length > 0) {
-                    setSearchQuery(facility);
-                  }
-                }}
+                onClick={() => setSelectedFacility(selectedFacility === facility ? '' : facility)}
               />
             ))}
           </Box>
@@ -652,21 +682,23 @@ export default function Explore() {
         {/* Price Range Filter */}
         <Box sx={{ mb: 3 }}>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
-            Price Range
+            Price Range (RWF)
           </Typography>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            {['Under $300', '$300-$400', '$400-$500', 'Over $500'].map((range) => (
+            {[
+              { label: 'Under 300K', value: 'under300' },
+              { label: '300K-400K', value: '300-400' },
+              { label: '400K-500K', value: '400-500' },
+              { label: 'Over 500K', value: 'over500' }
+            ].map((range) => (
               <Chip 
-                key={range} 
-                label={range} 
-                variant="outlined" 
+                key={range.value} 
+                label={range.label} 
+                variant={priceRange === range.value ? 'filled' : 'outlined'}
+                color={priceRange === range.value ? 'primary' : 'default'}
                 clickable 
                 sx={{ borderRadius: '8px' }}
-                onClick={() => {
-                  // Simple price filtering
-                  if (range === 'Under $300') setSearchQuery('Under');
-                  else if (range === 'Over $500') setSearchQuery('Over');
-                }}
+                onClick={() => setPriceRange(priceRange === range.value ? '' : range.value)}
               />
             ))}
           </Box>

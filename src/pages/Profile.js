@@ -32,6 +32,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import PeopleIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BookIcon from '@mui/icons-material/Book';
 
 // Get current user from localStorage
 const getCurrentUser = () => {
@@ -60,6 +61,7 @@ export default function Profile() {
     { icon: <SettingsIcon />, text: 'Settings', action: () => navigate('/settings') },
     { icon: <NotificationsIcon />, text: 'Notification', action: () => navigate('/notifications') },
     { icon: <ListIcon />, text: 'My Listings', action: () => navigate('/my-listing') },
+    { icon: <BookIcon />, text: 'Booking Requests', action: () => navigate('/booking-management') },
     { icon: <AddIcon />, text: 'List Your Space', action: () => navigate('/list-your-space') },
     { icon: <FavoriteIcon />, text: 'Favorites', action: () => navigate('/favorites') },
     { icon: <MessageIcon />, text: 'Messages', action: () => navigate('/messages') },

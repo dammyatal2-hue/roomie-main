@@ -29,12 +29,61 @@ router.get('/matches/user/:userId', async (req, res) => {
   }
 });
 
-// Get potential roommates (all users except current)
+// Get potential roommates with smart matching
 router.get('/potential/:userId', async (req, res) => {
   try {
+    const currentUser = await User.findById(req.params.userId);
     const users = await User.find({ _id: { $ne: req.params.userId } })
       .select('-password');
-    res.json(users);
+    
+    // Calculate match scores based on preferences
+    const usersWithScores = users.map(user => {
+      let score = 0;
+      const userPrefs = user.preferences || {};
+      const currentPrefs = currentUser.preferences || {};
+      
+      // Budget compatibility (20 points)
+      if (userPrefs.maxBudget && currentPrefs.maxBudget) {
+        const budgetDiff = Math.abs(userPrefs.maxBudget - currentPrefs.maxBudget);
+        score += Math.max(0, 20 - (budgetDiff / 50));
+      }
+      
+      // Cleanliness match (15 points)
+      if (userPrefs.cleanliness && currentPrefs.cleanliness) {
+        const cleanDiff = Math.abs(userPrefs.cleanliness - currentPrefs.cleanliness);
+        score += Math.max(0, 15 - (cleanDiff * 3));
+      }
+      
+      // Social level match (15 points)
+      if (userPrefs.socialLevel && currentPrefs.socialLevel) {
+        const socialDiff = Math.abs(userPrefs.socialLevel - currentPrefs.socialLevel);
+        score += Math.max(0, 15 - (socialDiff * 3));
+      }
+      
+      // Smoking compatibility (10 points)
+      if (userPrefs.smoking === currentPrefs.smoking) score += 10;
+      
+      // Pets compatibility (10 points)
+      if (userPrefs.pets === currentPrefs.pets || currentPrefs.petsTolerance) score += 10;
+      
+      // Location match (15 points)
+      if (user.location && currentUser.location && 
+          user.location.toLowerCase().includes(currentUser.location.toLowerCase())) {
+        score += 15;
+      }
+      
+      // Shared interests (15 points)
+      const userInterests = user.interests || [];
+      const currentInterests = currentUser.interests || [];
+      const sharedInterests = userInterests.filter(i => currentInterests.includes(i));
+      score += Math.min(15, sharedInterests.length * 3);
+      
+      return { ...user.toObject(), matchScore: Math.round(score) };
+    });
+    
+    // Sort by match score
+    usersWithScores.sort((a, b) => b.matchScore - a.matchScore);
+    res.json(usersWithScores);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

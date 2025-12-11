@@ -17,7 +17,8 @@ import {
 } from '@mui/material';
 import { LocationOn, Message, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { filterAndSortMatches, getCompatibilityLevel, getMatchDescription } from '../utils/matchingAlgorithm';
+import { roommateService } from '../services/roommateService';
+import { formatPriceWithPeriod } from '../utils/currency';
 
 const RoommateMatching = () => {
     const navigate = useNavigate();
@@ -29,77 +30,27 @@ const RoommateMatching = () => {
         loadMatches();
     }, []);
 
-    const loadMatches = () => {
+    const loadMatches = async () => {
         setLoading(true);
-        
-        // Simulate API call delay
-        setTimeout(() => {
-            // Get current user from localStorage (from Profile.js)
-            const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+        try {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user || (!user._id && !user.id)) {
+                setLoading(false);
+                return;
+            }
             
-            // Sample potential roommates data
-            const potentialRoommates = [
-                {
-                    id: 2,
-                    name: 'Alex Johnson',
-                    age: 25,
-                    occupation: 'Software Engineer',
-                    bio: 'Clean and quiet professional looking for a peaceful living environment.',
-                    budget: 1100,
-                    cleanliness: 'clean',
-                    sleepSchedule: 'normal',
-                    smoking: 'no',
-                    pets: 'no',
-                    image: '/alex.jpg'
-                },
-                {
-                    id: 3,
-                    name: 'Sarah Miller',
-                    age: 28,
-                    occupation: 'Graphic Designer',
-                    bio: 'Creative professional who enjoys cooking and occasional movie nights.',
-                    budget: 1300,
-                    cleanliness: 'very clean',
-                    sleepSchedule: 'night owl',
-                    smoking: 'no',
-                    pets: 'sometimes',
-                    image: '/sarah.jpg'
-                },
-                {
-                    id: 4,
-                    name: 'Mike Chen',
-                    age: 26,
-                    occupation: 'Marketing Manager',
-                    bio: 'Social and active, loves hiking and trying new restaurants.',
-                    budget: 1000,
-                    cleanliness: 'medium',
-                    sleepSchedule: 'early bird',
-                    smoking: 'sometimes',
-                    pets: 'yes',
-                    image: '/mike.jpg'
-                },
-                {
-                    id: 5,
-                    name: 'Emily Davis',
-                    age: 24,
-                    occupation: 'Teacher',
-                    bio: 'Looking for a friendly roommate to share expenses and occasional meals.',
-                    budget: 1200,
-                    cleanliness: 'clean',
-                    sleepSchedule: 'normal',
-                    smoking: 'no',
-                    pets: 'no',
-                    image: '/emily.jpg'
-                }
-            ];
-
-            setCurrentUser(userProfile);
+            const userId = user._id || user.id;
+            setCurrentUser(user);
             
-            // Use the matching algorithm
-            const matchedProfiles = filterAndSortMatches(potentialRoommates, userProfile);
-            setMatches(matchedProfiles);
+            // Load real users from database with match scores
+            const potentialRoommates = await roommateService.getPotentialRoommates(userId);
+            setMatches(potentialRoommates);
+        } catch (error) {
+            console.error('Error loading matches:', error);
+            setMatches([]);
+        } finally {
             setLoading(false);
-        }, 1500);
+        }
     };
 
     const handleSendMessage = (roommateId) => {
@@ -156,27 +107,34 @@ const RoommateMatching = () => {
                                     <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
                                         <Box display="flex" alignItems="center">
                                             <Avatar
-                                                src={match.image}
-                                                sx={{ width: 60, height: 60, mr: 2 }}
+                                                src={match.avatar}
+                                                sx={{ 
+                                                    width: 60, 
+                                                    height: 60, 
+                                                    mr: 2,
+                                                    bgcolor: 'primary.main'
+                                                }}
                                             >
-                                                {match.name.charAt(0)}
+                                                {match.name?.charAt(0)}
                                             </Avatar>
                                             <Box>
                                                 <Typography variant="h6">
                                                     {match.name}
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary">
-                                                    {match.age} • {match.occupation}
+                                                    {match.occupation || 'Professional'}
                                                 </Typography>
                                             </Box>
                                         </Box>
-                                        <Chip
-                                            label={`${match.matchScore}%`}
-                                            color={
-                                                match.matchScore >= 80 ? 'success' :
-                                                match.matchScore >= 60 ? 'warning' : 'error'
-                                            }
-                                        />
+                                        {match.matchScore && (
+                                            <Chip
+                                                label={`${match.matchScore}% Match`}
+                                                color={
+                                                    match.matchScore >= 80 ? 'success' :
+                                                    match.matchScore >= 60 ? 'warning' : 'default'
+                                                }
+                                            />
+                                        )}
                                     </Box>
 
                                     <Typography variant="body2" paragraph>
@@ -186,36 +144,63 @@ const RoommateMatching = () => {
                                     <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
                                         <Chip
                                             icon={<LocationOn />}
-                                            label={`$${match.budget}/month`}
+                                            label={match.location || 'Kigali, Rwanda'}
                                             size="small"
                                             variant="outlined"
                                         />
-                                        <Chip
-                                            label={`Clean: ${match.cleanliness}`}
-                                            size="small"
-                                            variant="outlined"
-                                        />
-                                        <Chip
-                                            label={`Sleep: ${match.sleepSchedule}`}
-                                            size="small"
-                                            variant="outlined"
-                                        />
+                                        {match.preferences?.maxBudget && (
+                                            <Chip
+                                                label={formatPriceWithPeriod(match.preferences.maxBudget)}
+                                                size="small"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                        {match.preferences?.cleanliness && (
+                                            <Chip
+                                                label={`Cleanliness: ${match.preferences.cleanliness}/5`}
+                                                size="small"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                        {match.preferences?.smoking !== undefined && (
+                                            <Chip
+                                                label={match.preferences.smoking ? 'Smoker' : 'Non-smoker'}
+                                                size="small"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                        {match.preferences?.pets !== undefined && (
+                                            <Chip
+                                                label={match.preferences.pets ? 'Has Pets' : 'No Pets'}
+                                                size="small"
+                                                variant="outlined"
+                                            />
+                                        )}
                                     </Box>
 
-                                    <Box mb={2}>
-                                        <Typography variant="body2" color="primary" fontWeight="bold">
-                                            {getCompatibilityLevel(match.matchScore)}
-                                        </Typography>
-                                        <Typography variant="caption" color="text.secondary">
-                                            {getMatchDescription(match.matchScore)}
-                                        </Typography>
-                                    </Box>
+                                    {match.interests && match.interests.length > 0 && (
+                                        <Box mb={2}>
+                                            <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                                                Interests:
+                                            </Typography>
+                                            <Box display="flex" flexWrap="wrap" gap={0.5}>
+                                                {match.interests.slice(0, 4).map((interest, idx) => (
+                                                    <Chip
+                                                        key={idx}
+                                                        label={interest}
+                                                        size="small"
+                                                        sx={{ fontSize: '0.7rem' }}
+                                                    />
+                                                ))}
+                                            </Box>
+                                        </Box>
+                                    )}
 
                                     <Box display="flex" gap={1}>
                                         <Button 
                                             variant="contained" 
                                             fullWidth
-                                            onClick={() => navigate(`/roommate-profile/${match.id}`)}
+                                            onClick={() => navigate(`/match-profile/${match._id}`)}
                                             sx={{
                                                 background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
                                                 '&:hover': {

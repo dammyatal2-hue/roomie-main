@@ -18,7 +18,7 @@ import {
   Grid,
   Avatar
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import ExploreIcon from '@mui/icons-material/Explore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -160,17 +160,7 @@ const kigaliApartments = [
   }
 ];
 
-// Popular neighborhoods in Kigali
-const kigaliNeighborhoods = [
-  { name: "Nyarutarama", count: "15 properties", description: "Upscale residential area" },
-  { name: "Kacyiru", count: "12 properties", description: "Government district" },
-  { name: "Kimihurura", count: "10 properties", description: "Diplomatic area" },
-  { name: "Kicukiro", count: "18 properties", description: "Residential and commercial" },
-  { name: "Remera", count: "14 properties", description: "Sports and residential" },
-  { name: "Gisozi", count: "8 properties", description: "Historic area" },
-  { name: "Kiyovu", count: "6 properties", description: "Prestigious neighborhood" },
-  { name: "Gikondo", count: "11 properties", description: "Industrial and residential" }
-];
+
 
 // Roommate listings in Kigali
 const kigaliRoommates = [
@@ -236,6 +226,7 @@ const getAmenityIcon = (amenity) => {
 
 export default function Explore() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [navValue, setNavValue] = React.useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [properties, setProperties] = useState([]);
@@ -248,7 +239,11 @@ export default function Explore() {
 
   useEffect(() => {
     loadData();
-  }, []);
+    // Set search query if passed from Home page
+    if (location.state?.searchQuery) {
+      setSearchQuery(location.state.searchQuery);
+    }
+  }, [location.state]);
 
   const loadData = async () => {
     try {
@@ -268,6 +263,31 @@ export default function Explore() {
       setLoading(false);
     }
   };
+
+  // Extract real neighborhoods from properties
+  const getKigaliNeighborhoods = () => {
+    const locationCounts = {};
+    properties.forEach(property => {
+      if (property.location) {
+        // Extract neighborhood name (first part before comma)
+        const neighborhood = property.location.split(',')[0].trim();
+        locationCounts[neighborhood] = (locationCounts[neighborhood] || 0) + 1;
+      }
+    });
+    
+    return Object.entries(locationCounts)
+      .map(([name, count]) => ({
+        name,
+        count: `${count} ${count === 1 ? 'property' : 'properties'}`
+      }))
+      .sort((a, b) => {
+        const countA = parseInt(a.count);
+        const countB = parseInt(b.count);
+        return countB - countA;
+      });
+  };
+
+  const kigaliNeighborhoods = getKigaliNeighborhoods();
 
   const handleNavigation = (newValue) => {
     setNavValue(newValue);
@@ -372,40 +392,42 @@ export default function Explore() {
         />
 
         {/* Kigali Neighborhoods */}
-        <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h5" component="h2" fontWeight="bold">
-              Kigali Neighborhoods
-            </Typography>
-            <Typography 
-              variant="body2" 
-              color="primary" 
-              sx={{ cursor: 'pointer' }}
-            >
-              See all
-            </Typography>
-          </Box>
+        {kigaliNeighborhoods.length > 0 && (
+          <Box sx={{ mb: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Typography variant="h5" component="h2" fontWeight="bold">
+                Kigali Neighborhoods
+              </Typography>
+              <Typography 
+                variant="body2" 
+                color="primary" 
+                sx={{ cursor: 'pointer' }}
+              >
+                {kigaliNeighborhoods.length} areas
+              </Typography>
+            </Box>
 
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            {kigaliNeighborhoods.map((neighborhood, index) => (
-              <Chip
-                key={index}
-                icon={<PlaceIcon />}
-                label={`${neighborhood.name} • ${neighborhood.count}`}
-                variant="outlined"
-                onClick={() => setSearchQuery(neighborhood.name)}
-                sx={{ 
-                  mb: 1,
-                  borderRadius: '8px',
-                  padding: '8px 12px',
-                  '& .MuiChip-label': {
-                    padding: '0 8px'
-                  }
-                }}
-              />
-            ))}
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+              {kigaliNeighborhoods.map((neighborhood, index) => (
+                <Chip
+                  key={index}
+                  icon={<PlaceIcon />}
+                  label={`${neighborhood.name} • ${neighborhood.count}`}
+                  variant="outlined"
+                  onClick={() => setSearchQuery(neighborhood.name)}
+                  sx={{ 
+                    mb: 1,
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                    '& .MuiChip-label': {
+                      padding: '0 8px'
+                    }
+                  }}
+                />
+              ))}
+            </Box>
           </Box>
-        </Box>
+        )}
 
         {/* Apartments in Kigali */}
         <Box sx={{ mb: 3 }}>

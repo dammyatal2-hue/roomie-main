@@ -16,6 +16,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { propertyService } from '../services/propertyService';
 import { roommateService } from '../services/roommateService';
 import UserProfile from '../components/UserProfile';
+import { formatPriceWithPeriod } from '../utils/currency';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export default function Home() {
   const [roommates, setRoommates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     loadData();
@@ -82,7 +84,13 @@ export default function Home() {
         <TextField
           fullWidth
           placeholder="Search properties, roommates..."
-          onClick={() => navigate('/search')}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter' && searchQuery.trim()) {
+              navigate('/explore', { state: { searchQuery: searchQuery.trim() } });
+            }
+          }}
           sx={{
             mb: 3,
             '& .MuiOutlinedInput-root': {
@@ -96,7 +104,14 @@ export default function Home() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: '#999' }} />
+                <SearchIcon 
+                  sx={{ color: '#999', cursor: 'pointer' }}
+                  onClick={() => {
+                    if (searchQuery.trim()) {
+                      navigate('/explore', { state: { searchQuery: searchQuery.trim() } });
+                    }
+                  }}
+                />
               </InputAdornment>
             )
           }}
@@ -165,7 +180,7 @@ export default function Home() {
                       sx={{ objectFit: 'cover' }}
                     />
                     <Chip
-                      label={`$${property.price}/${property.priceType}`}
+                      label={formatPriceWithPeriod(property.price, property.priceType || 'month')}
                       sx={{
                         position: 'absolute',
                         top: 12,

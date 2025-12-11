@@ -17,6 +17,7 @@ import { Delete, LocationOn, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import favoriteService from '../services/favoriteService';
+import { formatPriceWithPeriod } from '../utils/currency';
 
 const FavoriteCard = styled(Card)({
   marginBottom: '16px',
@@ -136,7 +137,7 @@ export default function Favorites() {
                     </Box>
 
                     <PriceText variant="h5" gutterBottom>
-                      ${property.price}/{property.priceType || 'month'}
+                      {formatPriceWithPeriod(property.price, property.priceType || 'month')}
                     </PriceText>
 
                     <Typography variant="body2" color="text.secondary" paragraph>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -13,12 +13,12 @@ import {
   Chip,
   Slider,
   FormControlLabel,
-  Switch
+  Switch,
+  CircularProgress
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import MessageIcon from '@mui/icons-material/Message';
 import CallIcon from '@mui/icons-material/Call';
 import EmailIcon from '@mui/icons-material/Email';
@@ -28,9 +28,10 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import GroupIcon from '@mui/icons-material/Group';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import api from '../services/api';
+import { formatPriceWithPeriod } from '../utils/currency';
 
-// Mock match data
-const matchData = {
+const sampleMatchData = {
   id: 'sarah-johnson-456',
   name: 'Sarah Johnson',
   username: 'Sarah',
@@ -70,7 +71,25 @@ const matchData = {
 export default function MatchProfile() {
   const navigate = useNavigate();
   const { userId } = useParams();
-  const [isApproved, setIsApproved] = useState(false);
+  const [matchData, setMatchData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [matchSent, setMatchSent] = useState(false);
+
+  useEffect(() => {
+    loadUserProfile();
+  }, [userId]);
+
+  const loadUserProfile = async () => {
+    try {
+      const { data } = await api.get(`/users/${userId}`);
+      setMatchData(data);
+    } catch (error) {
+      console.error('Error loading user:', error);
+      setMatchData(sampleMatchData);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const calculateAge = (dateOfBirth) => {
     const today = new Date();
@@ -92,14 +111,33 @@ export default function MatchProfile() {
     return labels[type][value] || 'Balanced';
   };
 
-  const handleApprove = () => {
-    setIsApproved(true);
-    alert(`Match approved! You can now contact ${matchData.name}.`);
-  };
+  const handleSendMatch = async () => {
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const fromUserId = currentUser._id || currentUser.id;
 
-  const handleDecline = () => {
-    alert(`Match declined with ${matchData.name}.`);
-    navigate('/notifications');
+      await api.post('/roommates/matches', {
+        fromUserId,
+        toUserId: userId,
+        message: `Hi! I'd like to connect as potential roommates.`
+      });
+
+      // Send notification to the profile owner
+      await api.post('/notifications', {
+        userId: userId,
+        type: 'match',
+        title: 'New Match Request',
+        message: `${currentUser.name} wants to match with you as a roommate!`,
+        relatedId: fromUserId,
+        read: false
+      });
+
+      setMatchSent(true);
+      alert(`Match request sent to ${matchData.name}!`);
+    } catch (error) {
+      console.error('Error sending match:', error);
+      alert('Failed to send match request');
+    }
   };
 
   const LifestyleSection = () => (
@@ -117,7 +155,7 @@ export default function MatchProfile() {
               Cleanliness Level
             </Typography>
             <Slider
-              value={matchData.cleanliness}
+              value={matchData.preferences?.cleanliness || 3}
               min={1}
               max={5}
               marks={[
@@ -129,7 +167,7 @@ export default function MatchProfile() {
               disabled
             />
             <Typography variant="body2" color="text.secondary" textAlign="center">
-              {getSliderLabel(matchData.cleanliness, 'cleanliness')}
+              {getSliderLabel(matchData.preferences?.cleanliness || 3, 'cleanliness')}
             </Typography>
           </Box>
 
@@ -139,7 +177,7 @@ export default function MatchProfile() {
               Social Level
             </Typography>
             <Slider
-              value={matchData.socialLevel}
+              value={matchData.preferences?.socialLevel || 3}
               min={1}
               max={5}
               marks={[
@@ -151,7 +189,7 @@ export default function MatchProfile() {
               disabled
             />
             <Typography variant="body2" color="text.secondary" textAlign="center">
-              {getSliderLabel(matchData.socialLevel, 'socialLevel')}
+              {getSliderLabel(matchData.preferences?.socialLevel || 3, 'socialLevel')}
             </Typography>
           </Box>
         </Grid>
@@ -160,7 +198,7 @@ export default function MatchProfile() {
           <FormControlLabel
             control={
               <Switch
-                checked={matchData.smoking}
+                checked={matchData.preferences?.smoking || false}
                 disabled
                 color="primary"
               />
@@ -168,7 +206,7 @@ export default function MatchProfile() {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <SmokeFreeIcon fontSize="small" />
-                Smoking Allowed
+                {matchData.preferences?.smoking ? 'Smoker' : 'Non-smoker'}
               </Box>
             }
           />
@@ -176,7 +214,7 @@ export default function MatchProfile() {
           <FormControlLabel
             control={
               <Switch
-                checked={matchData.pets}
+                checked={matchData.preferences?.pets || false}
                 disabled
                 color="primary"
               />
@@ -184,49 +222,42 @@ export default function MatchProfile() {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <PetsIcon fontSize="small" />
-                Have Pets
+                {matchData.preferences?.pets ? 'Has Pets' : 'No Pets'}
               </Box>
             }
             sx={{ display: 'block', mt: 1 }}
           />
-
-          {!matchData.pets && (
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={matchData.petsTolerance}
-                  disabled
-                  color="primary"
-                />
-              }
-              label="Okay with roommate's pets"
-              sx={{ display: 'block', mt: 1 }}
-            />
-          )}
-
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="body2" fontWeight="bold">Guest Policy</Typography>
-            <Typography variant="body2" color="text.secondary">
-              {matchData.guests === 'rare' ? 'Rarely have guests' :
-               matchData.guests === 'occasional' ? 'Occasional guests' :
-               'Frequently have guests'}
-            </Typography>
-          </Box>
         </Grid>
       </Grid>
     </Paper>
   );
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!matchData) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Typography>User not found</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
       {/* Header */}
       <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={() => navigate('/notifications')}>
+          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6" component="h1" sx={{ flex: 1, fontWeight: 'bold' }}>
-            Match Request
+            Roommate Profile
           </Typography>
         </Toolbar>
       </AppBar>
@@ -247,9 +278,16 @@ export default function MatchProfile() {
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             {matchData.name}
           </Typography>
-          <Typography variant="body1" color="primary" fontWeight="bold">
-            Wants to match with you as a roommate
+          <Typography variant="body1" color="text.secondary">
+            {matchData.occupation || 'Professional'}
           </Typography>
+          {matchData.matchScore && (
+            <Chip 
+              label={`${matchData.matchScore}% Match`} 
+              color="success"
+              sx={{ mt: 1 }}
+            />
+          )}
         </Paper>
 
         {/* Basic Information */}
@@ -265,21 +303,23 @@ export default function MatchProfile() {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body2" fontWeight="bold">Email</Typography>
+              <Typography variant="body2" fontWeight="bold">Location</Typography>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                {isApproved ? matchData.email : 'Hidden until approved'}
+                {matchData.location || 'Kigali, Rwanda'}
               </Typography>
             </Grid>
+            {matchData.preferences?.maxBudget && (
+              <Grid item xs={12} sm={6}>
+                <Typography variant="body2" fontWeight="bold">Budget</Typography>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  {formatPriceWithPeriod(matchData.preferences.maxBudget)}
+                </Typography>
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
-              <Typography variant="body2" fontWeight="bold">Phone</Typography>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                {isApproved ? matchData.phone : 'Hidden until approved'}
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
               <Typography variant="body2" fontWeight="bold">Occupation</Typography>
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                {matchData.occupation}
+                {matchData.occupation || 'Not specified'}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -300,102 +340,38 @@ export default function MatchProfile() {
             Interests & Hobbies
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {matchData.interests.map((interest) => (
-              <Chip key={interest} label={interest} size="small" />
+            {(matchData.interests || []).map((interest, idx) => (
+              <Chip key={idx} label={interest} size="small" />
             ))}
           </Box>
         </Paper>
 
-        {/* Action Buttons */}
-        {!isApproved ? (
-          <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              startIcon={<CloseIcon />}
-              onClick={handleDecline}
-              sx={{ py: 2, borderRadius: '12px', color: 'error.main', borderColor: 'error.main', fontWeight: 'bold' }}
-            >
-              Decline
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              startIcon={<CheckIcon />}
-              onClick={handleApprove}
-              sx={{ 
-                py: 2,
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
-                fontWeight: 'bold'
-              }}
-            >
-              Approve Match
-            </Button>
-          </Box>
+        {/* Match Button */}
+        {matchSent ? (
+          <Paper elevation={1} sx={{ p: 3, borderRadius: '12px', textAlign: 'center', bgcolor: 'success.light' }}>
+            <Typography variant="h6" fontWeight="bold" color="success.dark" gutterBottom>
+              Match Request Sent! ✅
+            </Typography>
+            <Typography variant="body2" color="success.dark">
+              {matchData.name} will be notified and can accept or decline your request.
+            </Typography>
+          </Paper>
         ) : (
-          <Box>
-            <Paper elevation={1} sx={{ p: 3, mb: 3, borderRadius: '12px', textAlign: 'center', bgcolor: 'success.light' }}>
-              <Typography variant="h6" fontWeight="bold" color="success.dark" gutterBottom>
-                Match Approved! 🎉
-              </Typography>
-              <Typography variant="body2" color="success.dark">
-                You can now contact {matchData.name} using the details below
-              </Typography>
-            </Paper>
-
-            {/* Contact Information */}
-            <Paper elevation={1} sx={{ p: 3, mb: 3, borderRadius: '12px' }}>
-              <Typography variant="h6" fontWeight="bold" gutterBottom>
-                Contact Information
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body2" fontWeight="bold">Email</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {matchData.email}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="body2" fontWeight="bold">Phone</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {matchData.phone}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Paper>
-
-            {/* Contact Buttons */}
-            <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button
-                variant="contained"
-                startIcon={<MessageIcon />}
-                sx={{
-                  flex: 1,
-                  py: 2,
-                  borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
-                  fontWeight: 'bold'
-                }}
-              >
-                Message
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<CallIcon />}
-                sx={{ flex: 1, py: 2, borderRadius: '12px', fontWeight: 'bold' }}
-              >
-                Call
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<EmailIcon />}
-                sx={{ flex: 1, py: 2, borderRadius: '12px', fontWeight: 'bold' }}
-              >
-                Email
-              </Button>
-            </Box>
-          </Box>
+          <Button
+            fullWidth
+            variant="contained"
+            startIcon={<FavoriteIcon />}
+            onClick={handleSendMatch}
+            sx={{ 
+              py: 2,
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
+              fontWeight: 'bold',
+              fontSize: '1.1rem'
+            }}
+          >
+            Send Match Request
+          </Button>
         )}
       </Container>
     </Box>

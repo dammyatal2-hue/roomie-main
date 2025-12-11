@@ -33,6 +33,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookIcon from '@mui/icons-material/Book';
+import api from '../services/api';
+import favoriteService from '../services/favoriteService';
 
 // Get current user from localStorage
 const getCurrentUser = () => {
@@ -48,14 +50,40 @@ const getCurrentUser = () => {
 export default function Profile() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(getCurrentUser());
+  const [stats, setStats] = useState({ favorites: 0, listings: 0, messages: 0 });
 
   useEffect(() => {
     const handleStorageChange = () => {
       setCurrentUser(getCurrentUser());
     };
     window.addEventListener('storage', handleStorageChange);
+    loadStats();
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
+
+  const loadStats = async () => {
+    try {
+      const user = getCurrentUser();
+      const userId = user._id || user.id;
+      if (!userId) return;
+
+      const [favoritesData, listingsResponse, messagesResponse] = await Promise.all([
+        favoriteService.getAll(userId),
+        api.get(`/properties/owner/${userId}`),
+        api.get(`/messages/user/${userId}`)
+      ]);
+
+      const unreadMessages = messagesResponse.data.filter(msg => !msg.read && msg.receiverId === userId);
+
+      setStats({
+        favorites: favoritesData.length,
+        listings: listingsResponse.data.length,
+        messages: unreadMessages.length
+      });
+    } catch (error) {
+      console.error('Error loading stats:', error);
+    }
+  };
 
   const menuItems = [
     { icon: <SettingsIcon />, text: 'Settings', action: () => navigate('/settings') },
@@ -125,7 +153,7 @@ export default function Profile() {
         <Box sx={{ display: 'flex', justifyContent: 'space-around', mb: 3, textAlign: 'center' }}>
           <Box>
             <Typography variant="h6" fontWeight="bold" color="primary">
-              12
+              {stats.favorites}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Favorites
@@ -133,7 +161,7 @@ export default function Profile() {
           </Box>
           <Box>
             <Typography variant="h6" fontWeight="bold" color="primary">
-              3
+              {stats.listings}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Listings
@@ -141,7 +169,7 @@ export default function Profile() {
           </Box>
           <Box>
             <Typography variant="h6" fontWeight="bold" color="primary">
-              8
+              {stats.messages}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Messages

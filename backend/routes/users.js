@@ -48,16 +48,21 @@ router.put('/:id', async (req, res) => {
 // Update user preferences
 router.patch('/:id/preferences', async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { preferences: req.body },
-      { new: true }
-    ).select('-password');
+    console.log('Updating preferences for user:', req.params.id);
+    console.log('Preferences data:', req.body);
+    
+    const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.json(user);
+    
+    user.preferences = req.body;
+    await user.save();
+    
+    const updatedUser = await User.findById(req.params.id).select('-password');
+    res.json(updatedUser);
   } catch (error) {
+    console.error('Error updating preferences:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });

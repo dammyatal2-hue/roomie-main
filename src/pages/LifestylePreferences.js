@@ -158,15 +158,25 @@ export default function LifestylePreferences() {
   const handleSave = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('currentUser'));
-      if (user && (user._id || user.id)) {
-        const userId = user._id || user.id;
-        await api.patch(`/users/${userId}/preferences`, preferences);
-        alert('Preferences saved successfully!');
-        navigate('/profile');
+      if (!user || (!user._id && !user.id)) {
+        alert('Please login to save preferences');
+        navigate('/login');
+        return;
       }
+      
+      const userId = user._id || user.id;
+      console.log('Saving preferences for user:', userId);
+      console.log('Preferences data:', preferences);
+      
+      const response = await api.patch(`/users/${userId}/preferences`, preferences);
+      console.log('Save response:', response.data);
+      
+      alert('Preferences saved successfully!');
+      navigate('/profile');
     } catch (error) {
       console.error('Error saving preferences:', error);
-      alert('Failed to save preferences');
+      console.error('Error details:', error.response?.data);
+      alert(`Failed to save preferences: ${error.response?.data?.message || error.message}`);
     }
   };
 

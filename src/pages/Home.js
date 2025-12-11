@@ -17,6 +17,7 @@ import { propertyService } from '../services/propertyService';
 import { roommateService } from '../services/roommateService';
 import UserProfile from '../components/UserProfile';
 import { formatPriceWithPeriod } from '../utils/currency';
+import TopNav from '../components/TopNav';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -57,28 +58,20 @@ export default function Home() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', background: 'linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%)', pb: 8 }}>
-      <AppBar position="static" elevation={0} sx={{ background: 'white', borderBottom: '1px solid #E0E0E0' }}>
-        <Toolbar sx={{ justifyContent: 'space-between', py: 1.5 }}>
-          <Box>
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontSize: '0.7rem' }}>
-              Your Location
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.3 }}>
-              <LocationOnIcon sx={{ color: '#FF385C', fontSize: 18 }} />
-              <Typography variant="body2" fontWeight={600} sx={{ color: '#222' }}>
-                {currentUser?.location || 'Kigali, Rwanda'}
-              </Typography>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <IconButton onClick={() => navigate('/notifications')} sx={{ background: '#F7F7F7' }}>
-              <NotificationsIcon sx={{ fontSize: 22 }} />
-            </IconButton>
-            <UserProfile />
-          </Box>
-        </Toolbar>
-      </AppBar>
+    <Box sx={{ minHeight: '100vh', background: 'linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%)', pt: 8 }}>
+      <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, background: 'white', borderBottom: '1px solid #E0E0E0', zIndex: 1000 }}>
+        <BottomNavigation
+          showLabels
+          value={navValue}
+          onChange={(e, newValue) => handleNavigation(newValue)}
+          sx={{ height: 64 }}
+        >
+          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+          <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
+          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+          <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
+        </BottomNavigation>
+      </Box>
 
       <Container maxWidth="lg" sx={{ py: 3 }}>
         <TextField
@@ -298,19 +291,7 @@ export default function Home() {
         </Box>
       </Container>
 
-      <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'white', borderTop: '1px solid #E0E0E0', zIndex: 1000 }}>
-        <BottomNavigation
-          showLabels
-          value={navValue}
-          onChange={(e, newValue) => handleNavigation(newValue)}
-          sx={{ height: 64 }}
-        >
-          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-          <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
-          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
-        </BottomNavigation>
-      </Box>
+
     </Box>
   );
 }

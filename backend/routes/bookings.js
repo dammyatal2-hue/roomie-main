@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
     console.log('Booking created:', newBooking._id);
     
     const property = await Property.findById(req.body.propertyId).populate('ownerId');
-    const guest = await User.findById(req.body.userId);
+    const guest = await User.findById(req.body.guestId || req.body.userId);
     
     console.log('Property owner:', property?.ownerId?._id);
     console.log('Guest:', guest?._id);
@@ -87,15 +87,15 @@ router.post('/', async (req, res) => {
       // Create initial message
       const Message = require('../models/Message');
       const message = await Message.create({
-        senderId: req.body.userId,
+        senderId: req.body.guestId || req.body.userId,
         receiverId: property.ownerId._id,
-        message: `Hi! I'm interested in booking your property "${property.title}". Can we discuss the details?`,
+        content: `Hi! I'm interested in booking your property "${property.title}". Can we discuss the details?`,
         read: false
       });
       console.log('Message created:', message._id);
     }
     
-    res.status(201).json({ booking: newBooking, ownerId: property.ownerId._id });
+    res.status(201).json(newBooking);
   } catch (error) {
     console.error('Booking error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });

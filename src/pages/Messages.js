@@ -21,6 +21,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
+import BottomNavBar from '../components/BottomNavBar';
 
 const conversations = [
   {
@@ -113,7 +114,7 @@ export default function Messages() {
   );
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
+    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', pb: 8 }}>
       <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
         <Toolbar>
           <IconButton edge="start" color="inherit" onClick={() => navigate(-1)}>
@@ -264,6 +265,7 @@ export default function Messages() {
           </Paper>
         )}
       </Container>
+      <BottomNavBar />
     </Box>
   );
 }

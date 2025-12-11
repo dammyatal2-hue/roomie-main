@@ -35,6 +35,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookIcon from '@mui/icons-material/Book';
 import api from '../services/api';
 import favoriteService from '../services/favoriteService';
+import BottomNavBar from '../components/BottomNavBar';
 
 // Get current user from localStorage
 const getCurrentUser = () => {
@@ -100,7 +101,7 @@ export default function Profile() {
   ];
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
+    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', pb: 8 }}>
       {/* Header */}
       <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
         <Toolbar>
@@ -325,6 +326,7 @@ export default function Profile() {
           </Button>
         </Paper>
       </Container>
+      <BottomNavBar />
     </Box>
   );
 }

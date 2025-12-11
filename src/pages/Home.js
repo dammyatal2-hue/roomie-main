@@ -18,6 +18,7 @@ import { roommateService } from '../services/roommateService';
 import UserProfile from '../components/UserProfile';
 import { formatPriceWithPeriod } from '../utils/currency';
 import TopNav from '../components/TopNav';
+import BottomNavBar from '../components/BottomNavBar';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -58,20 +59,7 @@ export default function Home() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', background: 'linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%)', pt: 8 }}>
-      <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, background: 'white', borderBottom: '1px solid #E0E0E0', zIndex: 1000 }}>
-        <BottomNavigation
-          showLabels
-          value={navValue}
-          onChange={(e, newValue) => handleNavigation(newValue)}
-          sx={{ height: 64 }}
-        >
-          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-          <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
-          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
-        </BottomNavigation>
-      </Box>
+    <Box sx={{ minHeight: '100vh', background: 'linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%)', pb: 8 }}>
 
       <Container maxWidth="lg" sx={{ py: 3 }}>
         <TextField
@@ -290,8 +278,7 @@ export default function Home() {
           )}
         </Box>
       </Container>
-
-
+      <BottomNavBar />
     </Box>
   );
 }

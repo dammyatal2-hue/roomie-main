@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import favoriteService from '../services/favoriteService';
 import { formatPriceWithPeriod } from '../utils/currency';
+import BottomNavBar from '../components/BottomNavBar';
 
 const FavoriteCard = styled(Card)({
   marginBottom: '16px',
@@ -77,7 +78,7 @@ export default function Favorites() {
   }
 
   return (
-    <Box>
+    <Box sx={{ pb: 8 }}>
       <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
         <Toolbar>
           <IconButton edge="start" onClick={() => navigate(-1)} sx={{ mr: 2 }}>
@@ -168,6 +169,7 @@ export default function Favorites() {
         </Typography>
       </Box>
       </Box>
+      <BottomNavBar />
     </Box>
   );
 }

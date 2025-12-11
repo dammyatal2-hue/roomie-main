@@ -29,6 +29,7 @@ import UserProfile from '../components/UserProfile';
 import propertyService from '../services/propertyService';
 import { roommateService } from '../services/roommateService';
 import { formatPriceWithPeriod } from '../utils/currency';
+import BottomNavBar from '../components/BottomNavBar';
 import WifiIcon from '@mui/icons-material/Wifi';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
@@ -727,21 +728,7 @@ export default function Explore() {
         </Box>
       </Container>
 
-      {/* Bottom Navigation */}
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
-        <BottomNavigation
-          showLabels
-          value={navValue}
-          onChange={(event, newValue) => {
-            handleNavigation(newValue);
-          }}
-        >
-          <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-          <BottomNavigationAction label="Explore" icon={<ExploreIcon />} />
-          <BottomNavigationAction label="Favorite" icon={<FavoriteIcon />} />
-          <BottomNavigationAction label="Profile" icon={<PersonIcon />} />
-        </BottomNavigation>
-      </Paper>
+      <BottomNavBar />
     </Box>
   );
 }

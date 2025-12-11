@@ -30,6 +30,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import api from '../services/api';
 import { formatPriceWithPeriod } from '../utils/currency';
+import LifestyleDisplay from '../components/LifestyleDisplay';
 
 const sampleMatchData = {
   id: 'sarah-johnson-456',
@@ -140,97 +141,7 @@ export default function MatchProfile() {
     }
   };
 
-  const LifestyleSection = () => (
-    <Paper elevation={1} sx={{ p: 3, mb: 3, borderRadius: '12px' }}>
-      <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <EmojiEmotionsIcon color="primary" />
-        Lifestyle Preferences
-      </Typography>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <Box sx={{ mb: 3 }}>
-            <Typography gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CleaningServicesIcon fontSize="small" />
-              Cleanliness Level
-            </Typography>
-            <Slider
-              value={matchData.preferences?.cleanliness || 3}
-              min={1}
-              max={5}
-              marks={[
-                { value: 1, label: 'Relaxed' },
-                { value: 3, label: 'Balanced' },
-                { value: 5, label: 'Very Clean' }
-              ]}
-              valueLabelDisplay="auto"
-              disabled
-            />
-            <Typography variant="body2" color="text.secondary" textAlign="center">
-              {getSliderLabel(matchData.preferences?.cleanliness || 3, 'cleanliness')}
-            </Typography>
-          </Box>
-
-          <Box sx={{ mb: 3 }}>
-            <Typography gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <GroupIcon fontSize="small" />
-              Social Level
-            </Typography>
-            <Slider
-              value={matchData.preferences?.socialLevel || 3}
-              min={1}
-              max={5}
-              marks={[
-                { value: 1, label: 'Quiet' },
-                { value: 3, label: 'Balanced' },
-                { value: 5, label: 'Very Social' }
-              ]}
-              valueLabelDisplay="auto"
-              disabled
-            />
-            <Typography variant="body2" color="text.secondary" textAlign="center">
-              {getSliderLabel(matchData.preferences?.socialLevel || 3, 'socialLevel')}
-            </Typography>
-          </Box>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={matchData.preferences?.smoking || false}
-                disabled
-                color="primary"
-              />
-            }
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <SmokeFreeIcon fontSize="small" />
-                {matchData.preferences?.smoking ? 'Smoker' : 'Non-smoker'}
-              </Box>
-            }
-          />
-
-          <FormControlLabel
-            control={
-              <Switch
-                checked={matchData.preferences?.pets || false}
-                disabled
-                color="primary"
-              />
-            }
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <PetsIcon fontSize="small" />
-                {matchData.preferences?.pets ? 'Has Pets' : 'No Pets'}
-              </Box>
-            }
-            sx={{ display: 'block', mt: 1 }}
-          />
-        </Grid>
-      </Grid>
-    </Paper>
-  );
 
   if (loading) {
     return (
@@ -332,7 +243,7 @@ export default function MatchProfile() {
         </Paper>
 
         {/* Lifestyle Preferences */}
-        <LifestyleSection />
+        {matchData.preferences && <LifestyleDisplay preferences={matchData.preferences} />}
 
         {/* Interests */}
         <Paper elevation={1} sx={{ p: 3, mb: 3, borderRadius: '12px' }}>

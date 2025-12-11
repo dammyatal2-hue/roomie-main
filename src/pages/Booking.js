@@ -93,27 +93,34 @@ export default function Booking() {
       const ownerId = typeof property.ownerId === 'object' ? property.ownerId._id : property.ownerId;
       
       const bookingPayload = {
-        userId,
+        guestId: userId,
         propertyId: property._id,
         ownerId,
         checkIn: bookingData.checkIn,
         checkOut: bookingData.checkOut,
-        specialNeeds: bookingData.specialNeeds
+        specialNeeds: bookingData.specialNeeds,
+        status: 'pending'
       };
       
+      console.log('Creating booking:', bookingPayload);
       const { data } = await api.post('/bookings', bookingPayload);
+      console.log('Booking created:', data);
       
-      alert('Booking confirmed! Owner has been notified.');
+      // Send notification to property owner
+      await api.post('/notifications', {
+        userId: ownerId,
+        type: 'booking',
+        title: 'New Booking Request',
+        message: `${user.name} wants to book ${property.title} from ${bookingData.checkIn} to ${bookingData.checkOut}`,
+        relatedId: data._id,
+        read: false
+      });
+      
       setStep(3);
-      
-      if (data.ownerId) {
-        setTimeout(() => {
-          navigate(`/chat/${data.ownerId}`);
-        }, 2000);
-      }
     } catch (error) {
       console.error('Booking error:', error);
-      alert('Failed to create booking: ' + error.message);
+      console.error('Error details:', error.response?.data);
+      alert('Failed to create booking: ' + (error.response?.data?.message || error.message));
     }
   };
 

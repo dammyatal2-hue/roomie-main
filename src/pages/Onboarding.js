@@ -51,7 +51,7 @@ export default function Onboarding() {
       display: 'flex', 
       flexDirection: 'column'
     }}>
-      {/* Header with time and skip */}
+      {/* Header with skip button */}
       <AppBar 
         position="static" 
         elevation={0} 
@@ -60,10 +60,7 @@ export default function Onboarding() {
           padding: '16px 0'
         }}
       >
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="body2" color="white" sx={{ fontWeight: 'bold' }}>
-            09:41
-          </Typography>
+        <Toolbar sx={{ justifyContent: 'flex-end' }}>
           <Button 
             onClick={handleSkip}
             sx={{ 

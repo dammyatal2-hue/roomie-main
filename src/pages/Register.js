@@ -78,15 +78,6 @@ export default function Register() {
 
   return (
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
-      {/* Header with time */}
-      <AppBar position="static" elevation={0} sx={{ background: 'white' }}>
-        <Toolbar sx={{ justifyContent: 'center' }}>
-          <Typography variant="body2" color="text.primary" sx={{ fontWeight: 'bold' }}>
-            09:41
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
       <Container maxWidth="sm">
         <Box sx={{ py: 4 }}>
           <Paper elevation={2} sx={{ p: 4, borderRadius: '16px' }}>

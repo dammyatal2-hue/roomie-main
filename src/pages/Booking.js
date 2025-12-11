@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -17,24 +17,24 @@ import {
   Grid,
   Alert
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
-const property = {
-  id: 1,
-  title: "Rose Garden",
-  location: "Nyarutarama, Kigali",
-  price: "$340/month",
-  rating: 4.8,
-  image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=300&h=200&fit=crop",
-  owner: "John Doe",
-  ownerEmail: "john.doe@example.com"
-};
-
 export default function Booking() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [property, setProperty] = useState(null);
+
+  useEffect(() => {
+    const propertyData = location.state?.property || JSON.parse(sessionStorage.getItem('bookingProperty') || 'null');
+    if (propertyData) {
+      setProperty(propertyData);
+    } else {
+      navigate('/explore');
+    }
+  }, []);
   const [step, setStep] = useState(1); // 1: Date Selection, 2: Receipt, 3: Confirmation
   const [bookingData, setBookingData] = useState({
     checkIn: '',
@@ -73,36 +73,57 @@ export default function Booking() {
   };
 
   const handleConfirm = async () => {
+    if (!property) {
+      console.error('No property data');
+      return;
+    }
+    
     try {
       const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (!user) {
+        alert('Please login to book');
+        navigate('/login');
+        return;
+      }
+      
       const userId = user._id || user.id;
+      const ownerId = typeof property.ownerId === 'object' ? property.ownerId._id : property.ownerId;
+      
+      const bookingPayload = {
+        userId,
+        propertyId: property._id,
+        ownerId,
+        checkIn: bookingData.checkIn,
+        checkOut: bookingData.checkOut,
+        specialNeeds: bookingData.specialNeeds
+      };
+      
+      console.log('Sending booking:', bookingPayload);
       
       const response = await fetch('http://localhost:5000/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId,
-          propertyId: property.id,
-          ownerId: property.ownerId,
-          checkIn: bookingData.checkIn,
-          checkOut: bookingData.checkOut,
-          specialNeeds: bookingData.specialNeeds
-        })
+        body: JSON.stringify(bookingPayload)
       });
       
       const data = await response.json();
+      console.log('Booking response:', data);
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Booking failed');
+      }
+      
+      alert('Booking confirmed! Owner has been notified.');
+      setStep(3);
       
       if (data.ownerId) {
-        // Navigate to chat with owner
         setTimeout(() => {
           navigate(`/chat/${data.ownerId}`);
         }, 2000);
       }
-      
-      setStep(3);
     } catch (error) {
       console.error('Booking error:', error);
-      alert('Failed to create booking');
+      alert('Failed to create booking: ' + error.message);
     }
   };
 
@@ -266,6 +287,10 @@ export default function Booking() {
       </Box>
     );
   };
+
+  if (!property) {
+    return null;
+  }
 
   const renderConfirmation = () => (
     <Box sx={{ textAlign: 'center' }}>

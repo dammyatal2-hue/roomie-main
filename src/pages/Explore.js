@@ -289,9 +289,6 @@ export default function Explore() {
       {/* Header */}
       <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-            09:41
-          </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Box
               component="img"

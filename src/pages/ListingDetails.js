@@ -66,6 +66,8 @@ export default function ListingDetails() {
   const [reviews, setReviews] = useState([]);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageZoomOpen, setImageZoomOpen] = useState(false);
 
   useEffect(() => {
     loadProperty();
@@ -231,40 +233,82 @@ export default function ListingDetails() {
           </Box>
         </Paper>
 
-        {/* Property Image Gallery */}
-        <Paper elevation={1} sx={{ p: 0, mb: 2, borderRadius: '12px', overflow: 'hidden' }}>
-          <img
-            src={property.images?.[0] || 'https://via.placeholder.com/800x300?text=No+Image'}
-            alt={property.title}
-            style={{
-              width: '100%',
-              height: '300px',
-              objectFit: 'cover',
-              display: 'block'
-            }}
-            onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/800x300?text=No+Image';
-            }}
-          />
-          {property.images && property.images.length > 1 && (
-            <Grid container spacing={1} sx={{ p: 1 }}>
-              {property.images.slice(1, 5).map((img, index) => (
-                <Grid item xs={3} key={index}>
-                  <img
-                    src={img}
-                    alt={`${property.title} ${index + 2}`}
-                    style={{
-                      width: '100%',
-                      height: '80px',
-                      objectFit: 'cover',
-                      borderRadius: '8px',
+        {/* Property Image Gallery with Slider */}
+        <Paper elevation={1} sx={{ p: 0, mb: 2, borderRadius: '16px', overflow: 'hidden' }}>
+          <Box sx={{ position: 'relative' }}>
+            <img
+              src={property.images?.[currentImageIndex] || 'https://via.placeholder.com/800x400?text=No+Image'}
+              alt={property.title}
+              style={{
+                width: '100%',
+                height: '400px',
+                objectFit: 'cover',
+                display: 'block',
+                cursor: 'zoom-in'
+              }}
+              onClick={() => setImageZoomOpen(true)}
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/800x400?text=No+Image';
+              }}
+            />
+            {/* Image indicators */}
+            {property.images && property.images.length > 1 && (
+              <Box sx={{ 
+                position: 'absolute', 
+                bottom: 16, 
+                left: '50%', 
+                transform: 'translateX(-50%)',
+                display: 'flex',
+                gap: 1
+              }}>
+                {property.images.map((_, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      background: currentImageIndex === index ? '#FE456A' : 'rgba(255,255,255,0.5)',
                       cursor: 'pointer',
-                      display: 'block'
+                      transition: 'all 0.3s'
                     }}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
+                    onClick={() => setCurrentImageIndex(index)}
                   />
+                ))}
+              </Box>
+            )}
+          </Box>
+          
+          {/* Thumbnail Gallery */}
+          {property.images && property.images.length > 1 && (
+            <Grid container spacing={1} sx={{ p: 2 }}>
+              {property.images.map((img, index) => (
+                <Grid item xs={3} key={index}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      border: currentImageIndex === index ? '3px solid #FE456A' : '3px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                    onClick={() => setCurrentImageIndex(index)}
+                  >
+                    <img
+                      src={img}
+                      alt={`${property.title} ${index + 1}`}
+                      style={{
+                        width: '100%',
+                        height: '80px',
+                        objectFit: 'cover',
+                        display: 'block'
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  </Box>
                 </Grid>
               ))}
             </Grid>
@@ -324,40 +368,81 @@ export default function ListingDetails() {
           </Paper>
         )}
 
+        {/* Roommates Section */}
+        {property.roommates && property.roommates.length > 0 && (
+          <Paper elevation={1} sx={{ p: 3, mb: 2, borderRadius: '12px' }}>
+            <Typography variant="h6" fontWeight="bold" gutterBottom>
+              Current Roommates ({property.roommates.length})
+            </Typography>
+            <Grid container spacing={2}>
+              {property.roommates.map((roommate, index) => (
+                <Grid item xs={6} sm={4} md={3} key={index}>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Avatar
+                      src={roommate.avatar}
+                      sx={{ 
+                        width: 80, 
+                        height: 80, 
+                        mx: 'auto', 
+                        mb: 1,
+                        background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)'
+                      }}
+                    >
+                      {roommate.name?.charAt(0)}
+                    </Avatar>
+                    <Typography variant="subtitle2" fontWeight="bold">
+                      {roommate.name}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {roommate.age ? `${roommate.age} years` : 'Age N/A'}
+                    </Typography>
+                    {roommate.occupation && (
+                      <Typography variant="caption" display="block" color="text.secondary">
+                        {roommate.occupation}
+                      </Typography>
+                    )}
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        )}
+
         {/* Owner Information */}
         {property.ownerId && (
           <Paper elevation={1} sx={{ p: 3, mb: 2, borderRadius: '12px' }}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
-              Contact Owner
+              Agent
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box sx={{ 
-                width: 60, 
-                height: 60, 
-                background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: '1.2rem'
-              }}>
+              <Avatar
+                src={property.ownerId.avatar}
+                sx={{ 
+                  width: 60, 
+                  height: 60,
+                  background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)'
+                }}
+              >
                 {property.ownerId.name ? property.ownerId.name.charAt(0) : 'O'}
-              </Box>
+              </Avatar>
               <Box sx={{ flex: 1 }}>
                 <Typography variant="h6" fontWeight="bold">
                   {property.ownerId.name || 'Property Owner'}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {property.ownerId.email || 'Contact for details'}
+                  Real Estate Agent
                 </Typography>
-                {property.ownerId.phone && (
-                  <Typography variant="body2" color="text.secondary">
-                    📞 {property.ownerId.phone}
-                  </Typography>
-                )}
               </Box>
+              <IconButton 
+                sx={{ 
+                  background: '#FFF0F3',
+                  color: '#FE456A',
+                  '&:hover': { background: '#FFE0E6' }
+                }}
+                onClick={() => navigate('/chat')}
+              >
+                💬
+              </IconButton>
             </Box>
           </Paper>
         )}
@@ -405,37 +490,9 @@ export default function ListingDetails() {
           fullWidth
           variant="contained"
           size="large"
-          onClick={async () => {
-            try {
-              const user = JSON.parse(localStorage.getItem('currentUser'));
-              if (!user) {
-                alert('Please login to book');
-                return;
-              }
-              
-              const userId = user._id || user.id;
-              const response = await fetch('http://localhost:5000/api/bookings', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  userId,
-                  propertyId: property._id,
-                  ownerId: property.ownerId._id || property.ownerId,
-                  checkIn: new Date().toISOString().split('T')[0],
-                  checkOut: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0]
-                })
-              });
-              
-              const data = await response.json();
-              
-              if (data.ownerId) {
-                alert('Booking request sent! Redirecting to chat...');
-                navigate(`/chat/${data.ownerId}`);
-              }
-            } catch (error) {
-              console.error('Booking error:', error);
-              alert('Failed to create booking');
-            }
+          onClick={() => {
+            sessionStorage.setItem('bookingProperty', JSON.stringify(property));
+            navigate('/booking', { state: { property } });
           }}
           sx={{ 
             py: 2, 
@@ -484,6 +541,62 @@ export default function ListingDetails() {
             Submit Review
           </Button>
         </DialogActions>
+      </Dialog>
+
+      {/* Image Zoom Dialog */}
+      <Dialog 
+        open={imageZoomOpen} 
+        onClose={() => setImageZoomOpen(false)} 
+        maxWidth="lg"
+        fullWidth
+        PaperProps={{
+          sx: { background: 'rgba(0,0,0,0.9)' }
+        }}
+      >
+        <DialogContent sx={{ p: 0, position: 'relative' }}>
+          <IconButton
+            onClick={() => setImageZoomOpen(false)}
+            sx={{
+              position: 'absolute',
+              top: 16,
+              right: 16,
+              color: 'white',
+              background: 'rgba(0,0,0,0.5)',
+              '&:hover': { background: 'rgba(0,0,0,0.7)' },
+              zIndex: 1
+            }}
+          >
+            ✕
+          </IconButton>
+          <img
+            src={property.images?.[currentImageIndex] || 'https://via.placeholder.com/1200x800?text=No+Image'}
+            alt={property.title}
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxHeight: '90vh',
+              objectFit: 'contain'
+            }}
+          />
+          {property.images && property.images.length > 1 && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mt: 2 }}>
+              <Button
+                variant="contained"
+                onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : property.images.length - 1))}
+                sx={{ background: 'rgba(255,255,255,0.2)' }}
+              >
+                ← Previous
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => setCurrentImageIndex((prev) => (prev < property.images.length - 1 ? prev + 1 : 0))}
+                sx={{ background: 'rgba(255,255,255,0.2)' }}
+              >
+                Next →
+              </Button>
+            </Box>
+          )}
+        </DialogContent>
       </Dialog>
     </Box>
   );

@@ -15,7 +15,9 @@ router.get('/', async (req, res) => {
 // Get property by ID
 router.get('/:id', async (req, res) => {
   try {
-    const property = await Property.findById(req.params.id).populate('ownerId', 'name email avatar phone');
+    const property = await Property.findById(req.params.id)
+      .populate('ownerId', 'name email avatar phone')
+      .populate('roommates', 'name avatar age occupation');
     if (!property) {
       return res.status(404).json({ message: 'Property not found' });
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { propertyService } from '../services/propertyService';
+import { formatPriceWithPeriod } from '../utils/currency';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Box,
@@ -278,7 +279,7 @@ export default function MyListing() {
                         
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <Typography variant="h6" color="primary" fontWeight="bold">
-                            ${listing.price}/month
+                            {formatPriceWithPeriod(listing.price)}
                           </Typography>
                           <CardActions sx={{ p: 0 }}>
                             <IconButton 

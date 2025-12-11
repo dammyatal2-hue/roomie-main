@@ -87,6 +87,7 @@ export default function Profile() {
 
   const menuItems = [
     { icon: <SettingsIcon />, text: 'Settings', action: () => navigate('/settings') },
+    { icon: <PeopleIcon />, text: 'Lifestyle Preferences', action: () => navigate('/lifestyle-preferences') },
     { icon: <NotificationsIcon />, text: 'Notification', action: () => navigate('/notifications') },
     { icon: <ListIcon />, text: 'My Listings', action: () => navigate('/my-listing') },
     { icon: <BookIcon />, text: 'Booking Requests', action: () => navigate('/booking-management') },

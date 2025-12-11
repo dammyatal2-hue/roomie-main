@@ -30,6 +30,7 @@ import RoommateProfile from './pages/RoommateProfile';
 import MatchProfile from './pages/MatchProfile';
 import ListingDetails from './pages/ListingDetails';
 import BookingManagement from './pages/BookingManagement';
+import LifestylePreferences from './pages/LifestylePreferences';
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
             <Route path="/agent-contact/:propertyId" element={<AgentContact />} />
             <Route path="/roommate-profile/:roommateId" element={<RoommateProfile />} />
             <Route path="/match-profile/:userId" element={<MatchProfile />} />
+            <Route path="/lifestyle-preferences" element={<LifestylePreferences />} />
             <Route path="/recent" element={<Profile />} />
             <Route path="/about" element={<Profile />} />
             </Routes>

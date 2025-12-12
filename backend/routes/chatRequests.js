@@ -105,4 +105,22 @@ router.get('/check/:userId1/:userId2', async (req, res) => {
   }
 });
 
+// Get accepted chats for user
+router.get('/accepted/:userId', async (req, res) => {
+  try {
+    const requests = await ChatRequest.find({
+      $or: [
+        { senderId: req.params.userId, status: 'accepted' },
+        { receiverId: req.params.userId, status: 'accepted' }
+      ]
+    })
+      .populate('senderId', 'name avatar email')
+      .populate('receiverId', 'name avatar email')
+      .sort({ updatedAt: -1 });
+    res.json(requests);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 module.exports = router;

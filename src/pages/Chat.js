@@ -60,9 +60,25 @@ export default function Chat() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    loadOtherUser();
     checkChatStatus();
     loadConversation();
   }, [id]);
+
+  const loadOtherUser = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://roomie-backend-api.onrender.com/api'}/users/${id}`);
+      const userData = await response.json();
+      setOtherUser({
+        id: userData._id,
+        name: userData.name,
+        avatar: userData.avatar || userData.name?.charAt(0),
+        online: true
+      });
+    } catch (error) {
+      console.error('Error loading user:', error);
+    }
+  };
 
   const checkChatStatus = async () => {
     try {
@@ -93,28 +109,18 @@ export default function Chat() {
       const currentUser = JSON.parse(localStorage.getItem('currentUser'));
       if (!currentUser) return;
 
-      const messagesData = await messageService.getConversation(currentUser.id, id);
+      const messagesData = await messageService.getConversation(currentUser._id || currentUser.id, id);
       
-      const formattedMessages = messagesData.map(msg => ({
-        id: msg._id,
-        senderId: msg.senderId._id,
-        text: msg.message,
-        time: new Date(msg.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-        isMine: msg.senderId._id === currentUser.id
-      }));
-
-      setMessages(formattedMessages);
-      
-      if (messagesData.length > 0) {
-        const otherUserId = messagesData[0].senderId._id === currentUser.id 
-          ? messagesData[0].receiverId 
-          : messagesData[0].senderId;
-        setOtherUser({
-          id: otherUserId._id,
-          name: otherUserId.name,
-          avatar: otherUserId.avatar,
-          online: true
-        });
+      if (messagesData && messagesData.length > 0) {
+        const formattedMessages = messagesData.map(msg => ({
+          id: msg._id,
+          senderId: msg.senderId._id || msg.senderId,
+          text: msg.message,
+          type: msg.type,
+          time: new Date(msg.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+          isMine: (msg.senderId._id || msg.senderId) === (currentUser._id || currentUser.id)
+        }));
+        setMessages(formattedMessages);
       }
     } catch (error) {
       console.error('Error loading conversation:', error);
@@ -174,7 +180,7 @@ export default function Chat() {
     }
   };
 
-  if (!otherUser && chatStatus.status === 'none') {
+  if (!otherUser) {
     return null;
   }
 

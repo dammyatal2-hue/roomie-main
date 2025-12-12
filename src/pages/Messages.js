@@ -106,17 +106,24 @@ export default function Messages() {
         return;
       }
 
-      const data = await messageService.getConversations(currentUser.id);
+      const userId = currentUser._id || currentUser.id;
       
-      const formattedConversations = data.map(conv => ({
-        id: conv.user._id,
-        name: conv.user.name,
-        avatar: conv.user.avatar,
-        lastMessage: conv.lastMessage.message,
-        time: new Date(conv.lastMessage.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-        unread: conv.unreadCount,
-        online: true
-      }));
+      // Get accepted chat requests
+      const acceptedRequests = await chatRequestService.getAcceptedChats(userId);
+      
+      // Format as conversations
+      const formattedConversations = acceptedRequests.map(request => {
+        const otherUser = request.senderId._id === userId ? request.receiverId : request.senderId;
+        return {
+          id: otherUser._id,
+          name: otherUser.name,
+          avatar: otherUser.avatar || otherUser.name?.charAt(0),
+          lastMessage: request.message || 'Start chatting',
+          time: new Date(request.updatedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+          unread: 0,
+          online: true
+        };
+      });
 
       setConversations(formattedConversations);
     } catch (error) {
@@ -275,7 +282,7 @@ export default function Messages() {
         </Paper>
 
         {/* Empty State for No Messages */}
-        {conversations.length === 0 && (
+        {conversations.length === 0 && !loading && (
           <Paper sx={{ p: 6, textAlign: 'center', borderRadius: '12px', mt: 4 }}>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
               No Messages Yet
@@ -283,6 +290,14 @@ export default function Messages() {
             <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
               Start a conversation by contacting property owners or roommates
             </Typography>
+            {pendingCount > 0 && (
+              <Chip 
+                label={`${pendingCount} pending request${pendingCount > 1 ? 's' : ''}`}
+                color="primary"
+                onClick={() => navigate('/chat-requests')}
+                sx={{ cursor: 'pointer' }}
+              />
+            )}
           </Paper>
         )}
       </Container>

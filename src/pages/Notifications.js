@@ -78,7 +78,12 @@ export default function Notifications() {
       if (notification.type === 'booking' && notification.relatedId) {
         navigate(`/booking`);
       } else if (notification.type === 'message') {
-        navigate('/messages');
+        if (notification.relatedId) {
+          // Navigate to chat with the specific user
+          navigate(`/chat/${notification.relatedId}`);
+        } else {
+          navigate('/messages');
+        }
       } else if (notification.type === 'match' && notification.relatedId) {
         navigate(`/match-profile/${notification.relatedId}`);
       }

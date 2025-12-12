@@ -49,5 +49,15 @@ export const chatRequestService = {
       console.error('Check chat allowed error:', error.response?.data || error.message);
       return { allowed: false, status: 'none' };
     }
+  },
+
+  getAcceptedChats: async (userId) => {
+    try {
+      const response = await api.get(`/chat-requests/accepted/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Get accepted chats error:', error.response?.data || error.message);
+      return [];
+    }
   }
 };

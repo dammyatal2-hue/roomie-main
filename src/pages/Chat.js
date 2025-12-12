@@ -18,6 +18,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import RichMessageInput from '../components/RichMessageInput';
 
 const mockConversations = {
   1: {
@@ -132,46 +133,36 @@ export default function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleSend = async () => {
-    if (message.trim()) {
-      if (!chatStatus.allowed) {
-        alert('Chat request must be accepted first');
-        return;
-      }
+  const handleSend = async (messageData) => {
+    if (!chatStatus.allowed) {
+      alert('Chat request must be accepted first');
+      return;
+    }
 
-      try {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        
-        const newMessage = {
-          senderId: currentUser._id || currentUser.id,
-          receiverId: id,
-          message: message,
-          type: 'text'
-        };
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      
+      const newMessage = {
+        senderId: currentUser._id || currentUser.id,
+        receiverId: id,
+        message: messageData.content,
+        type: messageData.type,
+        mediaUrl: messageData.type !== 'text' ? messageData.content : undefined
+      };
 
-        const savedMessage = await messageService.sendMessage(newMessage);
-        
-        setMessages([...messages, {
-          id: savedMessage._id,
-          senderId: currentUser.id,
-          text: message,
-          time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-          isMine: true
-        }]);
-        
-        setMessage('');
-      } catch (error) {
-        console.error('Error sending message:', error);
-        const newMessage = {
-          id: messages.length + 1,
-          senderId: 1,
-          text: message,
-          time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-          isMine: true
-        };
-        setMessages([...messages, newMessage]);
-        setMessage('');
-      }
+      const savedMessage = await messageService.sendMessage(newMessage);
+      
+      setMessages([...messages, {
+        id: savedMessage._id,
+        senderId: currentUser._id || currentUser.id,
+        text: messageData.content,
+        type: messageData.type,
+        time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+        isMine: true
+      }]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message');
     }
   };
 
@@ -328,9 +319,15 @@ export default function Chat() {
                 color: msg.isMine ? 'white' : 'text.primary'
               }}
             >
-              <Typography variant="body1" sx={{ wordBreak: 'break-word' }}>
-                {msg.text}
-              </Typography>
+              {msg.type === 'image' ? (
+                <img src={msg.text} alt="sent" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+              ) : msg.type === 'voice' || msg.type === 'audio' ? (
+                <audio controls src={msg.text} style={{ maxWidth: '100%' }} />
+              ) : (
+                <Typography variant="body1" sx={{ wordBreak: 'break-word' }}>
+                  {msg.text}
+                </Typography>
+              )}
               <Typography
                 variant="caption"
                 sx={{
@@ -349,52 +346,8 @@ export default function Chat() {
       </Box>
 
       {/* Input Area */}
-      <Paper
-        elevation={3}
-        sx={{
-          p: 2,
-          background: 'white',
-          borderTop: '1px solid #e0e0e0'
-        }}
-      >
-        <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-end' }}>
-          <TextField
-            fullWidth
-            multiline
-            maxRows={4}
-            placeholder="Type a message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                borderRadius: '24px',
-                background: '#f5f5f5'
-              }
-            }}
-          />
-          <IconButton
-            color="primary"
-            onClick={handleSend}
-            disabled={!message.trim()}
-            sx={{
-              background: message.trim() ? 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)' : '#e0e0e0',
-              color: 'white',
-              width: 48,
-              height: 48,
-              '&:hover': {
-                background: message.trim() ? 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)' : '#e0e0e0',
-                opacity: 0.9
-              },
-              '&:disabled': {
-                background: '#e0e0e0',
-                color: '#bdbdbd'
-              }
-            }}
-          >
-            <SendIcon />
-          </IconButton>
-        </Box>
+      <Paper elevation={3} sx={{ p: 2, background: 'white', borderTop: '1px solid #e0e0e0' }}>
+        <RichMessageInput onSend={handleSend} disabled={!chatStatus.allowed} />
       </Paper>
     </Box>
   );

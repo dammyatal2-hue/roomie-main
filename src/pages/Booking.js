@@ -23,6 +23,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import api from '../services/api';
 import { formatPrice } from '../utils/currency';
+import { chatRequestService } from '../services/chatRequestService';
 
 export default function Booking() {
   const navigate = useNavigate();
@@ -115,6 +116,19 @@ export default function Booking() {
         relatedId: data._id,
         read: false
       });
+
+      // Auto-send chat request for booking communication
+      try {
+        await chatRequestService.sendRequest(
+          userId,
+          ownerId,
+          `Hi! I've sent a booking request for ${property.title}. I'd like to discuss the details.`,
+          'booking',
+          data._id
+        );
+      } catch (error) {
+        console.log('Chat request may already exist');
+      }
       
       setStep(3);
     } catch (error) {

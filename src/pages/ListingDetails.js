@@ -42,6 +42,7 @@ import { propertyService } from '../services/propertyService';
 import reviewService from '../services/reviewService';
 import favoriteService from '../services/favoriteService';
 import { formatPriceWithPeriod } from '../utils/currency';
+import MessageButton from '../components/MessageButton';
 
 const getAmenityIcon = (amenity) => {
   const icons = {
@@ -434,17 +435,7 @@ export default function ListingDetails() {
                   Real Estate Agent
                 </Typography>
               </Box>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={() => navigate(`/user-profile/${property.ownerId._id}`)}
-                sx={{ 
-                  background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
-                  '&:hover': { background: 'linear-gradient(135deg, #D32F4E 0%, #FE456A 100%)' }
-                }}
-              >
-                Contact Owner
-              </Button>
+              <MessageButton userId={property.ownerId._id} context="property" contextId={id} variant="contained" />
             </Box>
           </Paper>
         )}

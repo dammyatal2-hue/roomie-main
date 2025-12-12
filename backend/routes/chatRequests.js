@@ -6,14 +6,14 @@ const Notification = require('../models/Notification');
 // Send chat request
 router.post('/', async (req, res) => {
   try {
-    const { senderId, receiverId, message } = req.body;
+    const { senderId, receiverId, message, context, contextId } = req.body;
     
     const existing = await ChatRequest.findOne({ senderId, receiverId });
     if (existing) {
       return res.status(400).json({ message: 'Request already sent' });
     }
 
-    const chatRequest = await ChatRequest.create({ senderId, receiverId, message });
+    const chatRequest = await ChatRequest.create({ senderId, receiverId, message, context, contextId });
     
     await Notification.create({
       userId: receiverId,

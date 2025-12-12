@@ -19,6 +19,14 @@ const chatRequestSchema = new mongoose.Schema({
   message: {
     type: String,
     default: 'Hi! I would like to connect with you.'
+  },
+  context: {
+    type: String,
+    enum: ['roommate', 'property', 'booking', 'general'],
+    default: 'general'
+  },
+  contextId: {
+    type: mongoose.Schema.Types.ObjectId
   }
 }, {
   timestamps: true

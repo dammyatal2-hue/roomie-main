@@ -1,8 +1,8 @@
 import api from './api';
 
 export const chatRequestService = {
-  sendRequest: async (senderId, receiverId, message) => {
-    const response = await api.post('/chat-requests', { senderId, receiverId, message });
+  sendRequest: async (senderId, receiverId, message, context = 'general', contextId = null) => {
+    const response = await api.post('/chat-requests', { senderId, receiverId, message, context, contextId });
     return response.data;
   },
 

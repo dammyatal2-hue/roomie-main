@@ -31,6 +31,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import api from '../services/api';
 import { formatPriceWithPeriod } from '../utils/currency';
 import LifestyleDisplay from '../components/LifestyleDisplay';
+import MessageButton from '../components/MessageButton';
 
 const sampleMatchData = {
   id: 'sarah-johnson-456',
@@ -257,33 +258,25 @@ export default function MatchProfile() {
           </Box>
         </Paper>
 
-        {/* Match Button */}
-        {matchSent ? (
-          <Paper elevation={1} sx={{ p: 3, borderRadius: '12px', textAlign: 'center', bgcolor: 'success.light' }}>
-            <Typography variant="h6" fontWeight="bold" color="success.dark" gutterBottom>
-              Match Request Sent! ✅
-            </Typography>
-            <Typography variant="body2" color="success.dark">
-              {matchData.name} will be notified and can accept or decline your request.
-            </Typography>
-          </Paper>
-        ) : (
-          <Button
-            fullWidth
-            variant="contained"
-            startIcon={<FavoriteIcon />}
-            onClick={handleSendMatch}
-            sx={{ 
-              py: 2,
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
-              fontWeight: 'bold',
-              fontSize: '1.1rem'
-            }}
-          >
-            Send Match Request
-          </Button>
-        )}
+        {/* Action Buttons */}
+        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+          <MessageButton userId={userId} context="roommate" variant="contained" fullWidth />
+          {!matchSent ? (
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<FavoriteIcon />}
+              onClick={handleSendMatch}
+              sx={{ py: 2, borderRadius: '12px' }}
+            >
+              Send Match
+            </Button>
+          ) : (
+            <Button fullWidth variant="contained" color="success" disabled sx={{ py: 2, borderRadius: '12px' }}>
+              Match Sent ✅
+            </Button>
+          )}
+        </Box>
       </Container>
     </Box>
   );

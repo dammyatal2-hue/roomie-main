@@ -19,6 +19,7 @@ import { LocationOn, Message, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { roommateService } from '../services/roommateService';
 import { formatPriceWithPeriod } from '../utils/currency';
+import MessageButton from '../components/MessageButton';
 
 const RoommateMatching = () => {
     const navigate = useNavigate();
@@ -198,18 +199,13 @@ const RoommateMatching = () => {
 
                                     <Box display="flex" gap={1}>
                                         <Button 
-                                            variant="contained" 
+                                            variant="outlined" 
                                             fullWidth
                                             onClick={() => navigate(`/match-profile/${match._id}`)}
-                                            sx={{
-                                                background: 'linear-gradient(135deg, #FE456A 0%, #FF6B8B 100%)',
-                                                '&:hover': {
-                                                    background: 'linear-gradient(135deg, #D32F4E 0%, #FE456A 100%)'
-                                                }
-                                            }}
                                         >
                                             View Profile
                                         </Button>
+                                        <MessageButton userId={match._id} context="roommate" fullWidth />
                                     </Box>
                                 </CardContent>
                             </Card>

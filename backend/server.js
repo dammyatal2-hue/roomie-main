@@ -39,6 +39,7 @@ app.use('/api/messages', require('./routes/messages'));
 app.use('/api/chat-requests', require('./routes/chatRequests'));
 app.use('/api/favorites', require('./routes/favorites'));
 app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/admin', require('./routes/admin'));
 
 // 404 handler
 app.use((req, res) => {

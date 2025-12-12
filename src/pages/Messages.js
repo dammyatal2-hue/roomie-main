@@ -82,7 +82,8 @@ export default function Messages() {
 
   useEffect(() => {
     loadConversations();
-    loadPendingRequests();
+    // Temporarily disabled until backend is deployed
+    // loadPendingRequests();
   }, []);
 
   const loadPendingRequests = async () => {
@@ -94,6 +95,7 @@ export default function Messages() {
       setPendingCount(requests.length);
     } catch (error) {
       console.error('Error loading pending requests:', error);
+      setPendingCount(0);
     }
   };
 
@@ -139,11 +141,7 @@ export default function Messages() {
           <Typography variant="h6" component="h1" sx={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
             Messages
           </Typography>
-          <IconButton onClick={() => navigate('/chat-requests')}>
-            <Badge badgeContent={pendingCount} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Box sx={{ width: 48 }} />
         </Toolbar>
       </AppBar>
 

@@ -73,6 +73,7 @@ export default function Chat() {
       setChatStatus(status);
     } catch (error) {
       console.error('Error checking chat status:', error);
+      setChatStatus({ allowed: true, status: 'accepted' });
     }
   };
 

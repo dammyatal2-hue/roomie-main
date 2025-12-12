@@ -2,27 +2,52 @@ import api from './api';
 
 export const chatRequestService = {
   sendRequest: async (senderId, receiverId, message, context = 'general', contextId = null) => {
-    const response = await api.post('/chat-requests', { senderId, receiverId, message, context, contextId });
-    return response.data;
+    try {
+      const response = await api.post('/chat-requests', { senderId, receiverId, message, context, contextId });
+      return response.data;
+    } catch (error) {
+      console.error('Send request error:', error.response?.data || error.message);
+      throw error;
+    }
   },
 
   getPendingRequests: async (userId) => {
-    const response = await api.get(`/chat-requests/pending/${userId}`);
-    return response.data;
+    try {
+      const response = await api.get(`/chat-requests/pending/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Get pending requests error:', error.response?.data || error.message);
+      return [];
+    }
   },
 
   acceptRequest: async (requestId) => {
-    const response = await api.patch(`/chat-requests/${requestId}/accepted`);
-    return response.data;
+    try {
+      const response = await api.patch(`/chat-requests/${requestId}/accepted`);
+      return response.data;
+    } catch (error) {
+      console.error('Accept request error:', error.response?.data || error.message);
+      throw error;
+    }
   },
 
   denyRequest: async (requestId) => {
-    const response = await api.patch(`/chat-requests/${requestId}/denied`);
-    return response.data;
+    try {
+      const response = await api.patch(`/chat-requests/${requestId}/denied`);
+      return response.data;
+    } catch (error) {
+      console.error('Deny request error:', error.response?.data || error.message);
+      throw error;
+    }
   },
 
   checkChatAllowed: async (userId1, userId2) => {
-    const response = await api.get(`/chat-requests/check/${userId1}/${userId2}`);
-    return response.data;
+    try {
+      const response = await api.get(`/chat-requests/check/${userId1}/${userId2}`);
+      return response.data;
+    } catch (error) {
+      console.error('Check chat allowed error:', error.response?.data || error.message);
+      return { allowed: false, status: 'none' };
+    }
   }
 };

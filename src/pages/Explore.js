@@ -29,6 +29,7 @@ import UserProfile from '../components/UserProfile';
 import propertyService from '../services/propertyService';
 import { roommateService } from '../services/roommateService';
 import { formatPriceWithPeriod } from '../utils/currency';
+import { getPlaceholderImage } from '../utils/placeholder';
 import BottomNavBar from '../components/BottomNavBar';
 import WifiIcon from '@mui/icons-material/Wifi';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
@@ -497,7 +498,7 @@ export default function Explore() {
                       }}
                     >
                       <img
-                        src={property.images?.[0] || property.image || 'https://via.placeholder.com/400x300'}
+                        src={property.images?.[0] || property.image || getPlaceholderImage(400, 300)}
                         alt={property.title}
                         style={{
                           width: '100%',
@@ -505,7 +506,7 @@ export default function Explore() {
                           objectFit: 'cover'
                         }}
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
+                          e.target.src = getPlaceholderImage(400, 300);
                         }}
                       />
                     </Box>

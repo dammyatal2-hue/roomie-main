@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import favoriteService from '../services/favoriteService';
 import { formatPriceWithPeriod } from '../utils/currency';
+import { getPlaceholderImage } from '../utils/placeholder';
 import BottomNavBar from '../components/BottomNavBar';
 
 const FavoriteCard = styled(Card)({
@@ -112,7 +113,7 @@ export default function Favorites() {
                   <CardMedia
                     component="img"
                     height="200"
-                    image={property.images?.[0] || property.image || 'https://via.placeholder.com/400x300'}
+                    image={property.images?.[0] || property.image || getPlaceholderImage(400, 300)}
                     alt={property.title}
                   />
                   <CardContent>

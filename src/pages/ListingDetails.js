@@ -43,6 +43,7 @@ import reviewService from '../services/reviewService';
 import favoriteService from '../services/favoriteService';
 import { formatPriceWithPeriod } from '../utils/currency';
 import MessageButton from '../components/MessageButton';
+import { getPlaceholderImage } from '../utils/placeholder';
 
 const getAmenityIcon = (amenity) => {
   const icons = {
@@ -239,7 +240,7 @@ export default function ListingDetails() {
         <Paper elevation={1} sx={{ p: 0, mb: 2, borderRadius: '16px', overflow: 'hidden' }}>
           <Box sx={{ position: 'relative' }}>
             <img
-              src={property.images?.[currentImageIndex] || 'https://via.placeholder.com/800x400?text=No+Image'}
+              src={property.images?.[currentImageIndex] || getPlaceholderImage(800, 400)}
               alt={property.title}
               style={{
                 width: '100%',
@@ -250,7 +251,7 @@ export default function ListingDetails() {
               }}
               onClick={() => setImageZoomOpen(true)}
               onError={(e) => {
-                e.target.src = 'https://via.placeholder.com/800x400?text=No+Image';
+                e.target.src = getPlaceholderImage(800, 400);
               }}
             />
             {/* Image indicators */}
@@ -562,7 +563,7 @@ export default function ListingDetails() {
             ✕
           </IconButton>
           <img
-            src={property.images?.[currentImageIndex] || 'https://via.placeholder.com/1200x800?text=No+Image'}
+            src={property.images?.[currentImageIndex] || getPlaceholderImage(1200, 800)}
             alt={property.title}
             style={{
               width: '100%',

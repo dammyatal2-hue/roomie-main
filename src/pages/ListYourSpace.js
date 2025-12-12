@@ -86,12 +86,22 @@ export default function ListYourSpace() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
   
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
-    const newImages = files.map(file => ({
-      file,
-      preview: URL.createObjectURL(file)
-    }));
+    const newImages = await Promise.all(
+      files.map(file => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve({
+              file,
+              preview: reader.result
+            });
+          };
+          reader.readAsDataURL(file);
+        });
+      })
+    );
     setImages(prev => [...prev, ...newImages]);
   };
   
@@ -137,9 +147,9 @@ export default function ListYourSpace() {
         return;
       }
 
-      // Convert all images (up to 10)
+      // Use base64 images or existing URLs (up to 10)
       const imageUrls = images.length > 0 
-        ? images.slice(0, 10).map(img => img.preview) 
+        ? images.slice(0, 10).map(img => img.existing ? img.preview : img.preview) 
         : ['https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800'];
 
       const propertyData = {

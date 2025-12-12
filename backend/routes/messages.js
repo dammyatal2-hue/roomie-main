@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Message = require('../models/Message');
+const ChatRequest = require('../models/ChatRequest');
 
 // Get conversation between two users
 router.get('/conversation/:userId1/:userId2', async (req, res) => {
@@ -60,6 +61,19 @@ router.get('/conversations/:userId', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { senderId, receiverId } = req.body;
+    
+    // Check if chat is allowed
+    const chatRequest = await ChatRequest.findOne({
+      $or: [
+        { senderId, receiverId },
+        { senderId: receiverId, receiverId: senderId }
+      ]
+    });
+
+    if (!chatRequest || chatRequest.status !== 'accepted') {
+      return res.status(403).json({ message: 'Chat request not accepted' });
+    }
+
     const conversationId = [senderId, receiverId].sort().join('_');
     
     const newMessage = await Message.create({

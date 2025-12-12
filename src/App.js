@@ -31,6 +31,7 @@ import MatchProfile from './pages/MatchProfile';
 import ListingDetails from './pages/ListingDetails';
 import BookingManagement from './pages/BookingManagement';
 import LifestylePreferences from './pages/LifestylePreferences';
+import ChatRequests from './pages/ChatRequests';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
             {/* Communication */}
             <Route path="/messages" element={<Messages />} />
             <Route path="/chat/:id" element={<Chat />} />
+            <Route path="/chat-requests" element={<ChatRequests />} />
             
             {/* Booking System */}
             <Route path="/booking" element={<Booking />} />

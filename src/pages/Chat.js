@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { messageService } from '../services/messageService';
+import { chatRequestService } from '../services/chatRequestService';
 import {
   Box,
   Typography,
@@ -9,7 +10,9 @@ import {
   Avatar,
   TextField,
   Paper,
-  Badge
+  Badge,
+  Button,
+  Alert
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -51,11 +54,37 @@ export default function Chat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [otherUser, setOtherUser] = useState(null);
+  const [chatStatus, setChatStatus] = useState({ allowed: false, status: 'none' });
+  const [requestMessage, setRequestMessage] = useState('Hi! I would like to connect with you.');
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    checkChatStatus();
     loadConversation();
   }, [id]);
+
+  const checkChatStatus = async () => {
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) return;
+      
+      const status = await chatRequestService.checkChatAllowed(currentUser._id || currentUser.id, id);
+      setChatStatus(status);
+    } catch (error) {
+      console.error('Error checking chat status:', error);
+    }
+  };
+
+  const sendChatRequest = async () => {
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      await chatRequestService.sendRequest(currentUser._id || currentUser.id, id, requestMessage);
+      setChatStatus({ allowed: false, status: 'pending' });
+    } catch (error) {
+      console.error('Error sending request:', error);
+      alert(error.response?.data?.message || 'Failed to send request');
+    }
+  };
 
   const loadConversation = async () => {
     try {
@@ -105,11 +134,16 @@ export default function Chat() {
 
   const handleSend = async () => {
     if (message.trim()) {
+      if (!chatStatus.allowed) {
+        alert('Chat request must be accepted first');
+        return;
+      }
+
       try {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
         const newMessage = {
-          senderId: currentUser.id,
+          senderId: currentUser._id || currentUser.id,
           receiverId: id,
           message: message,
           type: 'text'
@@ -148,8 +182,72 @@ export default function Chat() {
     }
   };
 
-  if (!otherUser) {
+  if (!otherUser && chatStatus.status === 'none') {
     return null;
+  }
+
+  if (!chatStatus.allowed) {
+    return (
+      <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#f5f5f5' }}>
+        <AppBar position="static" elevation={1} sx={{ background: 'white', color: 'text.primary' }}>
+          <Toolbar>
+            <IconButton edge="start" onClick={() => navigate(-1)}>
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="h6" sx={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
+              Chat Request
+            </Typography>
+            <Box sx={{ width: 48 }} />
+          </Toolbar>
+        </AppBar>
+        
+        <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 3 }}>
+          <Paper sx={{ p: 4, maxWidth: 400, textAlign: 'center', borderRadius: '12px' }}>
+            {chatStatus.status === 'pending' ? (
+              <>
+                <Alert severity="info" sx={{ mb: 2 }}>Request Pending</Alert>
+                <Typography variant="h6" gutterBottom>Waiting for Approval</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Your chat request is pending. You'll be notified when it's accepted.
+                </Typography>
+              </>
+            ) : chatStatus.status === 'denied' ? (
+              <>
+                <Alert severity="error" sx={{ mb: 2 }}>Request Denied</Alert>
+                <Typography variant="h6" gutterBottom>Request Not Accepted</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Your chat request was not accepted.
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Typography variant="h6" gutterBottom>Send Chat Request</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                  Send a request to start chatting
+                </Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={3}
+                  value={requestMessage}
+                  onChange={(e) => setRequestMessage(e.target.value)}
+                  placeholder="Introduce yourself..."
+                  sx={{ mb: 2 }}
+                />
+                <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={sendChatRequest}
+                  sx={{ borderRadius: '8px' }}
+                >
+                  Send Request
+                </Button>
+              </>
+            )}
+          </Paper>
+        </Box>
+      </Box>
+    );
   }
 
   return (

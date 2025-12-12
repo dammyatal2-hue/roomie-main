@@ -21,7 +21,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import BottomNavBar from '../components/BottomNavBar';
+import { chatRequestService } from '../services/chatRequestService';
 
 const conversations = [
   {
@@ -76,10 +78,24 @@ export default function Messages() {
   const [searchQuery, setSearchQuery] = useState('');
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pendingCount, setPendingCount] = useState(0);
 
   useEffect(() => {
     loadConversations();
+    loadPendingRequests();
   }, []);
+
+  const loadPendingRequests = async () => {
+    try {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (!currentUser) return;
+      
+      const requests = await chatRequestService.getPendingRequests(currentUser._id || currentUser.id);
+      setPendingCount(requests.length);
+    } catch (error) {
+      console.error('Error loading pending requests:', error);
+    }
+  };
 
   const loadConversations = async () => {
     try {
@@ -123,7 +139,11 @@ export default function Messages() {
           <Typography variant="h6" component="h1" sx={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
             Messages
           </Typography>
-          <Box sx={{ width: 48 }} />
+          <IconButton onClick={() => navigate('/chat-requests')}>
+            <Badge badgeContent={pendingCount} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
 

@@ -9,7 +9,17 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://roomie.com',
+  'https://www.roomie.com',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(express.json({ limit: '400mb' }));
 app.use(express.urlencoded({ limit: '400mb', extended: true }));
 
@@ -26,6 +36,7 @@ app.use('/api/roommates', require('./routes/roommates'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/messages', require('./routes/messages'));
+app.use('/api/chat-requests', require('./routes/chatRequests'));
 app.use('/api/favorites', require('./routes/favorites'));
 app.use('/api/reviews', require('./routes/reviews'));
 

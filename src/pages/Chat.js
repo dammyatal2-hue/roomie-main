@@ -57,6 +57,7 @@ export default function Chat() {
   const [otherUser, setOtherUser] = useState(null);
   const [chatStatus, setChatStatus] = useState({ allowed: false, status: 'none' });
   const [requestMessage, setRequestMessage] = useState('Hi! I would like to connect with you.');
+  const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -77,6 +78,8 @@ export default function Chat() {
       });
     } catch (error) {
       console.error('Error loading user:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -180,8 +183,12 @@ export default function Chat() {
     }
   };
 
-  if (!otherUser) {
-    return null;
+  if (loading || !otherUser) {
+    return (
+      <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography>Loading...</Typography>
+      </Box>
+    );
   }
 
   if (!chatStatus.allowed) {
@@ -263,7 +270,7 @@ export default function Chat() {
             sx={{
               ml: 1,
               '& .MuiBadge-badge': {
-                backgroundColor: otherUser.online ? '#44b700' : '#bdbdbd',
+                backgroundColor: otherUser?.online ? '#44b700' : '#bdbdbd',
                 width: 10,
                 height: 10,
                 borderRadius: '50%',
@@ -279,15 +286,15 @@ export default function Chat() {
                 fontWeight: 'bold'
               }}
             >
-              {otherUser.avatar}
+              {otherUser?.avatar || 'U'}
             </Avatar>
           </Badge>
           <Box sx={{ ml: 2, flex: 1 }}>
             <Typography variant="body1" fontWeight="bold">
-              {otherUser.name}
+              {otherUser?.name || 'User'}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {otherUser.online ? 'Online' : 'Offline'}
+              {otherUser?.online ? 'Online' : 'Offline'}
             </Typography>
           </Box>
           <IconButton color="inherit">

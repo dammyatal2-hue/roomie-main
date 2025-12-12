@@ -82,8 +82,7 @@ export default function Messages() {
 
   useEffect(() => {
     loadConversations();
-    // Temporarily disabled until backend is deployed
-    // loadPendingRequests();
+    loadPendingRequests();
   }, []);
 
   const loadPendingRequests = async () => {
@@ -141,7 +140,11 @@ export default function Messages() {
           <Typography variant="h6" component="h1" sx={{ flex: 1, textAlign: 'center', fontWeight: 'bold' }}>
             Messages
           </Typography>
-          <Box sx={{ width: 48 }} />
+          <IconButton onClick={() => navigate('/chat-requests')}>
+            <Badge badgeContent={pendingCount} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
 

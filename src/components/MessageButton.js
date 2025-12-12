@@ -22,7 +22,7 @@ export default function MessageButton({ userId, context = 'general', contextId =
       setChatStatus(status);
     } catch (error) {
       console.error('Error checking chat status:', error);
-      setChatStatus({ allowed: true, status: 'accepted' });
+      setChatStatus({ allowed: false, status: 'none' });
     }
   };
 

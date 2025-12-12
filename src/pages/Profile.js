@@ -68,18 +68,16 @@ export default function Profile() {
       const userId = user._id || user.id;
       if (!userId) return;
 
-      const [favoritesData, listingsResponse, messagesResponse] = await Promise.all([
+      const [favoritesData, listingsResponse, acceptedChatsResponse] = await Promise.all([
         favoriteService.getAll(userId),
         api.get(`/properties/owner/${userId}`),
-        api.get(`/messages/user/${userId}`)
+        api.get(`/chat-requests/accepted/${userId}`)
       ]);
-
-      const unreadMessages = messagesResponse.data.filter(msg => !msg.read && msg.receiverId === userId);
 
       setStats({
         favorites: favoritesData.length,
         listings: listingsResponse.data.length,
-        messages: unreadMessages.length
+        messages: acceptedChatsResponse.data.length
       });
     } catch (error) {
       console.error('Error loading stats:', error);

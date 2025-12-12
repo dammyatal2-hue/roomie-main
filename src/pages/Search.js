@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -27,46 +27,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import PlaceIcon from '@mui/icons-material/Place';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
+import { propertyService } from '../services/propertyService';
+import { formatPriceWithPeriod } from '../utils/currency';
+import { getPlaceholderImage } from '../utils/placeholder';
 
-// Mock search results
-const searchResults = [
-  {
-    id: 1,
-    title: "Greenhost Boutique Hotel",
-    location: "Kibagabaga, Kigali",
-    price: "$120/night",
-    rating: 4.5,
-    type: "Hotel",
-    image: "/api/placeholder/300/200"
-  },
-  {
-    id: 2,
-    title: "Grand Hotel",
-    location: "Kibagabaga, Kigali",
-    price: "$180/night",
-    rating: 4.3,
-    type: "Hotel",
-    image: "/api/placeholder/300/200"
-  },
-  {
-    id: 3,
-    title: "Jogja Village",
-    location: "Kibagabaga, Kigali",
-    price: "$90/night",
-    rating: 4.7,
-    type: "Villa",
-    image: "/api/placeholder/300/200"
-  },
-  {
-    id: 4,
-    title: "Rose Garden Apartments",
-    location: "Kibagabaga, Kigali",
-    price: "$320/month",
-    rating: 4.5,
-    type: "Apartment",
-    image: "/api/placeholder/300/200"
-  }
-];
+
 
 // Recent searches
 const recentSearches = [
@@ -93,12 +58,29 @@ const facilities = [
 
 export default function Search() {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('Kibaga');
+  const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [priceRange, setPriceRange] = useState([10, 800]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [lookingFor, setLookingFor] = useState('For Rent');
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadProperties();
+  }, []);
+
+  const loadProperties = async () => {
+    try {
+      const data = await propertyService.getAll();
+      setProperties(data);
+    } catch (error) {
+      console.error('Error loading properties:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePriceChange = (event, newValue) => {
     setPriceRange(newValue);
@@ -138,11 +120,27 @@ export default function Search() {
     });
   };
 
-  const filteredResults = searchResults.filter(property =>
-    property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.type.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredResults = properties.filter(property => {
+    const matchesSearch = !searchQuery ||
+      property.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.type?.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesType = selectedTypes.length === 0 ||
+      selectedTypes.some(type => property.type?.toLowerCase().includes(type.toLowerCase()));
+
+    const matchesFacility = selectedFacilities.length === 0 ||
+      selectedFacilities.some(facility => 
+        property.amenities?.some(a => a.toLowerCase().includes(facility.toLowerCase())) ||
+        property.facilities?.some(f => f.toLowerCase().includes(facility.toLowerCase()))
+      );
+
+    const price = property.price || 0;
+    const matchesPrice = price >= priceRange[0] * 1000 && price <= priceRange[1] * 1000;
+
+    return matchesSearch && matchesType && matchesFacility && matchesPrice;
+  });
 
   return (
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5' }}>
@@ -256,19 +254,25 @@ export default function Search() {
                           boxShadow: 3
                         }
                       }}
-                      onClick={() => navigate('/property-details')}
+                      onClick={() => navigate(`/property-details/${property._id}`)}
                     >
                       <CardContent sx={{ display: 'flex', gap: 2, p: 2 }}>
-                        <CardMedia
-                          component="img"
+                        <Box
                           sx={{ 
                             width: 100,
                             height: 100,
-                            borderRadius: '8px'
+                            borderRadius: '8px',
+                            overflow: 'hidden',
+                            bgcolor: '#f0f0f0'
                           }}
-                          image={property.image || "/api/placeholder/300/200"}
-                          alt={property.title}
-                        />
+                        >
+                          <img
+                            src={property.images?.[0] || getPlaceholderImage(300, 200)}
+                            alt={property.title}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            onError={(e) => e.target.src = getPlaceholderImage(300, 200)}
+                          />
+                        </Box>
                         <Box sx={{ flex: 1 }}>
                           <Typography variant="h6" component="h3" fontWeight="bold" gutterBottom>
                             {property.title}
@@ -285,7 +289,7 @@ export default function Search() {
                           />
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Typography variant="h6" color="primary" fontWeight="bold">
-                              {property.price}
+                              {formatPriceWithPeriod(property.price, property.priceType || 'month')}
                             </Typography>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <Rating value={property.rating} readOnly size="small" />

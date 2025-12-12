@@ -313,20 +313,25 @@ export default function Explore() {
 
   // Filter properties by search, type, facility, and price
   const filteredApartments = properties.filter(property => {
-    const matchesSearch = property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      property.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesSearch = !searchQuery || 
+      property.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (property.type && property.type.toLowerCase().includes(searchQuery.toLowerCase()));
     
     const matchesType = !selectedType || 
-      (property.type && property.type.toLowerCase().includes(selectedType.toLowerCase()));
+      (property.type && property.type.toLowerCase().includes(selectedType.toLowerCase())) ||
+      (selectedType.toLowerCase() === 'shared space' && property.roomType === 'shared') ||
+      (selectedType.toLowerCase() === 'budget' && property.price < 300000) ||
+      (selectedType.toLowerCase() === 'luxury' && property.price > 500000);
     
     const matchesFacility = !selectedFacility || 
-      (property.amenities && property.amenities.includes(selectedFacility)) ||
-      (property.facilities && property.facilities.includes(selectedFacility));
+      (property.amenities && property.amenities.some(a => a.toLowerCase().includes(selectedFacility.toLowerCase()))) ||
+      (property.facilities && property.facilities.some(f => f.toLowerCase().includes(selectedFacility.toLowerCase())));
     
     let matchesPrice = true;
     if (priceRange) {
-      const price = property.price;
+      const price = property.price || 0;
       if (priceRange === 'under300') matchesPrice = price < 300000;
       else if (priceRange === '300-400') matchesPrice = price >= 300000 && price < 400000;
       else if (priceRange === '400-500') matchesPrice = price >= 400000 && price < 500000;

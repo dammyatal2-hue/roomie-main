@@ -59,53 +59,29 @@ router.post('/', async (req, res) => {
     const newBooking = await Booking.create(bookingData);
     console.log('Booking created:', newBooking._id);
     
-    const property = await Property.findById(req.body.propertyId).populate('ownerId');
-    const guest = await User.findById(req.body.guestId || req.body.userId);
-    
-    console.log('Property owner:', property?.ownerId?._id);
-    console.log('Guest:', guest?._id);
-    
-    if (property && property.ownerId && guest) {
-      // Send email notification
-      try {
-        await sendBookingRequestEmail(
-          property.ownerId.email,
-          property.ownerId.name,
-          guest.name,
-          guest.email,
-          property.title,
-          req.body.checkIn,
-          req.body.checkOut
-        );
-        console.log('Email sent to:', property.ownerId.email);
-      } catch (emailError) {
-        console.error('Email notification failed:', emailError);
-      }
-      
-      // Create notification
-      const Notification = require('../models/Notification');
-      const notification = await Notification.create({
-        userId: property.ownerId._id,
-        type: 'booking',
-        title: 'New Booking Request',
-        message: `${guest.name} wants to book your property: ${property.title}`,
-        relatedId: req.body.userId,
-        read: false
-      });
-      console.log('Notification created:', notification._id);
-      
-      // Create initial message
-      const Message = require('../models/Message');
-      const message = await Message.create({
-        senderId: req.body.guestId || req.body.userId,
-        receiverId: property.ownerId._id,
-        content: `Hi! I'm interested in booking your property "${property.title}". Can we discuss the details?`,
-        read: false
-      });
-      console.log('Message created:', message._id);
-    }
-    
     res.status(201).json(newBooking);
+    
+    // Do notifications async (don't block response)
+    setImmediate(async () => {
+      try {
+        const property = await Property.findById(req.body.propertyId).populate('ownerId');
+        const guest = await User.findById(req.body.userId);
+        
+        if (property && property.ownerId && guest) {
+          const Notification = require('../models/Notification');
+          await Notification.create({
+            userId: property.ownerId._id,
+            type: 'booking',
+            title: 'New Booking Request',
+            message: `${guest.name} wants to book your property: ${property.title}`,
+            relatedId: req.body.userId,
+            read: false
+          });
+        }
+      } catch (error) {
+        console.error('Async notification error:', error);
+      }
+    });
   } catch (error) {
     console.error('Booking error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });

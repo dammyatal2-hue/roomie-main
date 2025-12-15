@@ -146,6 +146,11 @@ export default function ListingDetails() {
         return;
       }
 
+      if (!newReview.comment || newReview.comment.trim() === '') {
+        alert('Please write a comment for your review');
+        return;
+      }
+
       const userId = user._id || user.id;
 
       await reviewService.create({

@@ -94,7 +94,7 @@ export default function Booking() {
       const ownerId = typeof property.ownerId === 'object' ? property.ownerId._id : property.ownerId;
       
       const bookingPayload = {
-        guestId: userId,
+        userId: userId,
         propertyId: property._id,
         ownerId,
         checkIn: bookingData.checkIn,

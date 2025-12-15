@@ -130,7 +130,8 @@ export default function Booking() {
         console.log('Chat request may already exist');
       }
       
-      setStep(3);
+      alert('✅ Booking request sent successfully! The property owner will respond soon.');
+      navigate('/home');
     } catch (error) {
       console.error('Booking error:', error);
       console.error('Error details:', error.response?.data);
@@ -410,7 +411,6 @@ export default function Booking() {
         {/* Step Content */}
         {step === 1 && renderDateSelection()}
         {step === 2 && renderReceipt()}
-        {step === 3 && renderConfirmation()}
       </Container>
     </Box>
   );

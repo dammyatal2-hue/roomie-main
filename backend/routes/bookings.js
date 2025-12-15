@@ -46,9 +46,15 @@ router.get('/owner/:ownerId', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     console.log('Creating booking:', req.body);
-    const bookingData = { ...req.body, status: 'pending' };
+    const bookingData = { 
+      ...req.body, 
+      status: 'pending',
+      checkIn: new Date(req.body.checkIn),
+      checkOut: new Date(req.body.checkOut)
+    };
     if (bookingData.guestId && !bookingData.userId) {
       bookingData.userId = bookingData.guestId;
+      delete bookingData.guestId;
     }
     const newBooking = await Booking.create(bookingData);
     console.log('Booking created:', newBooking._id);

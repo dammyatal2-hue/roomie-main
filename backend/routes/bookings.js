@@ -46,7 +46,11 @@ router.get('/owner/:ownerId', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     console.log('Creating booking:', req.body);
-    const newBooking = await Booking.create({ ...req.body, status: 'pending' });
+    const bookingData = { ...req.body, status: 'pending' };
+    if (bookingData.guestId && !bookingData.userId) {
+      bookingData.userId = bookingData.guestId;
+    }
+    const newBooking = await Booking.create(bookingData);
     console.log('Booking created:', newBooking._id);
     
     const property = await Property.findById(req.body.propertyId).populate('ownerId');

@@ -6,26 +6,24 @@ import {
     Typography,
     Avatar,
     Chip,
-    Button,
-    Grid,
+    IconButton,
     CircularProgress,
-    Alert,
     Container,
     AppBar,
-    Toolbar,
-    IconButton
+    Toolbar
 } from '@mui/material';
-import { LocationOn, Message, ArrowBack } from '@mui/icons-material';
+import { LocationOn, ArrowBack, Close, Favorite, Info } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { roommateService } from '../services/roommateService';
 import { formatPriceWithPeriod } from '../utils/currency';
-import MessageButton from '../components/MessageButton';
 
 const RoommateMatching = () => {
     const navigate = useNavigate();
     const [matches, setMatches] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [swipeDirection, setSwipeDirection] = useState(null);
 
     useEffect(() => {
         loadMatches();
@@ -54,10 +52,28 @@ const RoommateMatching = () => {
         }
     };
 
-    const handleSendMessage = (roommateId) => {
-        alert(`Message sent to roommate ${roommateId}`);
-        // Implement actual messaging functionality
+    const handleSwipe = async (direction) => {
+        if (currentIndex >= matches.length) return;
+        
+        setSwipeDirection(direction);
+        
+        if (direction === 'right') {
+            // Send match request
+            try {
+                const match = matches[currentIndex];
+                await roommateService.sendMatchRequest(currentUser._id || currentUser.id, match._id);
+            } catch (error) {
+                console.error('Error sending match:', error);
+            }
+        }
+        
+        setTimeout(() => {
+            setCurrentIndex(prev => prev + 1);
+            setSwipeDirection(null);
+        }, 300);
     };
+
+    const currentMatch = matches[currentIndex];
 
     if (loading) {
         return (
@@ -86,133 +102,134 @@ const RoommateMatching = () => {
                 </Toolbar>
             </AppBar>
             
-            <Container maxWidth="lg" sx={{ py: 2 }}>
-            <Typography variant="h4" gutterBottom>
-                Roommate Matches
-            </Typography>
-            
-            <Typography variant="body1" color="text.secondary" paragraph>
-                Based on your profile preferences, we've found these potential roommates.
-            </Typography>
-
-            {matches.length === 0 ? (
-                <Alert severity="info">
-                    No matches found. Please update your profile to get better matches.
-                </Alert>
-            ) : (
-                <Grid container spacing={3}>
-                    {matches.map((match) => (
-                        <Grid item xs={12} md={6} key={match.id}>
-                            <Card sx={{ height: '100%' }}>
-                                <CardContent>
-                                    <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-                                        <Box display="flex" alignItems="center">
-                                            <Avatar
-                                                src={match.avatar}
-                                                sx={{ 
-                                                    width: 60, 
-                                                    height: 60, 
-                                                    mr: 2,
-                                                    bgcolor: 'primary.main'
-                                                }}
-                                            >
-                                                {match.name?.charAt(0)}
-                                            </Avatar>
-                                            <Box>
-                                                <Typography variant="h6">
-                                                    {match.name}
-                                                </Typography>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    {match.occupation || 'Professional'}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                        {match.matchScore && (
-                                            <Chip
-                                                label={`${match.matchScore}% Match`}
-                                                color={
-                                                    match.matchScore >= 80 ? 'success' :
-                                                    match.matchScore >= 60 ? 'warning' : 'default'
-                                                }
-                                            />
-                                        )}
-                                    </Box>
-
-                                    <Typography variant="body2" paragraph>
-                                        {match.bio}
+            <Container maxWidth="sm" sx={{ py: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 'calc(100vh - 64px)' }}>
+                {currentIndex >= matches.length ? (
+                    <Box sx={{ textAlign: 'center', mt: 8 }}>
+                        <Typography variant="h5" gutterBottom>🎉 No more matches!</Typography>
+                        <Typography variant="body1" color="text.secondary" paragraph>
+                            Check back later for new potential roommates
+                        </Typography>
+                    </Box>
+                ) : currentMatch ? (
+                    <Box sx={{ width: '100%', maxWidth: 400, position: 'relative' }}>
+                        <Card 
+                            sx={{ 
+                                borderRadius: '20px',
+                                overflow: 'hidden',
+                                boxShadow: '0 10px 40px rgba(0,0,0,0.2)',
+                                transform: swipeDirection === 'left' ? 'translateX(-400px) rotate(-20deg)' : 
+                                          swipeDirection === 'right' ? 'translateX(400px) rotate(20deg)' : 'none',
+                                transition: 'transform 0.3s ease',
+                                opacity: swipeDirection ? 0 : 1
+                            }}
+                        >
+                            <Box sx={{ position: 'relative', height: 400, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                                <Avatar
+                                    src={currentMatch.avatar}
+                                    sx={{ 
+                                        width: '100%',
+                                        height: '100%',
+                                        borderRadius: 0,
+                                        fontSize: '8rem'
+                                    }}
+                                >
+                                    {currentMatch.name?.charAt(0)}
+                                </Avatar>
+                                {currentMatch.matchScore && (
+                                    <Chip
+                                        label={`${currentMatch.matchScore}% Match`}
+                                        color="success"
+                                        sx={{ position: 'absolute', top: 16, right: 16, fontWeight: 'bold' }}
+                                    />
+                                )}
+                            </Box>
+                            <CardContent sx={{ p: 3 }}>
+                                <Typography variant="h4" fontWeight="bold" gutterBottom>
+                                    {currentMatch.name}
+                                </Typography>
+                                <Typography variant="h6" color="text.secondary" gutterBottom>
+                                    {currentMatch.occupation || 'Professional'}
+                                </Typography>
+                                <Box display="flex" alignItems="center" gap={1} mb={2}>
+                                    <LocationOn fontSize="small" color="action" />
+                                    <Typography variant="body2" color="text.secondary">
+                                        {currentMatch.location || 'Kigali, Rwanda'}
                                     </Typography>
-
-                                    <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
-                                        <Chip
-                                            icon={<LocationOn />}
-                                            label={match.location || 'Kigali, Rwanda'}
-                                            size="small"
-                                            variant="outlined"
-                                        />
-                                        {match.preferences?.maxBudget && (
-                                            <Chip
-                                                label={formatPriceWithPeriod(match.preferences.maxBudget)}
-                                                size="small"
-                                                variant="outlined"
-                                            />
-                                        )}
-                                        {match.preferences?.cleanliness && (
-                                            <Chip
-                                                label={`Cleanliness: ${match.preferences.cleanliness}/5`}
-                                                size="small"
-                                                variant="outlined"
-                                            />
-                                        )}
-                                        {match.preferences?.smoking !== undefined && (
-                                            <Chip
-                                                label={match.preferences.smoking ? 'Smoker' : 'Non-smoker'}
-                                                size="small"
-                                                variant="outlined"
-                                            />
-                                        )}
-                                        {match.preferences?.pets !== undefined && (
-                                            <Chip
-                                                label={match.preferences.pets ? 'Has Pets' : 'No Pets'}
-                                                size="small"
-                                                variant="outlined"
-                                            />
-                                        )}
-                                    </Box>
-
-                                    {match.interests && match.interests.length > 0 && (
-                                        <Box mb={2}>
-                                            <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
-                                                Interests:
-                                            </Typography>
-                                            <Box display="flex" flexWrap="wrap" gap={0.5}>
-                                                {match.interests.slice(0, 4).map((interest, idx) => (
-                                                    <Chip
-                                                        key={idx}
-                                                        label={interest}
-                                                        size="small"
-                                                        sx={{ fontSize: '0.7rem' }}
-                                                    />
-                                                ))}
-                                            </Box>
-                                        </Box>
+                                </Box>
+                                <Typography variant="body1" paragraph>
+                                    {currentMatch.bio || 'No bio available'}
+                                </Typography>
+                                <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
+                                    {currentMatch.preferences?.maxBudget && (
+                                        <Chip label={formatPriceWithPeriod(currentMatch.preferences.maxBudget)} size="small" />
                                     )}
-
-                                    <Box display="flex" gap={1}>
-                                        <Button 
-                                            variant="outlined" 
-                                            fullWidth
-                                            onClick={() => navigate(`/match-profile/${match._id}`)}
-                                        >
-                                            View Profile
-                                        </Button>
-                                        <MessageButton userId={match._id} context="roommate" fullWidth />
+                                    {currentMatch.preferences?.smoking !== undefined && (
+                                        <Chip label={currentMatch.preferences.smoking ? '🚬 Smoker' : '🚭 Non-smoker'} size="small" />
+                                    )}
+                                    {currentMatch.preferences?.pets !== undefined && (
+                                        <Chip label={currentMatch.preferences.pets ? '🐾 Has Pets' : 'No Pets'} size="small" />
+                                    )}
+                                </Box>
+                                {currentMatch.interests && currentMatch.interests.length > 0 && (
+                                    <Box>
+                                        <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+                                            Interests:
+                                        </Typography>
+                                        <Box display="flex" flexWrap="wrap" gap={0.5}>
+                                            {currentMatch.interests.map((interest, idx) => (
+                                                <Chip key={idx} label={interest} size="small" variant="outlined" />
+                                            ))}
+                                        </Box>
                                     </Box>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-            )}
+                                )}
+                            </CardContent>
+                        </Card>
+
+                        {/* Swipe Buttons */}
+                        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, mt: 3 }}>
+                            <IconButton
+                                onClick={() => handleSwipe('left')}
+                                sx={{
+                                    width: 70,
+                                    height: 70,
+                                    background: 'white',
+                                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                                    '&:hover': { background: '#ffebee', transform: 'scale(1.1)' }
+                                }}
+                            >
+                                <Close sx={{ fontSize: 40, color: '#f44336' }} />
+                            </IconButton>
+                            <IconButton
+                                onClick={() => navigate(`/match-profile/${currentMatch._id}`)}
+                                sx={{
+                                    width: 60,
+                                    height: 60,
+                                    background: 'white',
+                                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                                    '&:hover': { background: '#e3f2fd', transform: 'scale(1.1)' }
+                                }}
+                            >
+                                <Info sx={{ fontSize: 30, color: '#2196f3' }} />
+                            </IconButton>
+                            <IconButton
+                                onClick={() => handleSwipe('right')}
+                                sx={{
+                                    width: 70,
+                                    height: 70,
+                                    background: 'white',
+                                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                                    '&:hover': { background: '#e8f5e9', transform: 'scale(1.1)' }
+                                }}
+                            >
+                                <Favorite sx={{ fontSize: 40, color: '#4caf50' }} />
+                            </IconButton>
+                        </Box>
+
+                        <Typography variant="body2" color="text.secondary" textAlign="center" sx={{ mt: 2 }}>
+                            {matches.length - currentIndex} potential roommate{matches.length - currentIndex !== 1 ? 's' : ''} remaining
+                        </Typography>
+                    </Box>
+                ) : null}
             </Container>
         </Box>
     );

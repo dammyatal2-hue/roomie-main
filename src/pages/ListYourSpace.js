@@ -327,6 +327,17 @@ export default function ListYourSpace() {
                     <MenuItem value="Kiyovu, Kigali">Kiyovu, Kigali</MenuItem>
                     <MenuItem value="Gikondo, Kigali">Gikondo, Kigali</MenuItem>
                     <MenuItem value="Kibagabaga, Kigali">Kibagabaga, Kigali</MenuItem>
+                    <MenuItem value="Gasabo, Kigali">Gasabo, Kigali</MenuItem>
+                    <MenuItem value="Nyarugenge, Kigali">Nyarugenge, Kigali</MenuItem>
+                    <MenuItem value="Kanombe, Kigali">Kanombe, Kigali</MenuItem>
+                    <MenuItem value="Kinyinya, Kigali">Kinyinya, Kigali</MenuItem>
+                    <MenuItem value="Kabeza, Kigali">Kabeza, Kigali</MenuItem>
+                    <MenuItem value="Niboye, Kigali">Niboye, Kigali</MenuItem>
+                    <MenuItem value="Rugando, Kigali">Rugando, Kigali</MenuItem>
+                    <MenuItem value="Nyamirambo, Kigali">Nyamirambo, Kigali</MenuItem>
+                    <MenuItem value="Muhima, Kigali">Muhima, Kigali</MenuItem>
+                    <MenuItem value="Biryogo, Kigali">Biryogo, Kigali</MenuItem>
+                    <MenuItem value="Kimironko, Kigali">Kimironko, Kigali</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

@@ -63,11 +63,20 @@ export default function Booking() {
 
   const calculateTotal = () => {
     const days = calculateDuration();
-    const monthlyRate = property?.price || 340000;
-    const dailyRate = monthlyRate / 30;
-    const subtotal = days * dailyRate;
-    const tax = subtotal * 0.1;
-    return { subtotal: Math.round(subtotal), tax: Math.round(tax), total: Math.round(subtotal + tax) };
+    const pricePerPeriod = property?.price || 340000;
+    const priceType = property?.priceType || 'month';
+    
+    let dailyRate;
+    if (priceType === 'night') {
+      dailyRate = pricePerPeriod;
+    } else if (priceType === 'week') {
+      dailyRate = pricePerPeriod / 7;
+    } else {
+      dailyRate = pricePerPeriod / 30;
+    }
+    
+    const total = Math.round(days * dailyRate);
+    return { total };
   };
 
   const handleNext = () => {
@@ -207,7 +216,7 @@ export default function Booking() {
   );
 
   const renderReceipt = () => {
-    const { subtotal, tax, total } = calculateTotal();
+    const { total } = calculateTotal();
     
     return (
       <Box>
@@ -256,12 +265,12 @@ export default function Booking() {
             Price Breakdown
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-            <Typography variant="body2">Subtotal ({calculateDuration()} days):</Typography>
-            <Typography variant="body2">{formatPrice(subtotal)}</Typography>
+            <Typography variant="body2">Duration:</Typography>
+            <Typography variant="body2">{calculateDuration()} days</Typography>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-            <Typography variant="body2">Tax (10%):</Typography>
-            <Typography variant="body2">{formatPrice(tax)}</Typography>
+            <Typography variant="body2">Rate per day:</Typography>
+            <Typography variant="body2">{formatPrice(Math.round((property?.price || 340000) / (property?.priceType === 'night' ? 1 : property?.priceType === 'week' ? 7 : 30)))}</Typography>
           </Box>
           <Divider sx={{ my: 1 }} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

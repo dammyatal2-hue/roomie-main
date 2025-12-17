@@ -42,6 +42,7 @@ export default function ListYourSpace() {
     description: '',
     location: '',
     price: '',
+    priceType: 'month',
     type: 'Apartment',
     bedrooms: '',
     bathrooms: '',
@@ -59,6 +60,7 @@ export default function ListYourSpace() {
         description: editProperty.description || '',
         location: editProperty.location || '',
         price: editProperty.price?.toString() || '',
+        priceType: editProperty.priceType || 'month',
         type: editProperty.type || 'Apartment',
         bedrooms: editProperty.bedrooms?.toString() || '',
         bathrooms: editProperty.bathrooms?.toString() || '',
@@ -186,6 +188,7 @@ export default function ListYourSpace() {
         description: formData.description || 'No description provided',
         location: formData.location,
         price: parseInt(formData.price.replace(/[^0-9]/g, '')) || 0,
+        priceType: formData.priceType,
         bedrooms: parseInt(formData.bedrooms) || 1,
         bathrooms: parseInt(formData.bathrooms) || 1,
         amenities: formData.amenities,
@@ -342,14 +345,30 @@ export default function ListYourSpace() {
                 </FormControl>
               </Grid>
               
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={4}>
                 <TextField
                   fullWidth
                   label="Price"
+                  type="number"
                   value={formData.price}
                   onChange={(e) => handleInputChange('price', e.target.value)}
-                  placeholder="e.g., $320/month"
+                  placeholder="e.g., 320000"
                 />
+              </Grid>
+              
+              <Grid item xs={12} sm={2}>
+                <TextField
+                  fullWidth
+                  select
+                  label="Per"
+                  value={formData.priceType}
+                  onChange={(e) => handleInputChange('priceType', e.target.value)}
+                  SelectProps={{ native: true }}
+                >
+                  <option value="night">Night</option>
+                  <option value="week">Week</option>
+                  <option value="month">Month</option>
+                </TextField>
               </Grid>
               
               <Grid item xs={12} sm={4}>

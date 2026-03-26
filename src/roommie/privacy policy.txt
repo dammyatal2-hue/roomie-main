@@ -1,0 +1,76 @@
+<div style="width: 375px; height: 2561px; position: relative; background: #FAFAFA; overflow: hidden">
+  <div style="width: 375.82px; height: 43.97px; left: 0px; top: 0px; position: absolute; background: white"></div>
+  <div style="width: 375.82px; height: 2893.92px; left: 0px; top: 105.70px; position: absolute">
+    <div style="width: 375.82px; height: 82.94px; left: 0px; top: 0px; position: absolute; justify-content: center; align-items: center; gap: 7.98px; display: inline-flex">
+      <div style="width: 14.21px; height: 14.21px; position: relative; overflow: hidden">
+        <div style="width: 9.47px; height: 11.84px; left: 2.37px; top: 1.18px; position: absolute; outline: 1.18px #FE456A solid; outline-offset: -0.59px"></div>
+      </div>
+      <div style="width: 305.68px; height: 38.97px; position: relative">
+        <div style="width: 284px; left: 11.23px; top: -2px; position: absolute; text-align: center; color: #6B7280; font-size: 13px; font-family: Arial; font-weight: 400; line-height: 19.50px; word-wrap: break-word">Your privacy matters to us. Here's how we protect your data.</div>
+      </div>
+    </div>
+    <div style="width: 327.87px; height: 17.97px; left: 23.98px; top: 82.94px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+      <div style="flex: 1 1 0; text-align: center; color: #9DA4AE; font-size: 12px; font-family: Arial; font-weight: 400; line-height: 18px; word-wrap: break-word">Last updated: January 20, 2026</div>
+    </div>
+    <div style="width: 375.82px; height: 2187.18px; padding-left: 23.98px; padding-right: 23.98px; left: 0px; top: 124.89px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 23.98px; display: inline-flex">
+      <div style="align-self: stretch; height: 321.45px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Introduction</div>
+        </div>
+        <div style="align-self: stretch; height: 242px; position: relative">
+          <div style="width: 284px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">Roomie is committed to protecting your privacy and ensuring you have a positive experience on our platform. This Privacy Policy outlines how we collect, use, and protect your personal information.<br/><br/>We believe in transparency and your right to understand how your data is handled. By using Roomie, you agree to the collection and use of information in accordance with this policy.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 453.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Information We Collect</div>
+        </div>
+        <div style="align-self: stretch; height: 374.01px; position: relative">
+          <div style="width: 278px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">We collect information that you provide directly to us, including:<br/><br/>• Profile information (name, age, occupation, lifestyle preferences)<br/>• Account credentials (email, password)<br/>• Listing information (photos, descriptions, location)<br/>• Communication data (messages, requests, reviews)<br/>• Payment information (processed securely through third-party providers)<br/><br/>We also automatically collect certain information when you use our platform, including device information, usage patterns, and location data (with your permission).</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 409.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">How We Use Your Data</div>
+        </div>
+        <div style="align-self: stretch; height: 330.01px; position: relative">
+          <div style="width: 280px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">We use the information we collect to:<br/><br/>• Create and manage your account<br/>• Match you with compatible roommates and homes<br/>• Facilitate communication between users<br/>• Process booking requests and payments<br/>• Improve our services and user experience<br/>• Send you updates, notifications, and support messages<br/>• Ensure platform safety and prevent fraud<br/>• Comply with legal obligations<br/><br/>We never sell your personal information to third parties.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 453.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Sharing & Safety</div>
+        </div>
+        <div style="align-self: stretch; height: 374.01px; position: relative">
+          <div style="width: 283px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">Your safety is our priority. We share your information only in the following circumstances:<br/><br/>• With other users as necessary for matching and communication<br/>• With service providers who help us operate the platform<br/>• When required by law or to protect our legal rights<br/>• With your explicit consent<br/><br/>We use industry-standard security measures to protect your data, including encryption, secure servers, and regular security audits. However, no method of transmission over the internet is 100% secure.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 453.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Your Rights</div>
+        </div>
+        <div style="align-self: stretch; height: 374.01px; position: relative">
+          <div style="width: 284px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">You have the right to:<br/><br/>• Access, update, or delete your personal information<br/>• Export your data in a portable format<br/>• Opt-out of marketing communications<br/>• Request that we stop processing your data<br/>• Lodge a complaint with a supervisory authority<br/><br/>To exercise any of these rights, please contact us at privacy@roomie.app. We will respond to your request within 30 days.<br/><br/>For more information or questions about this Privacy Policy, please reach out to our support team.</div>
+        </div>
+      </div>
+    </div>
+    <div style="width: 327.87px; height: 82.89px; left: 23.98px; top: 2344.05px; position: absolute; background: #F9FAFB; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px">
+      <div style="width: 292.42px; height: 19.48px; left: 17.72px; top: 17.72px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+        <div style="flex: 1 1 0; text-align: center; color: #6B7280; font-size: 13px; font-family: Arial; font-weight: 400; line-height: 19.50px; word-wrap: break-word">Questions about our privacy practices?</div>
+      </div>
+      <div style="width: 73.88px; height: 17.32px; left: 127px; top: 44.65px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+        <div style="text-align: center; color: #FE456A; font-size: 14px; font-family: Inter; font-weight: 600; line-height: 21px; word-wrap: break-word">Contact us</div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 375.82px; height: 61.73px; padding-left: 20px; left: 0px; top: 43.97px; position: absolute; background: white; border-bottom: 1.73px #E5E7EB solid; justify-content: flex-start; align-items: center; gap: 15.99px; display: inline-flex">
+    <div style="width: 23.98px; height: 23.98px; justify-content: center; align-items: center; display: flex">
+      <div style="width: 23.98px; height: 23.98px; position: relative; overflow: hidden">
+        <div style="width: 6.99px; height: 13.99px; left: 5px; top: 4.99px; position: absolute; outline: 2px #1F2A37 solid; outline-offset: -1px"></div>
+      </div>
+    </div>
+    <div style="width: 121.56px; height: 28.01px; position: relative">
+      <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 18px; font-family: Inter; font-weight: 600; line-height: 28px; word-wrap: break-word">Privacy Policy</div>
+    </div>
+  </div>
+</div>

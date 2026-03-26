@@ -1,0 +1,73 @@
+<div style="width: 375px; height: 812px; position: relative; background: white">
+  <div style="width: 375.82px; height: 812.25px; left: 0px; top: 0px; position: absolute; background: #FCFCFD; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+    <div style="width: 375.82px; height: 43.97px; position: relative"></div>
+    <div style="width: 375.82px; height: 57.72px; padding-top: 15.99px; padding-bottom: 1.73px; padding-left: 23.98px; padding-right: 23.98px; border-bottom: 1.73px #E5E7EB solid; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+      <div style="align-self: stretch; height: 24px; position: relative">
+        <div style="left: 124.10px; top: -1.27px; position: absolute; text-align: center; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">My Listing</div>
+      </div>
+    </div>
+    <div style="width: 375.82px; flex: 1 1 0; position: relative">
+      <div style="width: 119.99px; height: 119.99px; padding-right: 0.03px; left: 127.92px; top: 153.33px; position: absolute; background: #F3F4F6; border-radius: 58112400px; justify-content: center; align-items: center; display: inline-flex">
+        <div style="width: 59.99px; height: 59.99px; position: relative; overflow: hidden">
+          <div style="width: 45px; height: 47.49px; left: 7.50px; top: 7.50px; position: absolute; outline: 3px #9DA4AE solid; outline-offset: -1.50px"></div>
+          <div style="width: 15px; height: 25px; left: 22.50px; top: 30px; position: absolute; outline: 3px #9DA4AE solid; outline-offset: -1.50px"></div>
+        </div>
+      </div>
+      <div style="width: 137.31px; height: 28.01px; left: 119.26px; top: 297.29px; position: absolute">
+        <div style="left: 0px; top: -0.27px; position: absolute; color: #1F2A37; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 28px; word-wrap: break-word">No listings yet</div>
+      </div>
+      <div style="width: 280px; height: 40px; left: 47.90px; top: 333.28px; position: absolute">
+        <div style="width: 231px; left: 24.98px; top: -1px; position: absolute; text-align: center; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Create your first listing to find your perfect roommate or tenant</div>
+      </div>
+      <div style="width: 183.88px; height: 51.98px; left: 95.96px; top: 405.26px; position: absolute; background: #FE456A; box-shadow: 0px 20px 24px -4px rgba(254, 69, 106, 0.15), 0px 8px 8px -4px rgba(254, 69, 106, 0.10); border-radius: 8px">
+        <div style="width: 20px; height: 20px; left: 23.98px; top: 15.99px; position: absolute; overflow: hidden"></div>
+        <div style="left: 51.96px; top: 12.72px; position: absolute; text-align: center; color: white; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Create Listing</div>
+      </div>
+      <div data-type="Booked" style="width: 375px; height: 86px; left: 0px; top: 624.31px; position: absolute">
+        <div style="width: 376px; height: 86px; left: 0px; top: 0px; position: absolute; background: #F9FAFB; box-shadow: 0px -1px 2px rgba(31, 42, 55, 0.06), 0px -1px 3px rgba(31, 42, 55, 0.10)"></div>
+        <div style="width: 28px; height: 3px; left: 240px; top: 0px; position: absolute; background: #FE456A"></div>
+        <div style="width: 375px; padding-left: 40px; padding-right: 40px; left: 1px; top: 20px; position: absolute; justify-content: space-between; align-items: center; display: inline-flex">
+          <div style="flex-direction: column; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+            <div style="width: 24px; height: 24px; position: relative">
+              <div style="width: 24px; height: 24px; left: 0px; top: 0px; position: absolute">
+                <div style="width: 19px; height: 20px; left: 2.50px; top: 2px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              </div>
+            </div>
+            <div style="color: #9DA4AE; font-size: 10px; font-family: Inter; font-weight: 500; line-height: 14px; word-wrap: break-word">Home</div>
+          </div>
+          <div style="flex-direction: column; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+            <div style="width: 24px; height: 24px; position: relative">
+              <div style="width: 6.68px; height: 6.68px; left: 8.27px; top: 8.27px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              <div style="width: 19.22px; height: 19.22px; left: 2px; top: 2px; position: absolute; border-radius: 9999px; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+            </div>
+            <div style="color: #9DA4AE; font-size: 10px; font-family: Inter; font-weight: 500; line-height: 14px; word-wrap: break-word">Explore</div>
+          </div>
+          <div style="flex-direction: column; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+            <div style="width: 24px; height: 24px; position: relative">
+              <div style="width: 7px; height: 7px; left: 8.50px; top: 7.50px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              <div style="width: 6.98px; height: 7px; left: 13.02px; top: 4.50px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              <div style="width: 6.98px; height: 7px; left: 4px; top: 4.50px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              <div style="width: 5.50px; height: 5px; left: 16.50px; top: 11.50px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              <div style="width: 11px; height: 5px; left: 6.50px; top: 14.50px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              <div style="width: 5.50px; height: 5px; left: 2px; top: 11.50px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+            </div>
+            <div style="color: #9DA4AE; font-size: 10px; font-family: Inter; font-weight: 500; line-height: 14px; word-wrap: break-word">Community</div>
+          </div>
+          <div style="flex-direction: column; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+            <div style="width: 24px; height: 24px; position: relative">
+              <div style="width: 24px; height: 24px; left: 0px; top: 0px; position: absolute"></div>
+            </div>
+            <div style="color: #FE456A; font-size: 10px; font-family: Inter; font-weight: 500; line-height: 14px; word-wrap: break-word">My Listing</div>
+          </div>
+          <div style="flex-direction: column; justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
+            <div style="width: 24px; height: 24px; position: relative">
+              <div style="width: 14.34px; height: 5.87px; left: 4.81px; top: 15.35px; position: absolute; outline: 1.50px #9DA4AE solid; outline-offset: -0.75px"></div>
+              <div style="width: 9.19px; height: 9.19px; left: 7.39px; top: 2.81px; position: absolute; outline: 1.43px #9DA4AE solid; outline-offset: -0.71px"></div>
+            </div>
+            <div style="color: #9DA4AE; font-size: 10px; font-family: Inter; font-weight: 500; line-height: 14px; word-wrap: break-word">Profile</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

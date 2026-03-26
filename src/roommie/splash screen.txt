@@ -1,0 +1,39 @@
+import { IosIphoneHome } from "./IosIphoneHome";
+import subtract from "./subtract.svg";
+
+export const SplashScreen = () => {
+  return (
+    <div className="bg-gray-25 w-full min-w-[375px] min-h-[812px] flex flex-col">
+      <div className="ml-[137px] w-[101px] h-[101px] relative mt-[318px] aspect-[1]">
+        <div className="absolute top-[84px] left-[3px] w-[13px] h-[13px]">
+          <div className="top-0 left-0 absolute w-[5px] h-[5px] bg-[#fe456a]" />
+
+          <div className="top-0 left-[7px] absolute w-[5px] h-[5px] bg-[#fe456a]" />
+
+          <div className="top-[7px] left-[7px] absolute w-[5px] h-[5px] bg-[#fe456a]" />
+
+          <div className="top-[7px] left-px absolute w-[5px] h-[5px] bg-[#fe456a]" />
+        </div>
+
+        <img
+          className="absolute w-[101px] h-[101px] top-0 left-0"
+          alt="Subtract"
+          src={subtract}
+        />
+      </div>
+
+      <div className="ml-0.5 w-[119px] self-center mt-[34px] flex justify-center">
+        <div className="w-[117px] h-8 -ml-0.5 [font-family:'Inter-ExtraBold',Helvetica] font-extrabold text-[#fe456a] text-2xl tracking-[3.84px] leading-8 whitespace-nowrap">
+          ROOMIE
+        </div>
+      </div>
+
+      <IosIphoneHome
+        className="!mt-[293px] !flex ![position:unset] !left-[unset] !bottom-[unset]"
+        theme="light"
+        vector="image.svg"
+        vectorClassName="!h-[unset] !flex-1 ![position:unset] !left-[unset] !w-[134px] !top-[unset]"
+      />
+    </div>
+  );
+};

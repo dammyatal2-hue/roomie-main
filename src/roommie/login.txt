@@ -1,0 +1,120 @@
+import { Button } from "./Button";
+import { Checkbox } from "./Checkbox";
+import { IconlyLightArrow } from "./IconlyLightArrow";
+import { InputForm } from "./InputForm";
+import { IosIphoneHome } from "./IosIphoneHome";
+import socialMedia from "./social-media.svg";
+import statusIcons from "./status-icons.svg";
+
+export const Login = () => {
+  return (
+    <div className="bg-gray-25 w-full min-w-[375px] min-h-[812px] flex flex-col">
+      <div className="w-[375px] h-11 flex justify-between">
+        <div className="mt-[13px] w-[75px] h-[18px] ml-2.5 gap-2.5 flex relative items-center justify-center">
+          <div className="w-fit mt-[-1.00px] [font-family:'Inter-SemiBold',Helvetica] font-semibold text-black text-[15px] text-center tracking-[-0.17px] leading-[normal] whitespace-nowrap flex relative items-center justify-center">
+            09:41
+          </div>
+        </div>
+
+        <img
+          className="mt-4 w-[66.5px] h-3 relative"
+          alt="Status icons"
+          src={statusIcons}
+        />
+      </div>
+
+      <IconlyLightArrow className="!mt-6 !ml-6 bg-[url(/arrow-left-2.svg)] ![position:unset] !left-[unset] !top-[unset]" />
+      <div className="inline-flex ml-6 w-[327px] h-[546px] relative mt-6 flex-col items-center justify-center gap-8">
+        <div className="flex flex-col w-[327px] items-start gap-2 relative flex-[0_0_auto]">
+          <div className="relative w-fit mt-[-1.00px] font-heading-h5-semi-bold font-[number:var(--heading-h5-semi-bold-font-weight)] text-secondarygrayneutral-800 text-[length:var(--heading-h5-semi-bold-font-size)] text-center tracking-[var(--heading-h5-semi-bold-letter-spacing)] leading-[var(--heading-h5-semi-bold-line-height)] whitespace-nowrap [font-style:var(--heading-h5-semi-bold-font-style)]">
+            Welcome Back !
+          </div>
+
+          <p className="relative self-stretch font-paragraph-p14-regular font-[number:var(--paragraph-p14-regular-font-weight)] text-secondarygrayneutral-400 text-[length:var(--paragraph-p14-regular-font-size)] tracking-[var(--paragraph-p14-regular-letter-spacing)] leading-[var(--paragraph-p14-regular-line-height)] [font-style:var(--paragraph-p14-regular-font-style)]">
+            Sign in with your email and password <br />
+            or social media to continue
+          </p>
+        </div>
+
+        <div className="inline-flex flex-col items-start gap-4 relative flex-[0_0_auto]">
+          <InputForm
+            caption={false}
+            className="!flex-[0_0_auto] !left-[unset] !top-[unset]"
+            inputText="dammy@gmail.com"
+            leftIcons={false}
+            rightIcons={false}
+            size="large"
+            text="Email"
+            type="typing"
+          />
+          <InputForm
+            caption={false}
+            className="!flex-[0_0_auto] !left-[unset] !top-[unset]"
+            iconlyLightHideIconlyLightHideClassName="bg-[url(/hide.svg)] !left-[unset] !top-[unset]"
+            inputText="••••••••"
+            leftIcons={false}
+            size="large"
+            text="Password"
+            type="filled"
+          />
+          <div className="flex items-start gap-[88px] relative self-stretch w-full flex-[0_0_auto]">
+            <div className="h-[18px] items-start gap-[88px] flex-1 grow flex relative">
+              <div className="w-[123px] items-center gap-2 mr-[-8.00px] flex relative">
+                <Checkbox
+                  className="!h-4 bg-[url(/tick-square.svg)] !left-[unset] !w-4 !top-[unset]"
+                  selected
+                  type="default"
+                />
+                <div className="relative flex-1 mt-[-1.00px] font-paragraph-p14-regular font-[number:var(--paragraph-p14-regular-font-weight)] text-secondarygrayneutral-800 text-[length:var(--paragraph-p14-regular-font-size)] tracking-[var(--paragraph-p14-regular-letter-spacing)] leading-[var(--paragraph-p14-regular-line-height)] [font-style:var(--paragraph-p14-regular-font-style)]">
+                  Remember me
+                </div>
+              </div>
+            </div>
+
+            <div className="relative w-[124px] h-[18px] mt-[-1.00px] font-paragraph-p14-regular font-[number:var(--paragraph-p14-regular-font-weight)] text-[#fe456a] text-[length:var(--paragraph-p14-regular-font-size)] tracking-[var(--paragraph-p14-regular-letter-spacing)] leading-[var(--paragraph-p14-regular-line-height)] whitespace-nowrap [font-style:var(--paragraph-p14-regular-font-style)]">
+              Forgot password ?
+            </div>
+          </div>
+        </div>
+
+        <div className="inline-flex flex-col items-center gap-6 relative flex-[0_0_auto]">
+          <Button
+            className="!rounded-lg !shadow-[0px_20px_24px_-4px_#7f56d914,0px_8px_8px_-4px_#7f56d908] !flex !left-[unset] !bg-[#fe456a] !w-[327px] !top-[unset]"
+            leftIcons={false}
+            rightIcons={false}
+            size="lg"
+            state="default"
+            textInput="Sign in"
+            type="primary"
+          />
+          <div className="relative w-fit font-paragraph-p14-regular font-[number:var(--paragraph-p14-regular-font-weight)] text-secondarygrayneutral-800 text-[length:var(--paragraph-p14-regular-font-size)] tracking-[var(--paragraph-p14-regular-letter-spacing)] leading-[var(--paragraph-p14-regular-line-height)] whitespace-nowrap [font-style:var(--paragraph-p14-regular-font-style)]">
+            Or
+          </div>
+
+          <img
+            className="relative flex-[0_0_auto]"
+            alt="Social media"
+            src={socialMedia}
+          />
+        </div>
+
+        <p className="relative w-fit [font-family:'Inter-Regular',Helvetica] font-normal text-transparent text-sm tracking-[0] leading-[18px] whitespace-nowrap">
+          <span className="text-[#1f2a37] font-paragraph-p14-regular [font-style:var(--paragraph-p14-regular-font-style)] font-[number:var(--paragraph-p14-regular-font-weight)] tracking-[var(--paragraph-p14-regular-letter-spacing)] leading-[var(--paragraph-p14-regular-line-height)] text-[length:var(--paragraph-p14-regular-font-size)]">
+            Don’t have account ?{" "}
+          </span>
+
+          <span className="font-paragraph-p14-medium font-[number:var(--paragraph-p14-medium-font-weight)] text-[#fe456a] [font-style:var(--paragraph-p14-medium-font-style)] tracking-[var(--paragraph-p14-medium-letter-spacing)] leading-[var(--paragraph-p14-medium-line-height)] text-[length:var(--paragraph-p14-medium-font-size)]">
+            Sign up
+          </span>
+        </p>
+      </div>
+
+      <IosIphoneHome
+        className="!mt-[116px] !flex ![position:unset] !left-[unset] !bottom-[unset]"
+        theme="light"
+        vector="image.svg"
+        vectorClassName="!h-[unset] !flex-1 ![position:unset] !left-[unset] !w-[134px] !top-[unset]"
+      />
+    </div>
+  );
+};

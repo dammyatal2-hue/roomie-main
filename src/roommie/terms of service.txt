@@ -1,0 +1,84 @@
+<div style="width: 375px; height: 3977px; position: relative; background: #FAFAFA; overflow: hidden">
+  <div style="width: 374px; height: 3915px; left: 0px; top: 62px; position: absolute">
+    <div style="width: 349.84px; height: 63.46px; padding-right: 0.03px; left: 0px; top: 0px; position: absolute; justify-content: center; align-items: center; gap: 7.98px; display: inline-flex">
+      <div style="width: 15.99px; height: 15.99px; position: relative; overflow: hidden">
+        <div style="width: 10.66px; height: 13.33px; left: 2.67px; top: 1.33px; position: absolute; outline: 1.33px #FE456A solid; outline-offset: -0.67px"></div>
+        <div style="width: 4px; height: 4px; left: 9.33px; top: 1.33px; position: absolute; outline: 1.33px #FE456A solid; outline-offset: -0.67px"></div>
+      </div>
+      <div style="width: 247.90px; height: 19.48px; justify-content: flex-start; align-items: flex-start; display: flex">
+        <div style="text-align: center; color: #6B7280; font-size: 13px; font-family: Arial; font-weight: 400; line-height: 19.50px; word-wrap: break-word">By using Roomie, you agree to these terms.</div>
+      </div>
+    </div>
+    <div style="width: 301.89px; height: 17.97px; left: 23.98px; top: 63.46px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+      <div style="flex: 1 1 0; text-align: center; color: #9DA4AE; font-size: 12px; font-family: Arial; font-weight: 400; line-height: 18px; word-wrap: break-word">Last updated: January 20, 2026</div>
+    </div>
+    <div style="width: 371px; height: 3655px; padding-left: 23.98px; padding-right: 23.98px; left: 0px; top: 105px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 23.98px; display: inline-flex">
+      <div style="align-self: stretch; height: 409.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Introduction</div>
+        </div>
+        <div style="align-self: stretch; height: 330.01px; position: relative">
+          <div style="width: 259px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">Welcome to Roomie. These Terms of Service ("Terms") govern your use of the Roomie platform and services. By creating an account or using our services, you agree to be bound by these Terms.<br/><br/>Please read these Terms carefully before using Roomie. If you do not agree with any part of these Terms, you may not use our services.<br/><br/>Roomie reserves the right to modify these Terms at any time. We will notify you of any changes by posting the updated Terms on our platform.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 541.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">User Responsibilities</div>
+        </div>
+        <div style="align-self: stretch; height: 462.01px; position: relative">
+          <div style="width: 254px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">As a Roomie user, you agree to:<br/><br/>• Provide accurate and truthful information in your profile and listings<br/>• Keep your account credentials secure and confidential<br/>• Use the platform respectfully and professionally<br/>• Comply with all applicable laws and regulations<br/>• Not misrepresent yourself, your living situation, or your intentions<br/>• Not use the platform for fraudulent, illegal, or harmful purposes<br/>• Respect the privacy and safety of other users<br/><br/>You are responsible for all activity that occurs under your account. If you believe your account has been compromised, contact us immediately.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 651.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Listings & Requests</div>
+        </div>
+        <div style="align-self: stretch; height: 572.01px; position: relative">
+          <div style="width: 255px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">When creating a listing, you represent that:<br/><br/>• You have the legal right to list the property<br/>• All information and photos are accurate and current<br/>• The property meets all applicable safety and legal requirements<br/>• You will honor booking requests made in good faith<br/><br/>When sending a request to join a listing:<br/><br/>• You commit to providing truthful information about yourself<br/>• You understand that acceptance is at the discretion of the listing owner<br/>• You agree to communicate clearly and respectfully<br/>• You will honor any agreements made with the host<br/><br/>Roomie is a platform that facilitates connections but is not party to any agreements between users.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 607.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Safety & Conduct</div>
+        </div>
+        <div style="align-self: stretch; height: 528.01px; position: relative">
+          <div style="width: 258px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">We are committed to maintaining a safe and respectful community. The following behaviors are strictly prohibited:<br/><br/>• Harassment, discrimination, or hate speech of any kind<br/>• Sharing inappropriate or offensive content<br/>• Requesting or sharing contact information before a booking is confirmed<br/>• Using the platform to solicit or advertise unrelated services<br/>• Creating fake accounts or impersonating others<br/>• Attempting to bypass our safety features or payment systems<br/><br/>Violations of these conduct policies may result in account suspension or permanent removal from the platform. We reserve the right to investigate and take appropriate action against any user who violates these Terms.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 607.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Limitation of Liability</div>
+        </div>
+        <div style="align-self: stretch; height: 528.01px; position: relative">
+          <div style="width: 258px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">Roomie provides a platform to connect users but does not:<br/><br/>• Guarantee the accuracy of user-provided information<br/>• Conduct background checks or verify user identities (unless explicitly stated)<br/>• Assume responsibility for disputes between users<br/>• Guarantee the availability or quality of listings<br/>• Provide insurance coverage for property or personal belongings<br/><br/>You use Roomie at your own risk. To the maximum extent permitted by law, Roomie and its affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services.<br/><br/>We strongly encourage all users to meet in safe, public locations and to trust their instincts when connecting with others.</div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 717.46px; padding-top: 21.73px; padding-bottom: 1.73px; padding-left: 21.73px; padding-right: 21.73px; background: white; border-radius: 16px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: flex">
+        <div style="align-self: stretch; height: 24px; position: relative">
+          <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Termination</div>
+        </div>
+        <div style="align-self: stretch; height: 638.01px; position: relative">
+          <div style="width: 257px; left: 0px; top: -3px; position: absolute; color: #6B7280; font-size: 14px; font-family: Arial; font-weight: 400; line-height: 22px; word-wrap: break-word">You may terminate your account at any time through your profile settings. Upon termination:<br/><br/>• Your profile and listings will be removed from the platform<br/>• Active conversations and requests may be archived<br/>• You will no longer have access to platform features<br/><br/>Roomie reserves the right to suspend or terminate your account if:<br/><br/>• You violate these Terms or our community guidelines<br/>• We suspect fraudulent or illegal activity<br/>• Your account has been inactive for an extended period<br/>• We discontinue our services (with reasonable notice)<br/><br/>Termination does not affect any obligations or liabilities that arose before termination.<br/><br/>For questions about these Terms of Service, please contact legal@roomie.app.</div>
+        </div>
+      </div>
+    </div>
+    <div style="width: 301.89px; height: 82.89px; left: 23.98px; top: 3792.01px; position: absolute; background: #F9FAFB; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px">
+      <div style="width: 266.44px; height: 19.48px; left: 17.72px; top: 17.73px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+        <div style="flex: 1 1 0; text-align: center; color: #6B7280; font-size: 13px; font-family: Arial; font-weight: 400; line-height: 19.50px; word-wrap: break-word">Questions about our terms?</div>
+      </div>
+      <div style="width: 153.73px; height: 17.32px; left: 74.07px; top: 44.65px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+        <div style="text-align: center; color: #FE456A; font-size: 14px; font-family: Inter; font-weight: 600; line-height: 21px; word-wrap: break-word">Contact our legal team</div>
+      </div>
+    </div>
+  </div>
+  <div style="width: 374px; height: 62px; padding-left: 20px; left: 0px; top: 44px; position: absolute; background: white; border-bottom: 1.73px #E5E7EB solid; justify-content: flex-start; align-items: center; gap: 15.99px; display: inline-flex">
+    <div style="width: 23.98px; height: 23.98px; justify-content: center; align-items: center; display: flex">
+      <div style="width: 23.98px; height: 23.98px; position: relative; overflow: hidden">
+        <div style="width: 6.99px; height: 13.99px; left: 5px; top: 4.99px; position: absolute; outline: 2px #1F2A37 solid; outline-offset: -1px"></div>
+      </div>
+    </div>
+    <div style="width: 146.86px; height: 28.01px; position: relative">
+      <div style="left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 18px; font-family: Inter; font-weight: 600; line-height: 28px; word-wrap: break-word">Terms of Service</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<div style="width: 375px; height: 812px; position: relative; background: #FCFCFD; overflow: hidden">
+  <div data-theme="Light" style="width: 375px; height: 34px; left: 0px; top: 778px; position: absolute">
+    <div style="width: 134px; height: 5px; left: 121px; top: 20px; position: absolute; background: rgba(0, 0, 0, 0.10); border-radius: 100px"></div>
+  </div>
+  <div data-notch="False" data-theme="Light" style="width: 375px; height: 44px; left: 0px; top: 0px; position: absolute; overflow: hidden">
+    <div style="left: 296px; top: 16px; position: absolute; justify-content: flex-start; align-items: center; gap: 5px; display: inline-flex">
+      <div style="justify-content: flex-start; align-items: flex-end; gap: 1.50px; display: flex">
+        <div style="width: 3px; height: 4px; background: black"></div>
+        <div style="width: 3px; height: 6px; background: black"></div>
+        <div style="width: 3px; height: 8px; background: black"></div>
+        <div style="width: 3px; height: 11px; background: rgba(0, 0, 0, 0.20)"></div>
+      </div>
+      <div style="width: 25px; height: 12px; position: relative">
+        <div style="width: 22.61px; height: 12px; left: 0px; top: 0px; position: absolute; border-radius: 2.67px; border: 1px rgba(0, 0, 0, 0.60) solid"></div>
+        <div style="width: 1.36px; height: 4.24px; left: 23.64px; top: 3.88px; position: absolute; background: rgba(0, 0, 0, 0.60)"></div>
+        <div style="width: 18.50px; height: 7.76px; left: 2.06px; top: 2.12px; position: absolute; background: black; border-radius: 1.33px"></div>
+      </div>
+    </div>
+    <div style="width: 75px; left: 10px; top: 13px; position: absolute; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+      <div style="text-align: center; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 15px; font-family: Inter; font-weight: 600; word-wrap: break-word">09:41</div>
+    </div>
+  </div>
+  <div data-icon-only="true" data-left-icons="false" data-right-icons="false" data-size="Sm" data-state="Default" data-type="Primary" style="height: 32px; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px; left: 294px; top: 60px; position: absolute; border-radius: 24px; outline: 1px #E5E7EB solid; outline-offset: -1px; justify-content: center; align-items: center; gap: 4px; display: inline-flex">
+    <div style="color: #4D5761; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Skip</div>
+  </div>
+  <div style="left: 24px; top: 610px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 16px; display: inline-flex">
+    <div data-icon-only="true" data-left-icons="false" data-right-icons="false" data-size="Lg" data-state="Default" data-type="Primary" style="width: 327px; height: 52px; padding-left: 24px; padding-right: 24px; padding-top: 8px; padding-bottom: 8px; background: #FE456A; box-shadow: 0px 20px 24px -4px rgba(127, 86, 217, 0.08), 0px 8px 8px -4px rgba(127, 86, 217, 0.03); border-radius: 8px; justify-content: center; align-items: center; gap: 12px; display: inline-flex">
+      <div style="color: white; font-size: 18px; font-family: Inter; font-weight: 400; line-height: 27px; word-wrap: break-word">Use current location</div>
+    </div>
+    <div data-icon-only="true" data-left-icons="false" data-right-icons="false" data-size="Lg" data-state="Default" data-type="Secondary" style="width: 327px; height: 52px; padding-left: 24px; padding-right: 24px; padding-top: 8px; padding-bottom: 8px; background: white; box-shadow: 0px 20px 24px -4px rgba(127, 86, 217, 0.08), 0px 8px 8px -4px rgba(127, 86, 217, 0.03); border-radius: 8px; outline: 1px #FE456A solid; outline-offset: -1px; justify-content: center; align-items: center; gap: 12px; display: inline-flex">
+      <div style="color: #FE456A; font-size: 18px; font-family: Inter; font-weight: 400; line-height: 27px; word-wrap: break-word">Select it manually</div>
+    </div>
+  </div>
+  <div style="left: 39.06px; top: 166.53px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: center; gap: 46px; display: inline-flex">
+    <div style="width: 297.55px; height: 145.97px; background: #DDDDEC"></div>
+    <div style="width: 192.79px; height: 145.97px; opacity: 0.55; background: #EAEBF2"></div>
+    <div style="width: 12.85px; height: 46.53px; background: #D6BBFB"></div>
+    <div style="width: 11.91px; height: 45.01px; background: #FE456A"></div>
+    <div style="width: 16.67px; height: 32.11px; background: #D6BBFB"></div>
+    <div style="width: 15.94px; height: 31.83px; background: #FE456A"></div>
+    <div style="width: 17.14px; height: 35.30px; background: #D6BBFB"></div>
+    <div style="width: 14.17px; height: 34.21px; background: #FE456A"></div>
+    <div style="width: 0.13px; height: 0.17px; background: #FE456A"></div>
+    <div style="width: 15.47px; height: 15.72px; background: #D6BBFB"></div>
+    <div style="width: 13.81px; height: 15.23px; background: #FE456A"></div>
+    <div style="width: 22.39px; height: 18.92px; background: #FEC84B"></div>
+    <div style="width: 22.39px; height: 2.77px; background: #FDB022"></div>
+    <div style="width: 10.66px; height: 18.92px; background: #FDB022"></div>
+    <div style="width: 45.81px; height: 24.39px; background: #E9D7FE"></div>
+    <div style="width: 48.34px; height: 22.14px; background: #E9D7FE"></div>
+    <div style="width: 48.32px; height: 22.13px; background: #E9D7FE"></div>
+    <div style="width: 39.34px; height: 164.70px; background: #D6D6D6"></div>
+    <div style="width: 39.33px; height: 164.70px; background: #D6D6D6"></div>
+    <div style="width: 39.33px; height: 164.70px; background: #D6D6D6"></div>
+    <div style="width: 39.34px; height: 164.70px; background: #D6D6D6"></div>
+    <div style="width: 35.57px; height: 156.57px; background: #DCDBDB"></div>
+    <div style="width: 39.33px; height: 156.85px; background: #DCDBDB"></div>
+    <div style="width: 39.34px; height: 156.57px; background: #EBEBEB"></div>
+    <div style="width: 35.58px; height: 156.85px; background: #EBEBEB"></div>
+    <div style="width: 31.43px; height: 41.75px; background: white"></div>
+    <div style="width: 41.81px; height: 19.67px; background: white"></div>
+    <div style="width: 60.92px; height: 61.64px; background: white"></div>
+    <div style="width: 36.13px; height: 29.21px; background: white"></div>
+    <div style="width: 47.41px; height: 29.86px; background: white"></div>
+    <div style="width: 19.50px; height: 77.04px; background: white"></div>
+    <div style="width: 74.44px; height: 49.01px; background: white"></div>
+    <div style="width: 44.55px; height: 11.62px; background: white"></div>
+    <div style="width: 13.98px; height: 28.42px; background: white"></div>
+    <div style="width: 90.87px; height: 18.82px; background: white"></div>
+    <div style="width: 19.65px; height: 46.57px; background: white"></div>
+    <div style="width: 27.55px; height: 31.48px; background: white"></div>
+    <div style="width: 67.52px; height: 16.15px; background: white"></div>
+    <div style="width: 16.27px; height: 47.15px; background: white"></div>
+    <div style="width: 17.48px; height: 4.88px; background: white"></div>
+    <div style="width: 23.34px; height: 69.42px; background: white"></div>
+    <div style="width: 36.67px; height: 34.43px; background: white"></div>
+    <div style="width: 60.92px; height: 61.64px; background: white"></div>
+    <div style="width: 44.55px; height: 11.62px; background: white"></div>
+    <div style="width: 90.87px; height: 18.82px; background: white"></div>
+    <div style="width: 23.34px; height: 69.42px; background: white"></div>
+    <div style="width: 36.67px; height: 34.42px; background: white"></div>
+    <div style="width: 19.65px; height: 38.68px; background: white"></div>
+    <div style="width: 24.59px; height: 28.21px; background: #EBEBEB"></div>
+    <div style="width: 17.01px; height: 30.45px; background: #EBEBEB"></div>
+    <div style="width: 26.27px; height: 31.95px; background: #EBEBEB"></div>
+    <div style="width: 12.39px; height: 12.89px; background: #EBEBEB"></div>
+    <div style="width: 16.37px; height: 25.73px; background: #DCDBDB"></div>
+    <div style="width: 21.17px; height: 19.71px; background: #DCDBDB"></div>
+    <div style="width: 22.39px; height: 29.98px; background: #DCDBDB"></div>
+    <div style="width: 19.21px; height: 28.19px; background: #DCDBDB"></div>
+    <div style="width: 20.73px; height: 8.03px; background: #DCDBDB"></div>
+    <div style="width: 14.09px; height: 22.23px; background: #EBEBEB"></div>
+    <div style="width: 10.95px; height: 19.49px; background: #DCDBDB"></div>
+    <div style="width: 21.22px; height: 34.21px; background: #EBEBEB"></div>
+    <div style="width: 15.07px; height: 17.78px; background: #DCDBDB"></div>
+    <div style="width: 61.03px; height: 19.66px; background: #FE456A"></div>
+    <div style="width: 7.32px; height: 5.40px; background: #FDB022"></div>
+    <div style="width: 31.75px; height: 0.52px; background: white"></div>
+    <div style="width: 14.48px; height: 0.52px; background: white"></div>
+    <div style="width: 14.48px; height: 0.52px; background: white"></div>
+    <div style="width: 14.48px; height: 0.52px; background: white"></div>
+    <div style="width: 61.03px; height: 19.66px; background: white"></div>
+    <div style="width: 8.88px; height: 8.91px; background: #FDB022"></div>
+    <div style="width: 31.75px; height: 0.52px; opacity: 0.69; background: #FDB022"></div>
+    <div style="width: 14.48px; height: 0.52px; opacity: 0.69; background: #FDB022"></div>
+    <div style="width: 14.48px; height: 0.52px; opacity: 0.69; background: #FDB022"></div>
+    <div style="width: 14.48px; height: 0.52px; opacity: 0.69; background: #FDB022"></div>
+    <div style="width: 14.85px; height: 23px; background: #FE456A"></div>
+    <div style="width: 14.86px; height: 23px; background: #FE456A"></div>
+    <div style="width: 49.94px; height: 48.76px; transform: rotate(-53deg); transform-origin: top left; opacity: 0.33; background: white"></div>
+    <div style="width: 71.14px; height: 67.73px; background: #FE456A"></div>
+    <div style="width: 10.42px; height: 10.64px; background: white"></div>
+    <div style="width: 30.13px; height: 28.75px; background: #FE456A"></div>
+    <div style="width: 19.44px; height: 18.45px; background: #FE456A"></div>
+    <div style="width: 28.77px; height: 28.77px; position: relative">
+      <div style="width: 28.77px; height: 28.77px; left: 0px; top: 0px; position: absolute">
+        <div style="width: 22.77px; height: 23.97px; left: 3px; top: 2.40px; position: absolute; background: #FE456A"></div>
+      </div>
+    </div>
+    <div style="width: 289px; flex-direction: column; justify-content: center; align-items: center; gap: 16px; display: flex">
+      <div style="text-align: center; color: #1F2A37; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 26px; word-wrap: break-word">Hi, Nice to meet you !</div>
+      <div style="align-self: stretch; text-align: center; color: #9DA4AE; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Choose your location to find property<br/>around you</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,289 @@
+<div style="width: 375px; height: 2329px; background: #FAFAFA; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+  <div style="width: 375.82px; height: 139.66px; padding-top: 59.99px; padding-bottom: 1.73px; padding-left: 23.98px; padding-right: 23.98px; background: white; border-bottom: 1.73px #E5E7EB solid; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 7.98px; display: flex">
+    <div style="align-self: stretch; height: 35.96px; position: relative">
+      <div style="width: 35.96px; height: 35.96px; padding-top: 7.98px; padding-left: 7.98px; padding-right: 7.98px; left: -7.98px; top: 0px; position: absolute; border-radius: 8px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+        <div style="align-self: stretch; height: 20px; position: relative; overflow: hidden">
+          <div style="width: 5.83px; height: 11.67px; left: 4.17px; top: 4.17px; position: absolute; outline: 1.67px #1F2A37 solid; outline-offset: -0.83px"></div>
+        </div>
+      </div>
+      <div style="width: 271.91px; height: 26.01px; left: 27.98px; top: 4.98px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+        <div style="flex: 1 1 0; text-align: center; color: #1F2A37; font-size: 20px; font-family: Inter; font-weight: 600; line-height: 26px; word-wrap: break-word">Kigali</div>
+      </div>
+      <div style="width: 24px; height: 24px; left: 299.89px; top: 6.01px; position: absolute">
+        <div style="width: 24px; height: 24px; left: 0px; top: 0px; position: absolute">
+          <div style="width: 6.30px; height: 0.83px; left: 4.03px; top: 16.18px; position: absolute; outline: 1.50px #FE456A solid; outline-offset: -0.75px"></div>
+          <div style="width: 6.30px; height: 0.83px; left: 13.14px; top: 6.49px; position: absolute; outline: 1.50px #FE456A solid; outline-offset: -0.75px"></div>
+          <div style="width: 4.73px; height: 4.69px; left: 4px; top: 4.50px; position: absolute; outline: 1.50px #FE456A solid; outline-offset: -0.75px"></div>
+          <div style="width: 4.73px; height: 4.69px; left: 15.27px; top: 14.21px; position: absolute; outline: 1.50px #FE456A solid; outline-offset: -0.75px"></div>
+        </div>
+      </div>
+    </div>
+    <div style="align-self: stretch; height: 18px; position: relative">
+      <div style="width: 175px; left: 76.93px; top: 0px; position: absolute; text-align: center; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">6 homes available in Kigali</div>
+    </div>
+  </div>
+  <div style="width: 375.82px; flex: 1 1 0; padding-top: 20px; padding-left: 23.98px; padding-right: 23.98px; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+    <div style="align-self: stretch; height: 2152.22px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 15.99px; display: flex">
+      <div style="width: 327.87px; height: 345.38px; position: relative; background: white; overflow: hidden; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px">
+        <div style="width: 324.40px; height: 141.93px; left: 1.73px; top: 201.71px; position: absolute">
+          <div style="width: 292.42px; height: 20px; left: 15.99px; top: 15.99px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div style="flex: 1 1 0; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Private Room · Shared Apartment</div>
+          </div>
+          <div style="width: 292.42px; height: 26.01px; left: 15.99px; top: 43.97px; position: absolute">
+            <div style="width: 50px; left: 0px; top: -1px; position: absolute; color: #FE456A; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 26px; word-wrap: break-word">$120</div>
+            <div style="width: 113.93px; height: 15.59px; left: 49.22px; top: 6.93px; position: absolute">
+              <div style="width: 114px; left: 0px; top: -1px; position: absolute; color: #9DA4AE; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">/month per person</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 81.97px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 9.33px; height: 11.66px; left: 2.33px; top: 1.17px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+              <div style="width: 3.50px; height: 3.50px; left: 5.25px; top: 4.08px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 96.80px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Kicukiro District</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 107.95px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 10.49px; height: 10.49px; left: 1.75px; top: 2.33px; position: absolute; outline: 1.17px #059669 solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 92.44px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #059669; font-size: 13px; font-family: Inter; font-weight: 600; line-height: 18px; word-wrap: break-word">Available Feb 1</div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 324.40px; height: 199.98px; left: 1.73px; top: 1.73px; position: absolute">
+          <img style="width: 324.40px; height: 199.98px; left: 0px; top: 0px; position: absolute" src="https://placehold.co/324x200" />
+          <div style="width: 107.73px; height: 25.95px; padding-left: 9.99px; padding-right: 9.99px; left: 11.99px; top: 11.99px; position: absolute; background: rgba(255, 255, 255, 0.95); border-radius: 8px; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 11.99px; height: 11.99px; position: relative; overflow: hidden">
+              <div style="width: 6.99px; height: 3px; left: 1px; top: 7.49px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 4px; height: 4px; left: 2.50px; top: 1.50px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 2.93px; left: 9.49px; top: 7.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 3.87px; left: 7.99px; top: 1.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+            </div>
+            <div style="flex: 1 1 0; height: 13.99px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #1F2A37; font-size: 11px; font-family: Inter; font-weight: 600; line-height: 14px; word-wrap: break-word">2 roommates</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 345.38px; position: relative; background: white; overflow: hidden; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px">
+        <div style="width: 324.40px; height: 141.93px; left: 1.73px; top: 201.71px; position: absolute">
+          <div style="width: 292.42px; height: 20px; left: 15.99px; top: 15.99px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div style="flex: 1 1 0; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Rose Garden</div>
+          </div>
+          <div style="width: 292.42px; height: 26.01px; left: 15.99px; top: 43.97px; position: absolute">
+            <div style="width: 50px; left: 0px; top: -1px; position: absolute; color: #FE456A; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 26px; word-wrap: break-word">$180</div>
+            <div style="width: 43.84px; height: 15.59px; left: 49.85px; top: 6.93px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+              <div style="color: #9DA4AE; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">/month</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 81.97px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 9.33px; height: 11.66px; left: 2.33px; top: 1.17px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+              <div style="width: 3.50px; height: 3.50px; left: 5.25px; top: 4.08px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 69.82px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">City Center</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 107.95px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 10.49px; height: 10.49px; left: 1.75px; top: 2.33px; position: absolute; outline: 1.17px #059669 solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 48.52px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #059669; font-size: 13px; font-family: Inter; font-weight: 600; line-height: 18px; word-wrap: break-word">Available now</div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 324.40px; height: 199.98px; left: 1.73px; top: 1.73px; position: absolute">
+          <div style="width: 324.40px; height: 199.98px; left: 0px; top: 0px; position: absolute"></div>
+          <div style="width: 101.56px; height: 25.95px; padding-left: 9.99px; padding-right: 9.99px; left: 11.99px; top: 11.99px; position: absolute; background: rgba(255, 255, 255, 0.95); border-radius: 8px; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 11.99px; height: 11.99px; position: relative; overflow: hidden">
+              <div style="width: 3px; height: 4.50px; left: 4.50px; top: 5.99px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 8.99px; height: 9.49px; left: 1.50px; top: 1px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+            </div>
+            <div style="flex: 1 1 0; height: 13.99px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #1F2A37; font-size: 11px; font-family: Inter; font-weight: 600; line-height: 14px; word-wrap: break-word">Entire home</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 345.38px; position: relative; background: white; overflow: hidden; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px">
+        <div style="width: 324.40px; height: 141.93px; left: 1.73px; top: 201.71px; position: absolute">
+          <div style="width: 292.42px; height: 20px; left: 15.99px; top: 15.99px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div style="flex: 1 1 0; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Private Room · Shared Apartment</div>
+          </div>
+          <div style="width: 292.42px; height: 26.01px; left: 15.99px; top: 43.97px; position: absolute">
+            <div style="width: 51px; left: 0px; top: -1px; position: absolute; color: #FE456A; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 26px; word-wrap: break-word">$100</div>
+            <div style="width: 113.93px; height: 15.59px; left: 50.39px; top: 6.93px; position: absolute">
+              <div style="width: 114px; left: 0px; top: -1px; position: absolute; color: #9DA4AE; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">/month per person</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 81.97px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 9.33px; height: 11.66px; left: 2.33px; top: 1.17px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+              <div style="width: 3.50px; height: 3.50px; left: 5.25px; top: 4.08px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 94.39px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Gasabo District</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 107.95px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 10.49px; height: 10.49px; left: 1.75px; top: 2.33px; position: absolute; outline: 1.17px #059669 solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 86.49px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #059669; font-size: 13px; font-family: Inter; font-weight: 600; line-height: 18px; word-wrap: break-word">Available now</div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 324.40px; height: 199.98px; left: 1.73px; top: 1.73px; position: absolute">
+          <img style="width: 324.40px; height: 199.98px; left: 0px; top: 0px; position: absolute" src="https://placehold.co/324x200" />
+          <div style="width: 108.08px; height: 25.95px; padding-left: 9.99px; left: 11.99px; top: 11.99px; position: absolute; background: rgba(255, 255, 255, 0.95); border-radius: 8px; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 11.99px; height: 11.99px; position: relative; overflow: hidden">
+              <div style="width: 6.99px; height: 3px; left: 1px; top: 7.49px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 4px; height: 4px; left: 2.50px; top: 1.50px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 2.93px; left: 9.49px; top: 7.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 3.87px; left: 7.99px; top: 1.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+            </div>
+            <div style="width: 70.14px; height: 13.99px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #1F2A37; font-size: 11px; font-family: Inter; font-weight: 600; line-height: 14px; word-wrap: break-word">3 roommates</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 345.38px; position: relative; background: white; overflow: hidden; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px">
+        <div style="width: 324.40px; height: 141.93px; left: 1.73px; top: 201.71px; position: absolute">
+          <div style="width: 292.42px; height: 20px; left: 15.99px; top: 15.99px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div style="flex: 1 1 0; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Private Room · Shared Apartment</div>
+          </div>
+          <div style="width: 292.42px; height: 26.01px; left: 15.99px; top: 43.97px; position: absolute">
+            <div style="width: 40px; left: 0px; top: -1px; position: absolute; color: #FE456A; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 26px; word-wrap: break-word">$95</div>
+            <div style="width: 113.93px; height: 15.59px; left: 39.18px; top: 6.93px; position: absolute">
+              <div style="width: 114px; left: 0px; top: -1px; position: absolute; color: #9DA4AE; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">/month per person</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 81.97px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 9.33px; height: 11.66px; left: 2.33px; top: 1.17px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+              <div style="width: 3.50px; height: 3.50px; left: 5.25px; top: 4.08px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 75.07px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Nyarugenge</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 107.95px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 10.49px; height: 10.49px; left: 1.75px; top: 2.33px; position: absolute; outline: 1.17px #059669 solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 93.85px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #059669; font-size: 13px; font-family: Inter; font-weight: 600; line-height: 18px; word-wrap: break-word">Available Mar 1</div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 324.40px; height: 199.98px; left: 1.73px; top: 1.73px; position: absolute">
+          <img style="width: 324.40px; height: 199.98px; left: 0px; top: 0px; position: absolute" src="https://placehold.co/324x200" />
+          <div style="width: 107.73px; height: 25.95px; padding-left: 9.99px; padding-right: 9.99px; left: 11.99px; top: 11.99px; position: absolute; background: rgba(255, 255, 255, 0.95); border-radius: 8px; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 11.99px; height: 11.99px; position: relative; overflow: hidden">
+              <div style="width: 6.99px; height: 3px; left: 1px; top: 7.49px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 4px; height: 4px; left: 2.50px; top: 1.50px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 2.93px; left: 9.49px; top: 7.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 3.87px; left: 7.99px; top: 1.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+            </div>
+            <div style="flex: 1 1 0; height: 13.99px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #1F2A37; font-size: 11px; font-family: Inter; font-weight: 600; line-height: 14px; word-wrap: break-word">2 roommates</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 345.38px; padding: 1.73px; background: white; overflow: hidden; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 0px; display: flex">
+        <div style="align-self: stretch; height: 199.98px; position: relative">
+          <img style="width: 324.40px; height: 199.98px; left: 0px; top: 0px; position: absolute" src="https://placehold.co/324x200" />
+          <div style="width: 101.56px; height: 25.95px; padding-left: 9.99px; padding-right: 9.99px; left: 11.99px; top: 11.99px; position: absolute; background: rgba(255, 255, 255, 0.95); border-radius: 8px; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 11.99px; height: 11.99px; position: relative; overflow: hidden">
+              <div style="width: 3px; height: 4.50px; left: 4.50px; top: 5.99px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 8.99px; height: 9.49px; left: 1.50px; top: 1px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+            </div>
+            <div style="flex: 1 1 0; height: 13.99px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #1F2A37; font-size: 11px; font-family: Inter; font-weight: 600; line-height: 14px; word-wrap: break-word">Entire home</div>
+            </div>
+          </div>
+        </div>
+        <div style="align-self: stretch; height: 141.93px; position: relative">
+          <div style="width: 292.42px; height: 20px; left: 15.99px; top: 15.99px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div style="flex: 1 1 0; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Casa Blanca</div>
+          </div>
+          <div style="width: 292.42px; height: 26.01px; left: 15.99px; top: 43.97px; position: absolute">
+            <div style="width: 50px; left: 0px; top: -1px; position: absolute; color: #FE456A; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 26px; word-wrap: break-word">$150</div>
+            <div style="width: 43.84px; height: 15.59px; left: 49.52px; top: 6.93px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+              <div style="color: #9DA4AE; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">/month</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 81.97px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 9.33px; height: 11.66px; left: 2.33px; top: 1.17px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+              <div style="width: 3.50px; height: 3.50px; left: 5.25px; top: 4.08px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 96.80px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Kicukiro District</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 107.94px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 10.49px; height: 10.49px; left: 1.75px; top: 2.33px; position: absolute; outline: 1.17px #059669 solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 48.52px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #059669; font-size: 13px; font-family: Inter; font-weight: 600; line-height: 18px; word-wrap: break-word">Flexible</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 345.38px; position: relative; background: white; overflow: hidden; border-radius: 12px; outline: 1.73px #E5E7EB solid; outline-offset: -1.73px">
+        <div style="width: 324.40px; height: 141.93px; left: 1.73px; top: 201.71px; position: absolute">
+          <div style="width: 292.42px; height: 20px; left: 15.99px; top: 15.99px; position: absolute; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div style="flex: 1 1 0; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 20px; word-wrap: break-word">Private Room · Shared Apartment</div>
+          </div>
+          <div style="width: 292.42px; height: 26.01px; left: 15.99px; top: 43.97px; position: absolute">
+            <div style="width: 47px; left: 0px; top: -1px; position: absolute; color: #FE456A; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 26px; word-wrap: break-word">$110</div>
+            <div style="width: 113.93px; height: 15.59px; left: 46.44px; top: 6.93px; position: absolute">
+              <div style="width: 114px; left: 0px; top: -1px; position: absolute; color: #9DA4AE; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">/month per person</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 81.97px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 9.33px; height: 11.66px; left: 2.33px; top: 1.17px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+              <div style="width: 3.50px; height: 3.50px; left: 5.25px; top: 4.08px; position: absolute; outline: 1.17px #9DA4AE solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 94.39px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Gasabo District</div>
+            </div>
+          </div>
+          <div style="width: 292.42px; height: 18px; left: 15.99px; top: 107.94px; position: absolute; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 13.99px; height: 13.99px; position: relative; overflow: hidden">
+              <div style="width: 10.49px; height: 10.49px; left: 1.75px; top: 2.33px; position: absolute; outline: 1.17px #059669 solid; outline-offset: -0.58px"></div>
+            </div>
+            <div style="width: 100.67px; height: 18px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #059669; font-size: 13px; font-family: Inter; font-weight: 600; line-height: 18px; word-wrap: break-word">Available Feb 15</div>
+            </div>
+          </div>
+        </div>
+        <div style="width: 324.40px; height: 199.98px; left: 1.73px; top: 1.73px; position: absolute">
+          <img style="width: 324.40px; height: 199.98px; left: 0px; top: 0px; position: absolute" src="https://placehold.co/324x200" />
+          <div style="width: 100.15px; height: 25.95px; padding-left: 9.99px; left: 11.99px; top: 11.99px; position: absolute; background: rgba(255, 255, 255, 0.95); border-radius: 8px; justify-content: flex-start; align-items: center; gap: 5.98px; display: inline-flex">
+            <div style="width: 11.99px; height: 11.99px; position: relative; overflow: hidden">
+              <div style="width: 6.99px; height: 3px; left: 1px; top: 7.49px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 4px; height: 4px; left: 2.50px; top: 1.50px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 2.93px; left: 9.49px; top: 7.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+              <div style="width: 1.50px; height: 3.87px; left: 7.99px; top: 1.56px; position: absolute; outline: 1px #FE456A solid; outline-offset: -0.50px"></div>
+            </div>
+            <div style="width: 62.21px; height: 13.99px; justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="color: #1F2A37; font-size: 11px; font-family: Inter; font-weight: 600; line-height: 14px; word-wrap: break-word">1 roommate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

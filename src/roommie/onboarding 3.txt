@@ -1,0 +1,83 @@
+import { Button } from "./Button";
+import { IosIphoneHome } from "./IosIphoneHome";
+import image from "./image.svg";
+import statusIcons from "./status-icons.svg";
+
+export const OnBoarding = () => {
+  return (
+    <div className="bg-gray-25 w-full min-w-[375px] min-h-[812px] flex flex-col">
+      <div className="w-[375px] h-11 flex justify-between">
+        <div className="flex mt-[13px] w-[75px] h-[18px] relative ml-2.5 items-center justify-center gap-2.5">
+          <div className="relative flex items-center justify-center w-fit mt-[-1.00px] [font-family:'Inter-SemiBold',Helvetica] font-semibold text-black text-[15px] text-center tracking-[-0.17px] leading-[normal] whitespace-nowrap">
+            09:41
+          </div>
+        </div>
+
+        <img
+          className="mt-4 w-[66.5px] h-3 relative"
+          alt="Status icons"
+          src={statusIcons}
+        />
+      </div>
+
+      <div className="ml-[85px] w-[231px] h-[298px] relative mt-[72px]">
+        <div className="absolute top-[67px] left-[81px] w-[150px] h-[231px] flex bg-[url(/img.svg)] bg-[100%_100%]">
+          <div className="w-[149.68px] h-[230.51px] bg-primary-600 rounded-[85px] opacity-45" />
+        </div>
+
+        <img
+          className="absolute -top-3 -left-9 w-[222px] h-[303px]"
+          alt="Img"
+          src={image}
+        />
+      </div>
+
+      <div className="inline-flex ml-[58px] w-[259px] h-[158px] relative mt-[52px] flex-col items-center justify-center gap-8">
+        <div className="flex flex-col w-[259px] items-start gap-4 relative flex-[0_0_auto]">
+          <p className="relative self-stretch mt-[-1.00px] [font-family:'Inter-Regular',Helvetica] font-normal text-secondarygrayneutral-800 text-2xl text-center tracking-[0] leading-8">
+            <span className="font-heading-h4-regular font-[number:var(--heading-h4-regular-font-weight)] text-[#1f2a37] text-[length:var(--heading-h4-regular-font-size)] tracking-[var(--heading-h4-regular-letter-spacing)] leading-[var(--heading-h4-regular-line-height)] [font-style:var(--heading-h4-regular-font-style)]">
+              Discover the{" "}
+            </span>
+
+            <span className="font-heading-h4-semi-bold font-[number:var(--heading-h4-semi-bold-font-weight)] [font-style:var(--heading-h4-semi-bold-font-style)] tracking-[var(--heading-h4-semi-bold-letter-spacing)] leading-[var(--heading-h4-semi-bold-line-height)] text-[length:var(--heading-h4-semi-bold-font-size)]">
+              perfect home
+            </span>
+
+            <span className="font-heading-h4-regular font-[number:var(--heading-h4-regular-font-weight)] text-[#1f2a37] text-[length:var(--heading-h4-regular-font-size)] tracking-[var(--heading-h4-regular-letter-spacing)] leading-[var(--heading-h4-regular-line-height)] [font-style:var(--heading-h4-regular-font-style)]">
+              {" "}
+              with us
+            </span>
+          </p>
+
+          <p className="relative self-stretch font-paragraph-p12-regular font-[number:var(--paragraph-p12-regular-font-weight)] text-secondarygrayneutral-400 text-[length:var(--paragraph-p12-regular-font-size)] text-center tracking-[var(--paragraph-p12-regular-letter-spacing)] leading-[var(--paragraph-p12-regular-line-height)] [font-style:var(--paragraph-p12-regular-font-style)]">
+            browse safe, verified spaces and choose what feels like home
+          </p>
+        </div>
+
+        <div className="inline-flex items-center gap-2 relative flex-[0_0_auto]">
+          <div className="relative w-2.5 h-2.5 bg-secondarygrayneutral-300 rounded-[5px]" />
+
+          <div className="relative w-2.5 h-2.5 bg-secondarygrayneutral-300 rounded-[5px]" />
+
+          <div className="relative w-7 h-2.5 bg-[#fe456a] rounded-2xl" />
+        </div>
+      </div>
+
+      <Button
+        className="!rounded-lg !mt-[54px] !ml-6 !shadow-[0px_20px_24px_-4px_#7f56d914,0px_8px_8px_-4px_#7f56d908] !flex !left-[unset] !bg-[#fe456a] !w-[327px] !top-[unset]"
+        leftIcons={false}
+        rightIcons={false}
+        size="lg"
+        state="default"
+        textInput="Get Started"
+        type="primary"
+      />
+      <IosIphoneHome
+        className="!mt-12 !flex ![position:unset] !left-[unset] !bottom-[unset]"
+        theme="light"
+        vector="vector-2.svg"
+        vectorClassName="!h-[unset] !flex-1 ![position:unset] !left-[unset] !w-[134px] !top-[unset]"
+      />
+    </div>
+  );
+};

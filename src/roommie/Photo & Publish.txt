@@ -1,0 +1,91 @@
+<div style="width: 375px; height: 1243px; padding-top: 43.97px; background: #FCFCFD; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+  <div style="width: 375.82px; height: 63.92px; padding-left: 20px; padding-right: 24px; justify-content: space-between; align-items: center; display: inline-flex">
+    <div style="width: 31.93px; height: 31.93px; padding-top: 3.98px; padding-left: 3.98px; padding-right: 3.98px; border-radius: 8px; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+      <div style="align-self: stretch; height: 23.98px; position: relative; overflow: hidden">
+        <div style="width: 6.99px; height: 13.99px; left: 5px; top: 5px; position: absolute; outline: 2px #1F2A37 solid; outline-offset: -1px"></div>
+      </div>
+    </div>
+    <div style="width: 133.84px; height: 3.98px; justify-content: center; align-items: center; gap: 5.98px; display: flex">
+      <div style="width: 15.99px; height: 3.98px; position: relative; background: #FE456A; border-radius: 58112400px"></div>
+      <div style="width: 15.99px; height: 3.98px; position: relative; background: #FE456A; border-radius: 58112400px"></div>
+      <div style="width: 15.99px; height: 3.98px; position: relative; background: #FE456A; border-radius: 58112400px"></div>
+      <div style="width: 15.99px; height: 3.98px; position: relative; background: #FE456A; border-radius: 58112400px"></div>
+      <div style="width: 15.99px; height: 3.98px; position: relative; background: #FE456A; border-radius: 58112400px"></div>
+      <div style="width: 23.98px; height: 3.98px; position: relative; background: #FE456A; border-radius: 58112400px"></div>
+    </div>
+  </div>
+  <div style="width: 375.82px; flex: 1 1 0; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
+    <div style="align-self: stretch; height: 1130.22px; position: relative">
+      <div style="width: 327.87px; height: 79.99px; left: 23.98px; top: 23.98px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 7.98px; display: inline-flex">
+        <div style="align-self: stretch; height: 32.01px; position: relative">
+          <div style="left: 0px; top: -0.27px; position: absolute; color: #1F2A37; font-size: 24px; font-family: Inter; font-weight: 600; line-height: 32px; word-wrap: break-word">Photos & Publish</div>
+        </div>
+        <div style="align-self: stretch; height: 40px; position: relative">
+          <div style="width: 285px; left: 0px; top: -1px; position: absolute; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Add photos and a description to make your listing stand out</div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 170.97px; left: 23.98px; top: 135.95px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: inline-flex">
+        <div style="align-self: stretch; height: 20px; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+          <div style="flex: 1 1 0; color: #1F2A37; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word">Photos</div>
+        </div>
+        <div style="align-self: stretch; height: 138.98px; padding-bottom: 0.03px; background: white; border-radius: 12px; outline: 1.73px #D2D6DB solid; outline-offset: -1.73px; flex-direction: column; justify-content: center; align-items: center; gap: 7.98px; display: flex">
+          <div style="width: 59.99px; height: 59.99px; padding-right: 0.03px; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 40px; height: 40px; position: relative; overflow: hidden">
+              <div style="width: 30px; height: 10px; left: 5px; top: 25px; position: absolute; outline: 3.33px #FE456A solid; outline-offset: -1.67px"></div>
+              <div style="width: 16.66px; height: 8.33px; left: 11.67px; top: 5px; position: absolute; outline: 3.33px #FE456A solid; outline-offset: -1.67px"></div>
+            </div>
+          </div>
+          <div style="width: 112.92px; height: 18px; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div style="text-align: center; color: #9DA4AE; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Click here to upload</div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 195.59px; left: 23.98px; top: 330.90px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 7.98px; display: inline-flex">
+        <div style="align-self: stretch; height: 20px; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+          <div style="flex: 1 1 0; color: #1F2A37; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word">Description</div>
+        </div>
+        <div style="align-self: stretch; height: 134.98px; padding: 12px; background: white; overflow: hidden; border-radius: 12px; outline: 1.73px #D2D6DB solid; outline-offset: -1.73px; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+          <div style="color: #9DA4AE; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Tell people about your space, what makes it special, and who would be a great fit...</div>
+        </div>
+        <div style="align-self: stretch; height: 18px; position: relative">
+          <div style="width: 146px; left: 182.85px; top: -1px; position: absolute; text-align: right; color: #9DA4AE; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">350 characters remaining</div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 387.78px; left: 23.98px; top: 558.48px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 11.99px; display: inline-flex">
+        <div style="align-self: stretch; height: 20px; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+          <div style="flex: 1 1 0; color: #1F2A37; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word">Preview</div>
+        </div>
+        <div style="align-self: stretch; height: 355.79px; position: relative; background: white; box-shadow: 0px 2px 8px rgba(31, 42, 55, 0.08); overflow: hidden; border-radius: 12px">
+          <div style="width: 327.87px; height: 245.90px; padding-right: 0.03px; left: 0px; top: 0px; position: absolute; background: #F3F4F6; justify-content: center; align-items: center; display: inline-flex">
+            <div style="width: 47.98px; height: 47.98px; position: relative; overflow: hidden">
+              <div style="width: 11.99px; height: 17.99px; left: 17.99px; top: 23.99px; position: absolute; outline: 4px #D2D6DB solid; outline-offset: -2px"></div>
+              <div style="width: 35.98px; height: 37.98px; left: 6px; top: 4px; position: absolute; outline: 4px #D2D6DB solid; outline-offset: -2px"></div>
+            </div>
+          </div>
+          <div style="width: 327.87px; height: 109.89px; padding-top: 15.99px; padding-left: 15.99px; padding-right: 15.99px; left: 0px; top: 245.90px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 7.98px; display: inline-flex">
+            <div style="align-self: stretch; height: 23.95px; justify-content: flex-start; align-items: center; gap: 7.98px; display: inline-flex">
+              <div style="width: 145.23px; height: 23.95px; position: relative; background: #FFF5F7; border-radius: 6px">
+                <div style="left: 7.98px; top: 3.98px; position: absolute; color: #FE456A; font-size: 12px; font-family: Inter; font-weight: 500; line-height: 16px; word-wrap: break-word">Looking for Roommate</div>
+              </div>
+              <div style="width: 6.77px; height: 17.97px; justify-content: flex-start; align-items: flex-start; display: flex">
+                <div style="color: #9DA4AE; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">•</div>
+              </div>
+              <div style="width: 69.41px; height: 15.99px; justify-content: flex-start; align-items: flex-start; display: flex">
+                <div style="color: #6B7280; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 16px; word-wrap: break-word">Entire Home</div>
+              </div>
+            </div>
+            <div style="align-self: stretch; height: 24px; position: relative">
+              <div style="width: 77px; left: 0px; top: -1.27px; position: absolute; color: #1F2A37; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">$3/month</div>
+            </div>
+            <div style="align-self: stretch; height: 18px; overflow: hidden; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+              <div style="flex: 1 1 0; color: #6B7280; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">No description yet...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width: 327.87px; height: 51.98px; left: 23.98px; top: 978.24px; position: absolute; background: #E5E7EB; border-radius: 8px">
+        <div style="left: 106.46px; top: 12.72px; position: absolute; text-align: center; color: #9DA4AE; font-size: 16px; font-family: Inter; font-weight: 600; line-height: 24px; word-wrap: break-word">Publish Listing</div>
+      </div>
+    </div>
+  </div>
+</div>
